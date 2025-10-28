@@ -466,50 +466,47 @@ function tokenFor(account, profile) {
 function normAnswer(a) { return String(a||"").trim().toLowerCase(); }
 /* ----------------------------- MIDDLEWARE ----------------------------- */
 
-// ---- CORS (fixed) ----
 
-// ---- CORS (final fixed block) ----
-const FRONTEND_HOST = "https://kc-frontend-9916.onrender.com"; // your deployed frontend URL
+const RENDER_HOST = (process.env.RENDER_EXTERNAL_URL || '').toLowerCase().replace(/\/+$/, '');
+
+const FRONTEND_HOST = "https://kc-frontend-9916.onrender.com";
 
 function isAllowedOrigin(origin) {
-  if (!origin) return true; // allow non-browser clients (e.g. curl, Postman)
-
+  if (!origin) return true;                        // non-browser clients
   const o = origin.toLowerCase();
 
-  // ✅ Allow any localhost (with or without port) for mobile/Capacitor
-  if (o.startsWith("http://localhost")) return true;
+  // Local dev / preview / WebView (Capacitor)
+  if (o.startsWith('http://localhost')) return true;   // e.g. http://localhost:5173
+  if (o.startsWith('https://localhost')) return true;  // Capacitor uses https://localhost
+  if (o === 'capacitor://localhost') return true;
 
-  // ✅ Allow Capacitor native scheme (Android/iOS)
-  if (o === "capacitor://localhost") return true;
+  // Your public backend on Render
+  if (RENDER_HOST && (o === RENDER_HOST)) return true;
 
-  // ✅ Allow your deployed frontend domain
-  if (o === FRONTEND_HOST.toLowerCase()) return true;
-
-  return false; // block everything else
+  return false;
 }
 
-const corsOpts = {
-  origin: (origin, cb) =>
-    isAllowedOrigin(origin) ? cb(null, true) : cb(new Error("CORS not allowed: " + origin)),
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  exposedHeaders: ["Content-Disposition"],
-  credentials: true,
-};
+// vary by Origin to keep caches sane
+app.use((req, res, next) => { res.set('Vary', 'Origin'); next(); });
 
-app.use(cors(corsOpts));
+app.use(cors({
+  origin: (origin, cb) => isAllowedOrigin(origin) ? cb(null, true)
+                                                  : cb(new Error('CORS not allowed: ' + origin)),
+  methods: ['GET','POST','PUT','DELETE','OPTIONS'],
+  allowedHeaders: ['Content-Type','Authorization'],
+  exposedHeaders: ['Content-Disposition'],
+  credentials: true, // fine even if you don’t use cookies
+}));
 
-// Handle preflight requests (Express 5 safe)
-app.use((req, res, next) => {
-  if (req.method === 'OPTIONS') {
-    res.set('Access-Control-Allow-Origin', req.headers.origin || '*');
-    res.set('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
-    res.set('Access-Control-Allow-Headers', 'Content-Type,Authorization');
-    return res.sendStatus(204);
-  }
-  next();
+// Answer preflight early (must come BEFORE routes)
+app.options('*', (req, res) => {
+  const origin = req.headers.origin || '*';
+  res.setHeader('Access-Control-Allow-Origin', origin);
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization');
+  res.setHeader('Vary', 'Origin');
+  return res.sendStatus(204);
 });
-
 // Optional: nicer JSON error instead of crashing
 app.use((err, req, res, next) => {
   if (String(err?.message || "").startsWith("CORS not allowed:")) {
