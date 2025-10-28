@@ -1976,6 +1976,6 @@ async function compareAndMaybeMigratePassword(jwtUser, currentPlain) {
   return { ok, account: acc };
 }
 
-app.listen(PORT, () => {
-  console.log(`KC backend listening on http://localhost:${PORT}`);
+app.listen(PORT,'0.0.0.0', () => {
+  console.log(`KC backend listening on port ${PORT}`);
 });
