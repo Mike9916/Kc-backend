@@ -22,7 +22,6 @@ const rateLimit = require("express-rate-limit");
 const multer = require("multer");
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 /* -------------------------- DATA & HELPERS -------------------------- */
 
@@ -1945,7 +1944,6 @@ app.get("/api/meta/departments", (req, res) => {
   res.json({ items: ["MEN", "YOUNG ADULTS", "WOMEN"] });
 });
 
-app.get('/api/health', (req,res)=>res.json({ok:true}));
 /* -------------------------------- SERVER ------------------------------ */
 
 app.get("/", (_req, res) => res.send("KC backend running"));
@@ -1976,6 +1974,12 @@ async function compareAndMaybeMigratePassword(jwtUser, currentPlain) {
   return { ok, account: acc };
 }
 
+// Health check route
+app.get('/api/health', (req, res) => {
+  res.json({ ok: true, status: "Backend is running" });
+});
+
+const PORT = process.env.PORT || 3000;
 app.listen(PORT,'0.0.0.0', () => {
   console.log(`KC backend listening on port ${PORT}`);
 });
