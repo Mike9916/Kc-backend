@@ -467,36 +467,41 @@ function normAnswer(a) { return String(a||"").trim().toLowerCase(); }
 /* ----------------------------- MIDDLEWARE ----------------------------- */
 
 
-// allow these origins in dev/preview/capacitor
-// allow these origins in dev/preview/capacitor
-const allowedOrigins = new Set([
-  'http://localhost:5173',     // Vite dev
-  'http://localhost:4173',     // Vite preview
-  'http://localhost',          // Capacitor Android (local server / WebView)
-  'capacitor://localhost',     // Capacitor scheme
-  // add your hosted web frontend later, e.g. 'https://your-frontend.example'
-]);
+// ---- CORS (replace your existing block with this) ----
+const RENDER_HOST = process.env.RENDER_EXTERNAL_URL || ""; // Render sets this env automatically
+// Or hardcode if you prefer: const RENDER_HOST = "https://kc-backend-<xxxx>.onrender.com";
 
-// one options object used everywhere
+function isAllowedOrigin(origin) {
+  if (!origin) return true; // non-browser clients
+  const o = origin.toLowerCase();
+
+  // Accept any localhost port and Capacitor scheme
+  if (o.startsWith("http://localhost")) return true;
+  if (o === "capacitor://localhost") return true;
+
+  // Your public backend on Render (with or without trailing slash)
+  if (RENDER_HOST && (o === RENDER_HOST.toLowerCase() || o === RENDER_HOST.toLowerCase().replace(/\/+$/, ""))) {
+    return true;
+  }
+
+  // If later you host a web frontend (e.g. Netlify/Vercel), whitelist here:
+  // if (o === "https://your-frontend.example") return true;
+
+  return false;
+}
+
 const corsOpts = {
-  origin: (origin, cb) => {
-    if (!origin) return cb(null, true);                  // non-browser / mobile apps
-    if (allowedOrigins.has(origin)) return cb(null, true);
-    return cb(new Error('CORS not allowed: ' + origin)); // block everything else
-  },
-  methods: ['GET','POST','PUT','DELETE','OPTIONS'],
-  allowedHeaders: ['Content-Type','Authorization'],
-  exposedHeaders: ['Content-Disposition'],
+  origin: (origin, cb) => isAllowedOrigin(origin) ? cb(null, true) : cb(new Error("CORS not allowed: " + origin)),
+  methods: ["GET","POST","PUT","DELETE","OPTIONS"],
+  allowedHeaders: ["Content-Type","Authorization"],
+  exposedHeaders: ["Content-Disposition"],
   credentials: true,
 };
 
-// apply CORS to all routes
 app.use(cors(corsOpts));
-
-app.use((req, res, next) => {
-  if (req.method === 'OPTIONS') return res.sendStatus(204);
-  next();
-});
+// Quick response for preflights
+app.use((req, res, next) => { if (req.method === "OPTIONS") return res.sendStatus(204); next(); });
+// (keep the rest of your middleware/routes below)
 
 // (optional) nice JSON for CORS denials instead of crashing
 app.use((err, req, res, next) => {
