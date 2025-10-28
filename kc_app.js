@@ -468,21 +468,24 @@ function normAnswer(a) { return String(a||"").trim().toLowerCase(); }
 
 // ---- CORS (fixed) ----
 
-const FRONTEND_HOST = "https://kc-frontend-9916.onrender.com"; // your frontend Render URL
+// ---- CORS (final fixed block) ----
+const FRONTEND_HOST = "https://kc-frontend-9916.onrender.com"; // your deployed frontend URL
 
 function isAllowedOrigin(origin) {
-  if (!origin) return true; // allow non-browser clients
+  if (!origin) return true; // allow non-browser clients (e.g. curl, Postman)
 
   const o = origin.toLowerCase();
 
-  // Accept local dev and Capacitor schemes
+  // ✅ Allow any localhost (with or without port) for mobile/Capacitor
   if (o.startsWith("http://localhost")) return true;
+
+  // ✅ Allow Capacitor native scheme (Android/iOS)
   if (o === "capacitor://localhost") return true;
 
-  // Allow your deployed frontend domain
+  // ✅ Allow your deployed frontend domain
   if (o === FRONTEND_HOST.toLowerCase()) return true;
 
-  return false;
+  return false; // block everything else
 }
 
 const corsOpts = {
@@ -495,6 +498,25 @@ const corsOpts = {
 };
 
 app.use(cors(corsOpts));
+
+// Handle preflight requests (Express 5 safe)
+app.use((req, res, next) => {
+  if (req.method === 'OPTIONS') {
+    res.set('Access-Control-Allow-Origin', req.headers.origin || '*');
+    res.set('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
+    res.set('Access-Control-Allow-Headers', 'Content-Type,Authorization');
+    return res.sendStatus(204);
+  }
+  next();
+});
+
+// Optional: nicer JSON error instead of crashing
+app.use((err, req, res, next) => {
+  if (String(err?.message || "").startsWith("CORS not allowed:")) {
+    return res.status(403).json({ ok: false, error: err.message });
+  }
+  next(err);
+});
 
 
 // make sure preflights are handled
