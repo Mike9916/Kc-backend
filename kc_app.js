@@ -466,50 +466,36 @@ function tokenFor(account, profile) {
 function normAnswer(a) { return String(a||"").trim().toLowerCase(); }
 /* ----------------------------- MIDDLEWARE ----------------------------- */
 
+// ---- CORS (fixed) ----
 
-// ---- CORS (replace your existing block with this) ----
-const RENDER_HOST = process.env.RENDER_EXTERNAL_URL || ""; // Render sets this env automatically
-// Or hardcode if you prefer: const RENDER_HOST = "https://kc-backend-<xxxx>.onrender.com";
+const FRONTEND_HOST = "https://kc-frontend-9916.onrender.com"; // your frontend Render URL
 
 function isAllowedOrigin(origin) {
-  if (!origin) return true; // non-browser clients
+  if (!origin) return true; // allow non-browser clients
+
   const o = origin.toLowerCase();
 
-  // Accept any localhost port and Capacitor scheme
+  // Accept local dev and Capacitor schemes
   if (o.startsWith("http://localhost")) return true;
   if (o === "capacitor://localhost") return true;
 
-  // Your public backend on Render (with or without trailing slash)
-  if (RENDER_HOST && (o === RENDER_HOST.toLowerCase() || o === RENDER_HOST.toLowerCase().replace(/\/+$/, ""))) {
-    return true;
-  }
-
-  // If later you host a web frontend (e.g. Netlify/Vercel), whitelist here:
-  // if (o === "https://your-frontend.example") return true;
+  // Allow your deployed frontend domain
+  if (o === FRONTEND_HOST.toLowerCase()) return true;
 
   return false;
 }
 
 const corsOpts = {
-  origin: (origin, cb) => isAllowedOrigin(origin) ? cb(null, true) : cb(new Error("CORS not allowed: " + origin)),
-  methods: ["GET","POST","PUT","DELETE","OPTIONS"],
-  allowedHeaders: ["Content-Type","Authorization"],
+  origin: (origin, cb) =>
+    isAllowedOrigin(origin) ? cb(null, true) : cb(new Error("CORS not allowed: " + origin)),
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
   exposedHeaders: ["Content-Disposition"],
   credentials: true,
 };
 
 app.use(cors(corsOpts));
-// Quick response for preflights
-app.use((req, res, next) => { if (req.method === "OPTIONS") return res.sendStatus(204); next(); });
-// (keep the rest of your middleware/routes below)
 
-// (optional) nice JSON for CORS denials instead of crashing
-app.use((err, req, res, next) => {
-  if (String(err?.message || '').startsWith('CORS not allowed:')) {
-    return res.status(403).json({ ok: false, error: err.message });
-  }
-  next(err);
-});
 
 // make sure preflights are handled
 app.use(express.json());
