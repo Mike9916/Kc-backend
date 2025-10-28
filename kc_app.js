@@ -468,26 +468,43 @@ function normAnswer(a) { return String(a||"").trim().toLowerCase(); }
 
 
 // allow these origins in dev/preview/capacitor
+// allow these origins in dev/preview/capacitor
 const allowedOrigins = new Set([
   'http://localhost:5173',     // Vite dev
   'http://localhost:4173',     // Vite preview
-  'http://localhost',          // Capacitor Android (local server)
-  'capacitor://localhost',     // Capacitor iOS/Android
+  'http://localhost',          // Capacitor Android (local server / WebView)
+  'capacitor://localhost',     // Capacitor scheme
+  // add your hosted web frontend later, e.g. 'https://your-frontend.example'
 ]);
 
-app.use(cors({
+// one options object used everywhere
+const corsOpts = {
   origin: (origin, cb) => {
-    // allow non-browser clients or same-origin
-    if (!origin) return cb(null, true);
+    if (!origin) return cb(null, true);                  // non-browser / mobile apps
     if (allowedOrigins.has(origin)) return cb(null, true);
-    // block everything else
-    return cb(new Error('CORS not allowed: ' + origin));
+    return cb(new Error('CORS not allowed: ' + origin)); // block everything else
   },
   methods: ['GET','POST','PUT','DELETE','OPTIONS'],
   allowedHeaders: ['Content-Type','Authorization'],
-  credentials: true, // ok even if you aren't using cookies
   exposedHeaders: ['Content-Disposition'],
-}));
+  credentials: true,
+};
+
+// apply CORS to all routes
+app.use(cors(corsOpts));
+
+app.use((req, res, next) => {
+  if (req.method === 'OPTIONS') return res.sendStatus(204);
+  next();
+});
+
+// (optional) nice JSON for CORS denials instead of crashing
+app.use((err, req, res, next) => {
+  if (String(err?.message || '').startsWith('CORS not allowed:')) {
+    return res.status(403).json({ ok: false, error: err.message });
+  }
+  next(err);
+});
 
 // make sure preflights are handled
 app.use(express.json());
