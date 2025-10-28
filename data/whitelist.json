@@ -1,0 +1,2351 @@
+[
+  {
+    "scjId": "KC-000001",
+    "name": "Daniel Overseer",
+    "phone": "+254710000001",
+    "jyk": "General",
+    "dept": "General",
+    "cell": "General",
+    "role": "DNGSN"
+  },
+  {
+    "scjId": "KC-000002",
+    "name": "Charles Chairman",
+    "phone": "+254710000002",
+    "jyk": "General",
+    "dept": "General",
+    "cell": "General",
+    "role": "CHMN"
+  },
+  {
+    "scjId": "KC-000003",
+    "name": "Naomi Secretary",
+    "phone": "+254710000003",
+    "jyk": "General",
+    "dept": "General",
+    "cell": "General",
+    "role": "NEMOBU"
+  },
+  {
+    "scjId": "KC-000101",
+    "name": "Wilson Dept Head (Men)",
+    "phone": "+254710000101",
+    "jyk": "General",
+    "dept": "MEN",
+    "cell": "General",
+    "role": "WEJANM"
+  },
+  {
+    "scjId": "KC-000102",
+    "name": "Winnie Dept Head (Women)",
+    "phone": "+254710000102",
+    "jyk": "General",
+    "dept": "WOMEN",
+    "cell": "General",
+    "role": "WEJANM"
+  },
+  {
+    "scjId": "KC-000103",
+    "name": "Yaro Dept Head (Young Adults)",
+    "phone": "+254710000103",
+    "jyk": "General",
+    "dept": "YOUNG ADULTS",
+    "cell": "General",
+    "role": "WEJANM"
+  },
+  {
+    "scjId": "KC-KIB-JYJN-MEN",
+    "name": "Kibera JYJN (Men)",
+    "phone": "+254720100001",
+    "jyk": "Kibera",
+    "dept": "MEN",
+    "cell": "General",
+    "role": "JYJN"
+  },
+  {
+    "scjId": "KC-KIB-JYJN-WOM",
+    "name": "Kibera JYJN (Women)",
+    "phone": "+254720100002",
+    "jyk": "Kibera",
+    "dept": "WOMEN",
+    "cell": "General",
+    "role": "JYJN"
+  },
+  {
+    "scjId": "KC-KIB-JYJN-YA",
+    "name": "Kibera JYJN (Young Adults)",
+    "phone": "+254720100003",
+    "jyk": "Kibera",
+    "dept": "YOUNG ADULTS",
+    "cell": "General",
+    "role": "JYJN"
+  },
+  {
+    "scjId": "KC-KAR-JYJN-MEN",
+    "name": "Karen JYJN (Men)",
+    "phone": "+254720200001",
+    "jyk": "Karen",
+    "dept": "MEN",
+    "cell": "General",
+    "role": "JYJN"
+  },
+  {
+    "scjId": "KC-KAR-JYJN-WOM",
+    "name": "Karen JYJN (Women)",
+    "phone": "+254720200002",
+    "jyk": "Karen",
+    "dept": "WOMEN",
+    "cell": "General",
+    "role": "JYJN"
+  },
+  {
+    "scjId": "KC-KAR-JYJN-YA",
+    "name": "Karen JYJN (Young Adults)",
+    "phone": "+254720200003",
+    "jyk": "Karen",
+    "dept": "YOUNG ADULTS",
+    "cell": "General",
+    "role": "JYJN"
+  },
+  {
+    "scjId": "KC-KAY-JYJN-MEN",
+    "name": "Kayole JYJN (Men)",
+    "phone": "+254720300001",
+    "jyk": "Kayole",
+    "dept": "MEN",
+    "cell": "General",
+    "role": "JYJN"
+  },
+  {
+    "scjId": "KC-KAY-JYJN-WOM",
+    "name": "Kayole JYJN (Women)",
+    "phone": "+254720300002",
+    "jyk": "Kayole",
+    "dept": "WOMEN",
+    "cell": "General",
+    "role": "JYJN"
+  },
+  {
+    "scjId": "KC-KAY-JYJN-YA",
+    "name": "Kayole JYJN (Young Adults)",
+    "phone": "+254720300003",
+    "jyk": "Kayole",
+    "dept": "YOUNG ADULTS",
+    "cell": "General",
+    "role": "JYJN"
+  },
+  {
+    "scjId": "KC-KIB-MEN-C1-G",
+    "name": "GYJN Kibera MEN Cell1",
+    "phone": "+254721100001",
+    "jyk": "Kibera",
+    "dept": "MEN",
+    "cell": "MEN-C1",
+    "role": "GYJN"
+  },
+  {
+    "scjId": "KC-KIB-MEN-C1-S1",
+    "name": "Kibera MEN C1 Saint 1",
+    "phone": "+254721100011",
+    "jyk": "Kibera",
+    "dept": "MEN",
+    "cell": "MEN-C1",
+    "role": "ADMIN"
+  },
+  {
+    "scjId": "KC-KIB-MEN-C1-S2",
+    "name": "Kibera MEN C1 Saint 2",
+    "phone": "+254721100012",
+    "jyk": "Kibera",
+    "dept": "MEN",
+    "cell": "MEN-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-MEN-C1-S3",
+    "name": "Kibera MEN C1 Saint 3",
+    "phone": "+254721100013",
+    "jyk": "Kibera",
+    "dept": "MEN",
+    "cell": "MEN-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-MEN-C1-S4",
+    "name": "Kibera MEN C1 Saint 4",
+    "phone": "+254721100014",
+    "jyk": "Kibera",
+    "dept": "MEN",
+    "cell": "MEN-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-MEN-C1-S5",
+    "name": "Kibera MEN C1 Saint 5",
+    "phone": "+254721100015",
+    "jyk": "Kibera",
+    "dept": "MEN",
+    "cell": "MEN-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-MEN-C1-S6",
+    "name": "Kibera MEN C1 Saint 6",
+    "phone": "+254721100016",
+    "jyk": "Kibera",
+    "dept": "MEN",
+    "cell": "MEN-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-MEN-C1-S7",
+    "name": "Kibera MEN C1 Saint 7",
+    "phone": "+254721100017",
+    "jyk": "Kibera",
+    "dept": "MEN",
+    "cell": "MEN-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-MEN-C1-S8",
+    "name": "Kibera MEN C1 Saint 8",
+    "phone": "+254721100018",
+    "jyk": "Kibera",
+    "dept": "MEN",
+    "cell": "MEN-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-MEN-C2-G",
+    "name": "GYJN Kibera MEN Cell2",
+    "phone": "+254721100021",
+    "jyk": "Kibera",
+    "dept": "MEN",
+    "cell": "MEN-C2",
+    "role": "GYJN"
+  },
+  {
+    "scjId": "KC-KIB-MEN-C2-S1",
+    "name": "Kibera MEN C2 Saint 1",
+    "phone": "+254721100031",
+    "jyk": "Kibera",
+    "dept": "MEN",
+    "cell": "MEN-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-MEN-C2-S2",
+    "name": "Kibera MEN C2 Saint 2",
+    "phone": "+254721100032",
+    "jyk": "Kibera",
+    "dept": "MEN",
+    "cell": "MEN-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-MEN-C2-S3",
+    "name": "Kibera MEN C2 Saint 3",
+    "phone": "+254721100033",
+    "jyk": "Kibera",
+    "dept": "MEN",
+    "cell": "MEN-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-MEN-C2-S4",
+    "name": "Kibera MEN C2 Saint 4",
+    "phone": "+254721100034",
+    "jyk": "Kibera",
+    "dept": "MEN",
+    "cell": "MEN-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-MEN-C2-S5",
+    "name": "Kibera MEN C2 Saint 5",
+    "phone": "+254721100035",
+    "jyk": "Kibera",
+    "dept": "MEN",
+    "cell": "MEN-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-MEN-C2-S6",
+    "name": "Kibera MEN C2 Saint 6",
+    "phone": "+254721100036",
+    "jyk": "Kibera",
+    "dept": "MEN",
+    "cell": "MEN-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-MEN-C2-S7",
+    "name": "Kibera MEN C2 Saint 7",
+    "phone": "+254721100037",
+    "jyk": "Kibera",
+    "dept": "MEN",
+    "cell": "MEN-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-MEN-C2-S8",
+    "name": "Kibera MEN C2 Saint 8",
+    "phone": "+254721100038",
+    "jyk": "Kibera",
+    "dept": "MEN",
+    "cell": "MEN-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-MEN-C3-G",
+    "name": "GYJN Kibera MEN Cell3",
+    "phone": "+254721100041",
+    "jyk": "Kibera",
+    "dept": "MEN",
+    "cell": "MEN-C3",
+    "role": "GYJN"
+  },
+  {
+    "scjId": "KC-KIB-MEN-C3-S1",
+    "name": "Kibera MEN C3 Saint 1",
+    "phone": "+254721100051",
+    "jyk": "Kibera",
+    "dept": "MEN",
+    "cell": "MEN-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-MEN-C3-S2",
+    "name": "Kibera MEN C3 Saint 2",
+    "phone": "+254721100052",
+    "jyk": "Kibera",
+    "dept": "MEN",
+    "cell": "MEN-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-MEN-C3-S3",
+    "name": "Kibera MEN C3 Saint 3",
+    "phone": "+254721100053",
+    "jyk": "Kibera",
+    "dept": "MEN",
+    "cell": "MEN-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-MEN-C3-S4",
+    "name": "Kibera MEN C3 Saint 4",
+    "phone": "+254721100054",
+    "jyk": "Kibera",
+    "dept": "MEN",
+    "cell": "MEN-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-MEN-C3-S5",
+    "name": "Kibera MEN C3 Saint 5",
+    "phone": "+254721100055",
+    "jyk": "Kibera",
+    "dept": "MEN",
+    "cell": "MEN-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-MEN-C3-S6",
+    "name": "Kibera MEN C3 Saint 6",
+    "phone": "+254721100056",
+    "jyk": "Kibera",
+    "dept": "MEN",
+    "cell": "MEN-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-MEN-C3-S7",
+    "name": "Kibera MEN C3 Saint 7",
+    "phone": "+254721100057",
+    "jyk": "Kibera",
+    "dept": "MEN",
+    "cell": "MEN-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-MEN-C3-S8",
+    "name": "Kibera MEN C3 Saint 8",
+    "phone": "+254721100058",
+    "jyk": "Kibera",
+    "dept": "MEN",
+    "cell": "MEN-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-WOM-C1-G",
+    "name": "GYJN Kibera WOMEN Cell1",
+    "phone": "+254721110001",
+    "jyk": "Kibera",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C1",
+    "role": "GYJN"
+  },
+  {
+    "scjId": "KC-KIB-WOM-C1-S1",
+    "name": "Kibera WOMEN C1 Saint 1",
+    "phone": "+254721110011",
+    "jyk": "Kibera",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-WOM-C1-S2",
+    "name": "Kibera WOMEN C1 Saint 2",
+    "phone": "+254721110012",
+    "jyk": "Kibera",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-WOM-C1-S3",
+    "name": "Kibera WOMEN C1 Saint 3",
+    "phone": "+254721110013",
+    "jyk": "Kibera",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-WOM-C1-S4",
+    "name": "Kibera WOMEN C1 Saint 4",
+    "phone": "+254721110014",
+    "jyk": "Kibera",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-WOM-C1-S5",
+    "name": "Kibera WOMEN C1 Saint 5",
+    "phone": "+254721110015",
+    "jyk": "Kibera",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-WOM-C1-S6",
+    "name": "Kibera WOMEN C1 Saint 6",
+    "phone": "+254721110016",
+    "jyk": "Kibera",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-WOM-C1-S7",
+    "name": "Kibera WOMEN C1 Saint 7",
+    "phone": "+254721110017",
+    "jyk": "Kibera",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-WOM-C1-S8",
+    "name": "Kibera WOMEN C1 Saint 8",
+    "phone": "+254721110018",
+    "jyk": "Kibera",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-WOM-C2-G",
+    "name": "GYJN Kibera WOMEN Cell2",
+    "phone": "+254721110021",
+    "jyk": "Kibera",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C2",
+    "role": "GYJN"
+  },
+  {
+    "scjId": "KC-KIB-WOM-C2-S1",
+    "name": "Kibera WOMEN C2 Saint 1",
+    "phone": "+254721110031",
+    "jyk": "Kibera",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-WOM-C2-S2",
+    "name": "Kibera WOMEN C2 Saint 2",
+    "phone": "+254721110032",
+    "jyk": "Kibera",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-WOM-C2-S3",
+    "name": "Kibera WOMEN C2 Saint 3",
+    "phone": "+254721110033",
+    "jyk": "Kibera",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-WOM-C2-S4",
+    "name": "Kibera WOMEN C2 Saint 4",
+    "phone": "+254721110034",
+    "jyk": "Kibera",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-WOM-C2-S5",
+    "name": "Kibera WOMEN C2 Saint 5",
+    "phone": "+254721110035",
+    "jyk": "Kibera",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-WOM-C2-S6",
+    "name": "Kibera WOMEN C2 Saint 6",
+    "phone": "+254721110036",
+    "jyk": "Kibera",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-WOM-C2-S7",
+    "name": "Kibera WOMEN C2 Saint 7",
+    "phone": "+254721110037",
+    "jyk": "Kibera",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-WOM-C2-S8",
+    "name": "Kibera WOMEN C2 Saint 8",
+    "phone": "+254721110038",
+    "jyk": "Kibera",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-WOM-C3-G",
+    "name": "GYJN Kibera WOMEN Cell3",
+    "phone": "+254721110041",
+    "jyk": "Kibera",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C3",
+    "role": "GYJN"
+  },
+  {
+    "scjId": "KC-KIB-WOM-C3-S1",
+    "name": "Kibera WOMEN C3 Saint 1",
+    "phone": "+254721110051",
+    "jyk": "Kibera",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-WOM-C3-S2",
+    "name": "Kibera WOMEN C3 Saint 2",
+    "phone": "+254721110052",
+    "jyk": "Kibera",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-WOM-C3-S3",
+    "name": "Kibera WOMEN C3 Saint 3",
+    "phone": "+254721110053",
+    "jyk": "Kibera",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-WOM-C3-S4",
+    "name": "Kibera WOMEN C3 Saint 4",
+    "phone": "+254721110054",
+    "jyk": "Kibera",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-WOM-C3-S5",
+    "name": "Kibera WOMEN C3 Saint 5",
+    "phone": "+254721110055",
+    "jyk": "Kibera",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-WOM-C3-S6",
+    "name": "Kibera WOMEN C3 Saint 6",
+    "phone": "+254721110056",
+    "jyk": "Kibera",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-WOM-C3-S7",
+    "name": "Kibera WOMEN C3 Saint 7",
+    "phone": "+254721110057",
+    "jyk": "Kibera",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-WOM-C3-S8",
+    "name": "Kibera WOMEN C3 Saint 8",
+    "phone": "+254721110058",
+    "jyk": "Kibera",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-YA-C1-G",
+    "name": "GYJN Kibera YA Cell1",
+    "phone": "+254721120001",
+    "jyk": "Kibera",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C1",
+    "role": "GYJN"
+  },
+  {
+    "scjId": "KC-KIB-YA-C1-S1",
+    "name": "Kibera YA C1 Saint 1",
+    "phone": "+254721120011",
+    "jyk": "Kibera",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-YA-C1-S2",
+    "name": "Kibera YA C1 Saint 2",
+    "phone": "+254721120012",
+    "jyk": "Kibera",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-YA-C1-S3",
+    "name": "Kibera YA C1 Saint 3",
+    "phone": "+254721120013",
+    "jyk": "Kibera",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-YA-C1-S4",
+    "name": "Kibera YA C1 Saint 4",
+    "phone": "+254721120014",
+    "jyk": "Kibera",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-YA-C1-S5",
+    "name": "Kibera YA C1 Saint 5",
+    "phone": "+254721120015",
+    "jyk": "Kibera",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-YA-C1-S6",
+    "name": "Kibera YA C1 Saint 6",
+    "phone": "+254721120016",
+    "jyk": "Kibera",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-YA-C1-S7",
+    "name": "Kibera YA C1 Saint 7",
+    "phone": "+254721120017",
+    "jyk": "Kibera",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-YA-C1-S8",
+    "name": "Kibera YA C1 Saint 8",
+    "phone": "+254721120018",
+    "jyk": "Kibera",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-YA-C2-G",
+    "name": "GYJN Kibera YA Cell2",
+    "phone": "+254721120021",
+    "jyk": "Kibera",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C2",
+    "role": "GYJN"
+  },
+  {
+    "scjId": "KC-KIB-YA-C2-S1",
+    "name": "Kibera YA C2 Saint 1",
+    "phone": "+254721120031",
+    "jyk": "Kibera",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-YA-C2-S2",
+    "name": "Kibera YA C2 Saint 2",
+    "phone": "+254721120032",
+    "jyk": "Kibera",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-YA-C2-S3",
+    "name": "Kibera YA C2 Saint 3",
+    "phone": "+254721120033",
+    "jyk": "Kibera",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-YA-C2-S4",
+    "name": "Kibera YA C2 Saint 4",
+    "phone": "+254721120034",
+    "jyk": "Kibera",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-YA-C2-S5",
+    "name": "Kibera YA C2 Saint 5",
+    "phone": "+254721120035",
+    "jyk": "Kibera",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-YA-C2-S6",
+    "name": "Kibera YA C2 Saint 6",
+    "phone": "+254721120036",
+    "jyk": "Kibera",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-YA-C2-S7",
+    "name": "Kibera YA C2 Saint 7",
+    "phone": "+254721120037",
+    "jyk": "Kibera",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-YA-C2-S8",
+    "name": "Kibera YA C2 Saint 8",
+    "phone": "+254721120038",
+    "jyk": "Kibera",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-YA-C3-G",
+    "name": "GYJN Kibera YA Cell3",
+    "phone": "+254721120041",
+    "jyk": "Kibera",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C3",
+    "role": "GYJN"
+  },
+  {
+    "scjId": "KC-KIB-YA-C3-S1",
+    "name": "Kibera YA C3 Saint 1",
+    "phone": "+254721120051",
+    "jyk": "Kibera",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-YA-C3-S2",
+    "name": "Kibera YA C3 Saint 2",
+    "phone": "+254721120052",
+    "jyk": "Kibera",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-YA-C3-S3",
+    "name": "Kibera YA C3 Saint 3",
+    "phone": "+254721120053",
+    "jyk": "Kibera",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-YA-C3-S4",
+    "name": "Kibera YA C3 Saint 4",
+    "phone": "+254721120054",
+    "jyk": "Kibera",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-YA-C3-S5",
+    "name": "Kibera YA C3 Saint 5",
+    "phone": "+254721120055",
+    "jyk": "Kibera",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-YA-C3-S6",
+    "name": "Kibera YA C3 Saint 6",
+    "phone": "+254721120056",
+    "jyk": "Kibera",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-YA-C3-S7",
+    "name": "Kibera YA C3 Saint 7",
+    "phone": "+254721120057",
+    "jyk": "Kibera",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KIB-YA-C3-S8",
+    "name": "Kibera YA C3 Saint 8",
+    "phone": "+254721120058",
+    "jyk": "Kibera",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-MEN-C1-G",
+    "name": "GYJN Karen MEN Cell1",
+    "phone": "+254722100001",
+    "jyk": "Karen",
+    "dept": "MEN",
+    "cell": "MEN-C1",
+    "role": "GYJN"
+  },
+  {
+    "scjId": "KC-KAR-MEN-C1-S1",
+    "name": "Karen MEN C1 Saint 1",
+    "phone": "+254722100011",
+    "jyk": "Karen",
+    "dept": "MEN",
+    "cell": "MEN-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-MEN-C1-S2",
+    "name": "Karen MEN C1 Saint 2",
+    "phone": "+254722100012",
+    "jyk": "Karen",
+    "dept": "MEN",
+    "cell": "MEN-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-MEN-C1-S3",
+    "name": "Karen MEN C1 Saint 3",
+    "phone": "+254722100013",
+    "jyk": "Karen",
+    "dept": "MEN",
+    "cell": "MEN-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-MEN-C1-S4",
+    "name": "Karen MEN C1 Saint 4",
+    "phone": "+254722100014",
+    "jyk": "Karen",
+    "dept": "MEN",
+    "cell": "MEN-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-MEN-C1-S5",
+    "name": "Karen MEN C1 Saint 5",
+    "phone": "+254722100015",
+    "jyk": "Karen",
+    "dept": "MEN",
+    "cell": "MEN-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-MEN-C1-S6",
+    "name": "Karen MEN C1 Saint 6",
+    "phone": "+254722100016",
+    "jyk": "Karen",
+    "dept": "MEN",
+    "cell": "MEN-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-MEN-C1-S7",
+    "name": "Karen MEN C1 Saint 7",
+    "phone": "+254722100017",
+    "jyk": "Karen",
+    "dept": "MEN",
+    "cell": "MEN-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-MEN-C1-S8",
+    "name": "Karen MEN C1 Saint 8",
+    "phone": "+254722100018",
+    "jyk": "Karen",
+    "dept": "MEN",
+    "cell": "MEN-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-MEN-C2-G",
+    "name": "GYJN Karen MEN Cell2",
+    "phone": "+254722100021",
+    "jyk": "Karen",
+    "dept": "MEN",
+    "cell": "MEN-C2",
+    "role": "GYJN"
+  },
+  {
+    "scjId": "KC-KAR-MEN-C2-S1",
+    "name": "Karen MEN C2 Saint 1",
+    "phone": "+254722100031",
+    "jyk": "Karen",
+    "dept": "MEN",
+    "cell": "MEN-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-MEN-C2-S2",
+    "name": "Karen MEN C2 Saint 2",
+    "phone": "+254722100032",
+    "jyk": "Karen",
+    "dept": "MEN",
+    "cell": "MEN-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-MEN-C2-S3",
+    "name": "Karen MEN C2 Saint 3",
+    "phone": "+254722100033",
+    "jyk": "Karen",
+    "dept": "MEN",
+    "cell": "MEN-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-MEN-C2-S4",
+    "name": "Karen MEN C2 Saint 4",
+    "phone": "+254722100034",
+    "jyk": "Karen",
+    "dept": "MEN",
+    "cell": "MEN-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-MEN-C2-S5",
+    "name": "Karen MEN C2 Saint 5",
+    "phone": "+254722100035",
+    "jyk": "Karen",
+    "dept": "MEN",
+    "cell": "MEN-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-MEN-C2-S6",
+    "name": "Karen MEN C2 Saint 6",
+    "phone": "+254722100036",
+    "jyk": "Karen",
+    "dept": "MEN",
+    "cell": "MEN-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-MEN-C2-S7",
+    "name": "Karen MEN C2 Saint 7",
+    "phone": "+254722100037",
+    "jyk": "Karen",
+    "dept": "MEN",
+    "cell": "MEN-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-MEN-C2-S8",
+    "name": "Karen MEN C2 Saint 8",
+    "phone": "+254722100038",
+    "jyk": "Karen",
+    "dept": "MEN",
+    "cell": "MEN-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-MEN-C3-G",
+    "name": "GYJN Karen MEN Cell3",
+    "phone": "+254722100041",
+    "jyk": "Karen",
+    "dept": "MEN",
+    "cell": "MEN-C3",
+    "role": "GYJN"
+  },
+  {
+    "scjId": "KC-KAR-MEN-C3-S1",
+    "name": "Karen MEN C3 Saint 1",
+    "phone": "+254722100051",
+    "jyk": "Karen",
+    "dept": "MEN",
+    "cell": "MEN-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-MEN-C3-S2",
+    "name": "Karen MEN C3 Saint 2",
+    "phone": "+254722100052",
+    "jyk": "Karen",
+    "dept": "MEN",
+    "cell": "MEN-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-MEN-C3-S3",
+    "name": "Karen MEN C3 Saint 3",
+    "phone": "+254722100053",
+    "jyk": "Karen",
+    "dept": "MEN",
+    "cell": "MEN-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-MEN-C3-S4",
+    "name": "Karen MEN C3 Saint 4",
+    "phone": "+254722100054",
+    "jyk": "Karen",
+    "dept": "MEN",
+    "cell": "MEN-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-MEN-C3-S5",
+    "name": "Karen MEN C3 Saint 5",
+    "phone": "+254722100055",
+    "jyk": "Karen",
+    "dept": "MEN",
+    "cell": "MEN-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-MEN-C3-S6",
+    "name": "Karen MEN C3 Saint 6",
+    "phone": "+254722100056",
+    "jyk": "Karen",
+    "dept": "MEN",
+    "cell": "MEN-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-MEN-C3-S7",
+    "name": "Karen MEN C3 Saint 7",
+    "phone": "+254722100057",
+    "jyk": "Karen",
+    "dept": "MEN",
+    "cell": "MEN-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-MEN-C3-S8",
+    "name": "Karen MEN C3 Saint 8",
+    "phone": "+254722100058",
+    "jyk": "Karen",
+    "dept": "MEN",
+    "cell": "MEN-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-WOM-C1-G",
+    "name": "GYJN Karen WOMEN Cell1",
+    "phone": "+254722110001",
+    "jyk": "Karen",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C1",
+    "role": "GYJN"
+  },
+  {
+    "scjId": "KC-KAR-WOM-C1-S1",
+    "name": "Karen WOMEN C1 Saint 1",
+    "phone": "+254722110011",
+    "jyk": "Karen",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-WOM-C1-S2",
+    "name": "Karen WOMEN C1 Saint 2",
+    "phone": "+254722110012",
+    "jyk": "Karen",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-WOM-C1-S3",
+    "name": "Karen WOMEN C1 Saint 3",
+    "phone": "+254722110013",
+    "jyk": "Karen",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-WOM-C1-S4",
+    "name": "Karen WOMEN C1 Saint 4",
+    "phone": "+254722110014",
+    "jyk": "Karen",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-WOM-C1-S5",
+    "name": "Karen WOMEN C1 Saint 5",
+    "phone": "+254722110015",
+    "jyk": "Karen",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-WOM-C1-S6",
+    "name": "Karen WOMEN C1 Saint 6",
+    "phone": "+254722110016",
+    "jyk": "Karen",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-WOM-C1-S7",
+    "name": "Karen WOMEN C1 Saint 7",
+    "phone": "+254722110017",
+    "jyk": "Karen",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-WOM-C1-S8",
+    "name": "Karen WOMEN C1 Saint 8",
+    "phone": "+254722110018",
+    "jyk": "Karen",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-WOM-C2-G",
+    "name": "GYJN Karen WOMEN Cell2",
+    "phone": "+254722110021",
+    "jyk": "Karen",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C2",
+    "role": "GYJN"
+  },
+  {
+    "scjId": "KC-KAR-WOM-C2-S1",
+    "name": "Karen WOMEN C2 Saint 1",
+    "phone": "+254722110031",
+    "jyk": "Karen",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-WOM-C2-S2",
+    "name": "Karen WOMEN C2 Saint 2",
+    "phone": "+254722110032",
+    "jyk": "Karen",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-WOM-C2-S3",
+    "name": "Karen WOMEN C2 Saint 3",
+    "phone": "+254722110033",
+    "jyk": "Karen",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-WOM-C2-S4",
+    "name": "Karen WOMEN C2 Saint 4",
+    "phone": "+254722110034",
+    "jyk": "Karen",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-WOM-C2-S5",
+    "name": "Karen WOMEN C2 Saint 5",
+    "phone": "+254722110035",
+    "jyk": "Karen",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-WOM-C2-S6",
+    "name": "Karen WOMEN C2 Saint 6",
+    "phone": "+254722110036",
+    "jyk": "Karen",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-WOM-C2-S7",
+    "name": "Karen WOMEN C2 Saint 7",
+    "phone": "+254722110037",
+    "jyk": "Karen",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-WOM-C2-S8",
+    "name": "Karen WOMEN C2 Saint 8",
+    "phone": "+254722110038",
+    "jyk": "Karen",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-WOM-C3-G",
+    "name": "GYJN Karen WOMEN Cell3",
+    "phone": "+254722110041",
+    "jyk": "Karen",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C3",
+    "role": "GYJN"
+  },
+  {
+    "scjId": "KC-KAR-WOM-C3-S1",
+    "name": "Karen WOMEN C3 Saint 1",
+    "phone": "+254722110051",
+    "jyk": "Karen",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-WOM-C3-S2",
+    "name": "Karen WOMEN C3 Saint 2",
+    "phone": "+254722110052",
+    "jyk": "Karen",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-WOM-C3-S3",
+    "name": "Karen WOMEN C3 Saint 3",
+    "phone": "+254722110053",
+    "jyk": "Karen",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-WOM-C3-S4",
+    "name": "Karen WOMEN C3 Saint 4",
+    "phone": "+254722110054",
+    "jyk": "Karen",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-WOM-C3-S5",
+    "name": "Karen WOMEN C3 Saint 5",
+    "phone": "+254722110055",
+    "jyk": "Karen",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-WOM-C3-S6",
+    "name": "Karen WOMEN C3 Saint 6",
+    "phone": "+254722110056",
+    "jyk": "Karen",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-WOM-C3-S7",
+    "name": "Karen WOMEN C3 Saint 7",
+    "phone": "+254722110057",
+    "jyk": "Karen",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-WOM-C3-S8",
+    "name": "Karen WOMEN C3 Saint 8",
+    "phone": "+254722110058",
+    "jyk": "Karen",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-YA-C1-G",
+    "name": "GYJN Karen YA Cell1",
+    "phone": "+254722120001",
+    "jyk": "Karen",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C1",
+    "role": "GYJN"
+  },
+  {
+    "scjId": "KC-KAR-YA-C1-S1",
+    "name": "Karen YA C1 Saint 1",
+    "phone": "+254722120011",
+    "jyk": "Karen",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-YA-C1-S2",
+    "name": "Karen YA C1 Saint 2",
+    "phone": "+254722120012",
+    "jyk": "Karen",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-YA-C1-S3",
+    "name": "Karen YA C1 Saint 3",
+    "phone": "+254722120013",
+    "jyk": "Karen",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-YA-C1-S4",
+    "name": "Karen YA C1 Saint 4",
+    "phone": "+254722120014",
+    "jyk": "Karen",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-YA-C1-S5",
+    "name": "Karen YA C1 Saint 5",
+    "phone": "+254722120015",
+    "jyk": "Karen",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-YA-C1-S6",
+    "name": "Karen YA C1 Saint 6",
+    "phone": "+254722120016",
+    "jyk": "Karen",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-YA-C1-S7",
+    "name": "Karen YA C1 Saint 7",
+    "phone": "+254722120017",
+    "jyk": "Karen",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-YA-C1-S8",
+    "name": "Karen YA C1 Saint 8",
+    "phone": "+254722120018",
+    "jyk": "Karen",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-YA-C2-G",
+    "name": "GYJN Karen YA Cell2",
+    "phone": "+254722120021",
+    "jyk": "Karen",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C2",
+    "role": "GYJN"
+  },
+  {
+    "scjId": "KC-KAR-YA-C2-S1",
+    "name": "Karen YA C2 Saint 1",
+    "phone": "+254722120031",
+    "jyk": "Karen",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-YA-C2-S2",
+    "name": "Karen YA C2 Saint 2",
+    "phone": "+254722120032",
+    "jyk": "Karen",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-YA-C2-S3",
+    "name": "Karen YA C2 Saint 3",
+    "phone": "+254722120033",
+    "jyk": "Karen",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-YA-C2-S4",
+    "name": "Karen YA C2 Saint 4",
+    "phone": "+254722120034",
+    "jyk": "Karen",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-YA-C2-S5",
+    "name": "Karen YA C2 Saint 5",
+    "phone": "+254722120035",
+    "jyk": "Karen",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-YA-C2-S6",
+    "name": "Karen YA C2 Saint 6",
+    "phone": "+254722120036",
+    "jyk": "Karen",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-YA-C2-S7",
+    "name": "Karen YA C2 Saint 7",
+    "phone": "+254722120037",
+    "jyk": "Karen",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-YA-C2-S8",
+    "name": "Karen YA C2 Saint 8",
+    "phone": "+254722120038",
+    "jyk": "Karen",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-YA-C3-G",
+    "name": "GYJN Karen YA Cell3",
+    "phone": "+254722120041",
+    "jyk": "Karen",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C3",
+    "role": "GYJN"
+  },
+  {
+    "scjId": "KC-KAR-YA-C3-S1",
+    "name": "Karen YA C3 Saint 1",
+    "phone": "+254722120051",
+    "jyk": "Karen",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-YA-C3-S2",
+    "name": "Karen YA C3 Saint 2",
+    "phone": "+254722120052",
+    "jyk": "Karen",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-YA-C3-S3",
+    "name": "Karen YA C3 Saint 3",
+    "phone": "+254722120053",
+    "jyk": "Karen",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-YA-C3-S4",
+    "name": "Karen YA C3 Saint 4",
+    "phone": "+254722120054",
+    "jyk": "Karen",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-YA-C3-S5",
+    "name": "Karen YA C3 Saint 5",
+    "phone": "+254722120055",
+    "jyk": "Karen",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-YA-C3-S6",
+    "name": "Karen YA C3 Saint 6",
+    "phone": "+254722120056",
+    "jyk": "Karen",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-YA-C3-S7",
+    "name": "Karen YA C3 Saint 7",
+    "phone": "+254722120057",
+    "jyk": "Karen",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAR-YA-C3-S8",
+    "name": "Karen YA C3 Saint 8",
+    "phone": "+254722120058",
+    "jyk": "Karen",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-MEN-C1-G",
+    "name": "GYJN Kayole MEN Cell1",
+    "phone": "+254723100001",
+    "jyk": "Kayole",
+    "dept": "MEN",
+    "cell": "MEN-C1",
+    "role": "GYJN"
+  },
+  {
+    "scjId": "KC-KAY-MEN-C1-S1",
+    "name": "Kayole MEN C1 Saint 1",
+    "phone": "+254723100011",
+    "jyk": "Kayole",
+    "dept": "MEN",
+    "cell": "MEN-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-MEN-C1-S2",
+    "name": "Kayole MEN C1 Saint 2",
+    "phone": "+254723100012",
+    "jyk": "Kayole",
+    "dept": "MEN",
+    "cell": "MEN-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-MEN-C1-S3",
+    "name": "Kayole MEN C1 Saint 3",
+    "phone": "+254723100013",
+    "jyk": "Kayole",
+    "dept": "MEN",
+    "cell": "MEN-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-MEN-C1-S4",
+    "name": "Kayole MEN C1 Saint 4",
+    "phone": "+254723100014",
+    "jyk": "Kayole",
+    "dept": "MEN",
+    "cell": "MEN-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-MEN-C1-S5",
+    "name": "Kayole MEN C1 Saint 5",
+    "phone": "+254723100015",
+    "jyk": "Kayole",
+    "dept": "MEN",
+    "cell": "MEN-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-MEN-C1-S6",
+    "name": "Kayole MEN C1 Saint 6",
+    "phone": "+254723100016",
+    "jyk": "Kayole",
+    "dept": "MEN",
+    "cell": "MEN-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-MEN-C1-S7",
+    "name": "Kayole MEN C1 Saint 7",
+    "phone": "+254723100017",
+    "jyk": "Kayole",
+    "dept": "MEN",
+    "cell": "MEN-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-MEN-C1-S8",
+    "name": "Kayole MEN C1 Saint 8",
+    "phone": "+254723100018",
+    "jyk": "Kayole",
+    "dept": "MEN",
+    "cell": "MEN-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-MEN-C2-G",
+    "name": "GYJN Kayole MEN Cell2",
+    "phone": "+254723100021",
+    "jyk": "Kayole",
+    "dept": "MEN",
+    "cell": "MEN-C2",
+    "role": "GYJN"
+  },
+  {
+    "scjId": "KC-KAY-MEN-C2-S1",
+    "name": "Kayole MEN C2 Saint 1",
+    "phone": "+254723100031",
+    "jyk": "Kayole",
+    "dept": "MEN",
+    "cell": "MEN-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-MEN-C2-S2",
+    "name": "Kayole MEN C2 Saint 2",
+    "phone": "+254723100032",
+    "jyk": "Kayole",
+    "dept": "MEN",
+    "cell": "MEN-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-MEN-C2-S3",
+    "name": "Kayole MEN C2 Saint 3",
+    "phone": "+254723100033",
+    "jyk": "Kayole",
+    "dept": "MEN",
+    "cell": "MEN-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-MEN-C2-S4",
+    "name": "Kayole MEN C2 Saint 4",
+    "phone": "+254723100034",
+    "jyk": "Kayole",
+    "dept": "MEN",
+    "cell": "MEN-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-MEN-C2-S5",
+    "name": "Kayole MEN C2 Saint 5",
+    "phone": "+254723100035",
+    "jyk": "Kayole",
+    "dept": "MEN",
+    "cell": "MEN-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-MEN-C2-S6",
+    "name": "Kayole MEN C2 Saint 6",
+    "phone": "+254723100036",
+    "jyk": "Kayole",
+    "dept": "MEN",
+    "cell": "MEN-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-MEN-C2-S7",
+    "name": "Kayole MEN C2 Saint 7",
+    "phone": "+254723100037",
+    "jyk": "Kayole",
+    "dept": "MEN",
+    "cell": "MEN-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-MEN-C2-S8",
+    "name": "Kayole MEN C2 Saint 8",
+    "phone": "+254723100038",
+    "jyk": "Kayole",
+    "dept": "MEN",
+    "cell": "MEN-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-MEN-C3-G",
+    "name": "GYJN Kayole MEN Cell3",
+    "phone": "+254723100041",
+    "jyk": "Kayole",
+    "dept": "MEN",
+    "cell": "MEN-C3",
+    "role": "GYJN"
+  },
+  {
+    "scjId": "KC-KAY-MEN-C3-S1",
+    "name": "Kayole MEN C3 Saint 1",
+    "phone": "+254723100051",
+    "jyk": "Kayole",
+    "dept": "MEN",
+    "cell": "MEN-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-MEN-C3-S2",
+    "name": "Kayole MEN C3 Saint 2",
+    "phone": "+254723100052",
+    "jyk": "Kayole",
+    "dept": "MEN",
+    "cell": "MEN-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-MEN-C3-S3",
+    "name": "Kayole MEN C3 Saint 3",
+    "phone": "+254723100053",
+    "jyk": "Kayole",
+    "dept": "MEN",
+    "cell": "MEN-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-MEN-C3-S4",
+    "name": "Kayole MEN C3 Saint 4",
+    "phone": "+254723100054",
+    "jyk": "Kayole",
+    "dept": "MEN",
+    "cell": "MEN-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-MEN-C3-S5",
+    "name": "Kayole MEN C3 Saint 5",
+    "phone": "+254723100055",
+    "jyk": "Kayole",
+    "dept": "MEN",
+    "cell": "MEN-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-MEN-C3-S6",
+    "name": "Kayole MEN C3 Saint 6",
+    "phone": "+254723100056",
+    "jyk": "Kayole",
+    "dept": "MEN",
+    "cell": "MEN-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-MEN-C3-S7",
+    "name": "Kayole MEN C3 Saint 7",
+    "phone": "+254723100057",
+    "jyk": "Kayole",
+    "dept": "MEN",
+    "cell": "MEN-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-MEN-C3-S8",
+    "name": "Kayole MEN C3 Saint 8",
+    "phone": "+254723100058",
+    "jyk": "Kayole",
+    "dept": "MEN",
+    "cell": "MEN-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-WOM-C1-G",
+    "name": "GYJN Kayole WOMEN Cell1",
+    "phone": "+254723110001",
+    "jyk": "Kayole",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C1",
+    "role": "GYJN"
+  },
+  {
+    "scjId": "KC-KAY-WOM-C1-S1",
+    "name": "Kayole WOMEN C1 Saint 1",
+    "phone": "+254723110011",
+    "jyk": "Kayole",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-WOM-C1-S2",
+    "name": "Kayole WOMEN C1 Saint 2",
+    "phone": "+254723110012",
+    "jyk": "Kayole",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-WOM-C1-S3",
+    "name": "Kayole WOMEN C1 Saint 3",
+    "phone": "+254723110013",
+    "jyk": "Kayole",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-WOM-C1-S4",
+    "name": "Kayole WOMEN C1 Saint 4",
+    "phone": "+254723110014",
+    "jyk": "Kayole",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-WOM-C1-S5",
+    "name": "Kayole WOMEN C1 Saint 5",
+    "phone": "+254723110015",
+    "jyk": "Kayole",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-WOM-C1-S6",
+    "name": "Kayole WOMEN C1 Saint 6",
+    "phone": "+254723110016",
+    "jyk": "Kayole",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-WOM-C1-S7",
+    "name": "Kayole WOMEN C1 Saint 7",
+    "phone": "+254723110017",
+    "jyk": "Kayole",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-WOM-C1-S8",
+    "name": "Kayole WOMEN C1 Saint 8",
+    "phone": "+254723110018",
+    "jyk": "Kayole",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-WOM-C2-G",
+    "name": "GYJN Kayole WOMEN Cell2",
+    "phone": "+254723110021",
+    "jyk": "Kayole",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C2",
+    "role": "GYJN"
+  },
+  {
+    "scjId": "KC-KAY-WOM-C2-S1",
+    "name": "Kayole WOMEN C2 Saint 1",
+    "phone": "+254723110031",
+    "jyk": "Kayole",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-WOM-C2-S2",
+    "name": "Kayole WOMEN C2 Saint 2",
+    "phone": "+254723110032",
+    "jyk": "Kayole",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-WOM-C2-S3",
+    "name": "Kayole WOMEN C2 Saint 3",
+    "phone": "+254723110033",
+    "jyk": "Kayole",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-WOM-C2-S4",
+    "name": "Kayole WOMEN C2 Saint 4",
+    "phone": "+254723110034",
+    "jyk": "Kayole",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-WOM-C2-S5",
+    "name": "Kayole WOMEN C2 Saint 5",
+    "phone": "+254723110035",
+    "jyk": "Kayole",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-WOM-C2-S6",
+    "name": "Kayole WOMEN C2 Saint 6",
+    "phone": "+254723110036",
+    "jyk": "Kayole",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-WOM-C2-S7",
+    "name": "Kayole WOMEN C2 Saint 7",
+    "phone": "+254723110037",
+    "jyk": "Kayole",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-WOM-C2-S8",
+    "name": "Kayole WOMEN C2 Saint 8",
+    "phone": "+254723110038",
+    "jyk": "Kayole",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-WOM-C3-G",
+    "name": "GYJN Kayole WOMEN Cell3",
+    "phone": "+254723110041",
+    "jyk": "Kayole",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C3",
+    "role": "GYJN"
+  },
+  {
+    "scjId": "KC-KAY-WOM-C3-S1",
+    "name": "Kayole WOMEN C3 Saint 1",
+    "phone": "+254723110051",
+    "jyk": "Kayole",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-WOM-C3-S2",
+    "name": "Kayole WOMEN C3 Saint 2",
+    "phone": "+254723110052",
+    "jyk": "Kayole",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-WOM-C3-S3",
+    "name": "Kayole WOMEN C3 Saint 3",
+    "phone": "+254723110053",
+    "jyk": "Kayole",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-WOM-C3-S4",
+    "name": "Kayole WOMEN C3 Saint 4",
+    "phone": "+254723110054",
+    "jyk": "Kayole",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-WOM-C3-S5",
+    "name": "Kayole WOMEN C3 Saint 5",
+    "phone": "+254723110055",
+    "jyk": "Kayole",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-WOM-C3-S6",
+    "name": "Kayole WOMEN C3 Saint 6",
+    "phone": "+254723110056",
+    "jyk": "Kayole",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-WOM-C3-S7",
+    "name": "Kayole WOMEN C3 Saint 7",
+    "phone": "+254723110057",
+    "jyk": "Kayole",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-WOM-C3-S8",
+    "name": "Kayole WOMEN C3 Saint 8",
+    "phone": "+254723110058",
+    "jyk": "Kayole",
+    "dept": "WOMEN",
+    "cell": "WOMEN-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-YA-C1-G",
+    "name": "GYJN Kayole YA Cell1",
+    "phone": "+254723120001",
+    "jyk": "Kayole",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C1",
+    "role": "GYJN"
+  },
+  {
+    "scjId": "KC-KAY-YA-C1-S1",
+    "name": "Kayole YA C1 Saint 1",
+    "phone": "+254723120011",
+    "jyk": "Kayole",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-YA-C1-S2",
+    "name": "Kayole YA C1 Saint 2",
+    "phone": "+254723120012",
+    "jyk": "Kayole",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-YA-C1-S3",
+    "name": "Kayole YA C1 Saint 3",
+    "phone": "+254723120013",
+    "jyk": "Kayole",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-YA-C1-S4",
+    "name": "Kayole YA C1 Saint 4",
+    "phone": "+254723120014",
+    "jyk": "Kayole",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-YA-C1-S5",
+    "name": "Kayole YA C1 Saint 5",
+    "phone": "+254723120015",
+    "jyk": "Kayole",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-YA-C1-S6",
+    "name": "Kayole YA C1 Saint 6",
+    "phone": "+254723120016",
+    "jyk": "Kayole",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-YA-C1-S7",
+    "name": "Kayole YA C1 Saint 7",
+    "phone": "+254723120017",
+    "jyk": "Kayole",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-YA-C1-S8",
+    "name": "Kayole YA C1 Saint 8",
+    "phone": "+254723120018",
+    "jyk": "Kayole",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-YA-C2-G",
+    "name": "GYJN Kayole YA Cell2",
+    "phone": "+254723120021",
+    "jyk": "Kayole",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C2",
+    "role": "GYJN"
+  },
+  {
+    "scjId": "KC-KAY-YA-C2-S1",
+    "name": "Kayole YA C2 Saint 1",
+    "phone": "+254723120031",
+    "jyk": "Kayole",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-YA-C2-S2",
+    "name": "Kayole YA C2 Saint 2",
+    "phone": "+254723120032",
+    "jyk": "Kayole",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-YA-C2-S3",
+    "name": "Kayole YA C2 Saint 3",
+    "phone": "+254723120033",
+    "jyk": "Kayole",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-YA-C2-S4",
+    "name": "Kayole YA C2 Saint 4",
+    "phone": "+254723120034",
+    "jyk": "Kayole",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-YA-C2-S5",
+    "name": "Kayole YA C2 Saint 5",
+    "phone": "+254723120035",
+    "jyk": "Kayole",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-YA-C2-S6",
+    "name": "Kayole YA C2 Saint 6",
+    "phone": "+254723120036",
+    "jyk": "Kayole",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-YA-C2-S7",
+    "name": "Kayole YA C2 Saint 7",
+    "phone": "+254723120037",
+    "jyk": "Kayole",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-YA-C2-S8",
+    "name": "Kayole YA C2 Saint 8",
+    "phone": "+254723120038",
+    "jyk": "Kayole",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C2",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-YA-C3-G",
+    "name": "GYJN Kayole YA Cell3",
+    "phone": "+254723120041",
+    "jyk": "Kayole",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C3",
+    "role": "GYJN"
+  },
+  {
+    "scjId": "KC-KAY-YA-C3-S1",
+    "name": "Kayole YA C3 Saint 1",
+    "phone": "+254723120051",
+    "jyk": "Kayole",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-YA-C3-S2",
+    "name": "Kayole YA C3 Saint 2",
+    "phone": "+254723120052",
+    "jyk": "Kayole",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-YA-C3-S3",
+    "name": "Kayole YA C3 Saint 3",
+    "phone": "+254723120053",
+    "jyk": "Kayole",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-YA-C3-S4",
+    "name": "Kayole YA C3 Saint 4",
+    "phone": "+254723120054",
+    "jyk": "Kayole",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-YA-C3-S5",
+    "name": "Kayole YA C3 Saint 5",
+    "phone": "+254723120055",
+    "jyk": "Kayole",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-YA-C3-S6",
+    "name": "Kayole YA C3 Saint 6",
+    "phone": "+254723120056",
+    "jyk": "Kayole",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-YA-C3-S7",
+    "name": "Kayole YA C3 Saint 7",
+    "phone": "+254723120057",
+    "jyk": "Kayole",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "KC-KAY-YA-C3-S8",
+    "name": "Kayole YA C3 Saint 8",
+    "phone": "+254723120058",
+    "jyk": "Kayole",
+    "dept": "YOUNG ADULTS",
+    "cell": "YA-C3",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "kc2024-1002",
+    "name": "mike aminga",
+    "phone": "+254789786756",
+    "jyk": "",
+    "dept": "",
+    "cell": "",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "0009-0005",
+    "name": "Dennis Hughes",
+    "phone": "0789786567",
+    "jyk": "Kibera",
+    "dept": "Men",
+    "cell": "cell 1",
+    "role": "SAINT"
+  },
+  {
+    "scjId": "0009-006",
+    "name": "Daniel Billy",
+    "phone": "0789657832",
+    "jyk": "Kibera",
+    "dept": "Men",
+    "cell": "Cell 1",
+    "role": "SAINT"
+  }
+]

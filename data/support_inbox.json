@@ -1,0 +1,42 @@
+[
+  {
+    "id": "sup_1761410827676",
+    "type": "forgot_password",
+    "name": "Denzel Nemsh",
+    "scjId": "0009-369",
+    "phone": "0789654543",
+    "jyk": "Kibera",
+    "dept": "Men",
+    "cell": "cell 1",
+    "details": "",
+    "status": "Pending",
+    "ts": "2025-10-25T16:47:07.677Z",
+    "resolvedAt": "2025-10-27T15:00:20.084Z"
+  },
+  {
+    "id": "sup_1761408787908",
+    "type": "create_account",
+    "name": "Daniel Billy",
+    "scjId": "0009-006",
+    "phone": "0789657832",
+    "jyk": "Kibera",
+    "dept": "Men",
+    "cell": "Cell 1",
+    "details": "",
+    "status": "Open",
+    "ts": "2025-10-25T16:13:07.908Z"
+  },
+  {
+    "id": "sup_1761406351156",
+    "type": "forgot_password",
+    "name": "Dennis Hughes",
+    "scjId": "0009-0005",
+    "phone": "0789786567",
+    "jyk": "Kibera",
+    "dept": "Men",
+    "cell": "cell 1",
+    "details": "",
+    "status": "Open",
+    "ts": "2025-10-25T15:32:31.156Z"
+  }
+]

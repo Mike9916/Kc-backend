@@ -1,0 +1,92 @@
+[
+  {
+    "id": "off_1760897979982",
+    "scjId": "KC2024-2001",
+    "scjDate": "2025-10-19",
+    "channel": "cash",
+    "amount": 0,
+    "createdAt": "2025-10-19T18:19:39.982Z"
+  },
+  {
+    "id": "off_1760899204160",
+    "scjId": "KC2024-1001",
+    "scjDate": "2025-10-19",
+    "channel": "cash",
+    "amount": 0,
+    "createdAt": "2025-10-19T18:40:04.160Z"
+  },
+  {
+    "id": "off_1760945205556",
+    "scjId": "KC2024-2001",
+    "scjDate": "2025-10-20",
+    "channel": "cash",
+    "amount": 0,
+    "createdAt": "2025-10-20T07:26:45.556Z"
+  },
+  {
+    "id": "off_1760945245770",
+    "scjId": "KC2024-1001",
+    "scjDate": "2025-10-20",
+    "channel": "cash",
+    "amount": 0,
+    "createdAt": "2025-10-20T07:27:25.770Z"
+  },
+  {
+    "id": "off_1761297561984",
+    "scjId": "KC-KIB-MEN-C1-S1",
+    "scjDate": "2025-10-24",
+    "channel": "cash",
+    "amount": 0,
+    "createdAt": "2025-10-24T09:19:21.984Z"
+  },
+  {
+    "id": "off_1761304324644",
+    "scjId": "KC-KIB-MEN-C1-S2",
+    "scjDate": "2025-10-24",
+    "channel": "cash",
+    "amount": 0,
+    "createdAt": "2025-10-24T11:12:04.644Z"
+  },
+  {
+    "id": "offering_1761304534191",
+    "scjId": "KC-KIB-MEN-C1-S4",
+    "scjDate": "2025-10-24",
+    "createdAt": "2025-10-24T11:15:34.191Z",
+    "notOffered": true,
+    "channel": null,
+    "amount": 0
+  },
+  {
+    "id": "offering_1761305951724",
+    "scjId": "KC-KIB-MEN-C1-S6",
+    "scjDate": "2025-10-24",
+    "createdAt": "2025-10-24T11:39:11.724Z",
+    "notOffered": true,
+    "channel": null,
+    "amount": 0
+  },
+  {
+    "id": "off_1761337906613",
+    "scjId": "KC-KIB-MEN-C1-G",
+    "scjDate": "2025-10-24",
+    "channel": "cash",
+    "amount": 0,
+    "createdAt": "2025-10-24T20:31:46.613Z"
+  },
+  {
+    "id": "off_1761483405714",
+    "scjId": "KC-000101",
+    "scjDate": "2025-10-26",
+    "channel": "mpesa",
+    "amount": 566,
+    "createdAt": "2025-10-26T12:56:45.714Z"
+  },
+  {
+    "id": "off_1761571052771",
+    "scjId": "KC-KIB-MEN-C1-S1",
+    "scjDate": "2025-10-27",
+    "channel": "cash",
+    "amount": 100,
+    "createdAt": "2025-10-27T13:17:32.771Z"
+  }
+]
