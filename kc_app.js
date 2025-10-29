@@ -20,7 +20,6 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const rateLimit = require("express-rate-limit");
 const multer = require("multer");
-require('dotenv').config();
 
 const { Pool } = require('pg');
 
