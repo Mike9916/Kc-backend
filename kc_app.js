@@ -20,6 +20,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const rateLimit = require("express-rate-limit");
 const multer = require("multer");
+require('dotenv').config();
 
 const { Pool } = require('pg');
 
@@ -495,29 +496,33 @@ function normAnswer(a) { return String(a||"").trim().toLowerCase(); }
 
 // ---- CORS (fixed) ----
 
-// ---- CORS (final fixed block) ----
-const FRONTEND_HOST = "https://kc-frontend-9916.onrender.com"; // your deployed frontend URL
-
-function isAllowedOrigin(origin) {
-  if (!origin) return true; // allow non-browser clients (e.g. curl, Postman)
-
-  const o = origin.toLowerCase();
-
-  // ✅ Allow any localhost (with or without port) for mobile/Capacitor
-  if (o.startsWith("http://localhost")) return true;
-
-  // ✅ Allow Capacitor native scheme (Android/iOS)
-  if (o === "capacitor://localhost") return true;
-
-  // ✅ Allow your deployed frontend domain
-  if (o === FRONTEND_HOST.toLowerCase()) return true;
-
-  return false; // block everything else
-}
+// ---- Minimal, Render-safe CORS ----
+const FRONTEND_HOST = "https://kc-frontend-9916.onrender.com";
+const RENDER_HOST = (process.env.RENDER_EXTERNAL_URL || "")
+  .replace(/\/+$/, "")
+  .toLowerCase();
 
 const corsOpts = {
-  origin: (origin, cb) =>
-    isAllowedOrigin(origin) ? cb(null, true) : cb(new Error("CORS not allowed: " + origin)),
+  origin: function (origin, cb) {
+    // allow non-browser / same-origin
+    if (!origin) return cb(null, true);
+
+    const o = origin.toLowerCase();
+
+    // Local dev + Capacitor WebView
+    if (o.startsWith("http://localhost")) return cb(null, true);
+    if (o.startsWith("https://localhost")) return cb(null, true);
+    if (o === "capacitor://localhost") return cb(null, true);
+
+    // Your deployed frontend (Render)
+    if (o === FRONTEND_HOST.toLowerCase()) return cb(null, true);
+
+    // This backend’s own public host (Render)
+    if (RENDER_HOST && o === RENDER_HOST) return cb(null, true);
+
+    // otherwise block
+    return cb(new Error("CORS not allowed: " + origin));
+  },
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   exposedHeaders: ["Content-Disposition"],
@@ -526,12 +531,12 @@ const corsOpts = {
 
 app.use(cors(corsOpts));
 
-// Handle preflight requests (Express 5 safe)
-app.use((req, res, next) => {
-  if (req.method === 'OPTIONS') {
-    res.set('Access-Control-Allow-Origin', req.headers.origin || '*');
-    res.set('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
-    res.set('Access-Control-Allow-Headers', 'Content-Type,Authorization');
+// Fast-path preflight without using app.options('*')
+app.use(function (req, res, next) {
+  if (req.method === "OPTIONS") {
+    res.setHeader("Access-Control-Allow-Origin", req.headers.origin || "*");
+    res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type,Authorization");
     return res.sendStatus(204);
   }
   next();
@@ -548,7 +553,9 @@ app.use((err, req, res, next) => {
 
 // make sure preflights are handled
 app.use(express.json());
-app.use(helmet());
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: "cross-origin" }
+}));
 app.use(express.urlencoded({ extended: true }));
 
 // Rate limiting (general)
@@ -590,17 +597,28 @@ const storage = multer.diskStorage({
 const upload = multer({ storage, limits: { fileSize: 1024 * 1024 * 1024 } }); // 1GB cap
 
 /* ------------------------------- AUTH ------------------------------- */
-
+function dbg(...a){ console.log('[LOGINDBG]', ...a); }
 // JSON login endpoint (frontend uses this)
 app.post("/api/auth/login-json", (req, res) => {
   const { scjId, password } = req.body || {};
   const accounts = read("accounts.json", []);
   const whitelist = read("whitelist.json", []);
+
   const acc = accounts.find((a) => a.scjId === scjId);
-  const profile = whitelist.find((w) => w.scjId === scjId);
-  if (!acc || !profile) return res.status(401).json({ error: "Invalid credentials" });
-  if (!bcrypt.compareSync(String(password), acc.passwordHash))
+  if (!acc) {
+    dbg('no account for', JSON.stringify(scjId));
     return res.status(401).json({ error: "Invalid credentials" });
+  }
+  const profile = whitelist.find((w) => w.scjId === scjId);
+  if (!profile) {
+    dbg('no whitelist profile for', JSON.stringify(scjId));
+    return res.status(401).json({ error: "Invalid credentials" });
+  }
+  if (!bcrypt.compareSync(String(password), acc.passwordHash)) {
+    dbg('bad password for', JSON.stringify(scjId));
+    return res.status(401).json({ error: "Invalid credentials" });
+  }
+
   const token = tokenFor(acc, profile);
   audit(scjId, "LOGIN", "account", acc.id);
   res.json({ token, profile });
@@ -1985,6 +2003,34 @@ app.get("/api/admin/audit", auth, (req, res) => {
   res.json(log.slice(0, limit));
 });
 
+// TEMP ADMIN RESET: POST /api/admin/force-reset
+// body: { scjId: "0009-006", newPassword: "0000" }
+app.post("/api/admin/force-reset", (req, res) => {
+  try {
+    const { scjId, newPassword = "0000" } = req.body || {};
+    if (!scjId) return res.status(400).json({ error: "scjId required" });
+
+    const accounts = read("accounts.json", []);
+    const acc = accounts.find(a => a.scjId === scjId);
+    if (!acc) return res.status(404).json({ error: "account not found" });
+
+    acc.passwordHash = bcrypt.hashSync(String(newPassword), 10);
+    write("accounts.json", accounts);
+
+    // (optional) ensure whitelist has this id too
+    const wl = read("whitelist.json", []);
+    if (!wl.find(w => w.scjId === scjId)) {
+      return res.status(409).json({ 
+        ok: false, 
+        warn: "Password reset, but whitelist entry missing for this scjId." 
+      });
+    }
+
+    return res.json({ ok: true });
+  } catch (e) {
+    return res.status(500).json({ error: "server error", details: e.message });
+  }
+});
 /* -------------------- Meta lists for UI -------------------- */
 app.get("/api/meta/jyks", (req, res) => {
   const wl = read("whitelist.json", []);
