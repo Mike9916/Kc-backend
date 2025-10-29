@@ -22,23 +22,32 @@ const rateLimit = require("express-rate-limit");
 const multer = require("multer");
 
 const { Pool } = require('pg');
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false }
-});
 
-(async () => {
-  await pool.query(`
-    CREATE TABLE IF NOT EXISTS reports (
-      id SERIAL PRIMARY KEY,
-      scj_id TEXT NOT NULL,
-      type TEXT NOT NULL,
-      payload JSONB NOT NULL,
-      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
-    )
-  `);
-  console.log("Reports table ready");
-})();
+let pool = null;
+if (process.env.DATABASE_URL) {
+  pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: { rejectUnauthorized: false },
+  });
+  (async () => {
+    try {
+      await pool.query(`
+        CREATE TABLE IF NOT EXISTS reports (
+          id SERIAL PRIMARY KEY,
+          scj_id TEXT NOT NULL,
+          type TEXT NOT NULL,
+          payload JSONB NOT NULL,
+          created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+        )
+      `);
+      console.log('Reports table ready');
+    } catch (e) {
+      console.error('DB init failed:', e);
+    }
+  })();
+} else {
+  console.warn('DATABASE_URL not set — DB features are disabled locally.');
+}
 const app = express();
 
 /* -------------------------- DATA & HELPERS -------------------------- */
@@ -2017,6 +2026,22 @@ app.get('/api/reports', async (req, res) => {
     console.error("Fetch error:", e);
     res.status(500).json({ ok: false, error: "Failed to fetch reports" });
   }
+});
+
+app.post('/api/reports', async (req, res) => {
+  if (!pool) return res.status(503).json({ error: 'DB not configured' });
+  const { scjId, type, payload } = req.body || {};
+  await pool.query(
+    'INSERT INTO reports (scj_id, type, payload) VALUES ($1,$2,$3)',
+    [scjId, type, payload || {}]
+  );
+  res.json({ ok: true });
+});
+
+app.get('/api/reports', async (req, res) => {
+  if (!pool) return res.status(503).json({ error: 'DB not configured' });
+  const { rows } = await pool.query('SELECT * FROM reports ORDER BY created_at DESC LIMIT 200');
+  res.json(rows);
 });
 
 /* -------------------------------- SERVER ------------------------------ */
