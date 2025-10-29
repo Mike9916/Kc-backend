@@ -493,31 +493,46 @@ function tokenFor(account, profile) {
 function normAnswer(a) { return String(a||"").trim().toLowerCase(); }
 /* ----------------------------- MIDDLEWARE ----------------------------- */
 
-// ---- CORS (fixed) ----
 
-// ---- Minimal, Render-safe CORS ----
+// Your current deployed frontend (keep this so it works even if env var is empty)
 const FRONTEND_HOST = "https://kc-frontend-9916.onrender.com";
-const RENDER_HOST = (process.env.RENDER_EXTERNAL_URL || "")
-  .replace(/\/+$/, "")
-  .toLowerCase();
+
+// Render sets this to your backend’s public URL. Normalize & strip trailing slash.
+const RENDER_HOST = (process.env.RENDER_EXTERNAL_URL || "").replace(/\/+$/, "").toLowerCase();
+
+// Optional: comma-separated list of extra origins from env (good for future frontends)
+const EXTRA_ORIGINS = (process.env.ALLOWED_ORIGINS || "")
+  .split(",")
+  .map(s => s.trim())
+  .filter(Boolean)
+  .map(s => s.replace(/\/+$/, "").toLowerCase());
+
+// Helper to normalize an origin string safely
+function norm(o) {
+  if (!o) return "";
+  return o.toString().trim().replace(/\/+$/, "").toLowerCase();
+}
 
 const corsOpts = {
   origin: function (origin, cb) {
-    // allow non-browser / same-origin
+    // allow non-browser / same-origin calls
     if (!origin) return cb(null, true);
 
-    const o = origin.toLowerCase();
+    const o = norm(origin);
 
     // Local dev + Capacitor WebView
     if (o.startsWith("http://localhost")) return cb(null, true);
     if (o.startsWith("https://localhost")) return cb(null, true);
     if (o === "capacitor://localhost") return cb(null, true);
 
-    // Your deployed frontend (Render)
-    if (o === FRONTEND_HOST.toLowerCase()) return cb(null, true);
+    // Your deployed frontend (hard-coded safety net)
+    if (o === norm(FRONTEND_HOST)) return cb(null, true);
 
     // This backend’s own public host (Render)
     if (RENDER_HOST && o === RENDER_HOST) return cb(null, true);
+
+    // Any extra allowed origins from env
+    if (EXTRA_ORIGINS.includes(o)) return cb(null, true);
 
     // otherwise block
     return cb(new Error("CORS not allowed: " + origin));
@@ -531,7 +546,7 @@ const corsOpts = {
 app.use(cors(corsOpts));
 
 // Fast-path preflight without using app.options('*')
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
   if (req.method === "OPTIONS") {
     res.setHeader("Access-Control-Allow-Origin", req.headers.origin || "*");
     res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
@@ -540,7 +555,6 @@ app.use(function (req, res, next) {
   }
   next();
 });
-
 // Optional: nicer JSON error instead of crashing
 app.use((err, req, res, next) => {
   if (String(err?.message || "").startsWith("CORS not allowed:")) {
