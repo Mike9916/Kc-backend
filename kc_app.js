@@ -21,6 +21,24 @@ const jwt = require("jsonwebtoken");
 const rateLimit = require("express-rate-limit");
 const multer = require("multer");
 
+const { Pool } = require('pg');
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false }
+});
+
+(async () => {
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS reports (
+      id SERIAL PRIMARY KEY,
+      scj_id TEXT NOT NULL,
+      type TEXT NOT NULL,
+      payload JSONB NOT NULL,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    )
+  `);
+  console.log("Reports table ready");
+})();
 const app = express();
 
 /* -------------------------- DATA & HELPERS -------------------------- */
@@ -1972,6 +1990,33 @@ app.get("/api/meta/jyks", (req, res) => {
 app.get("/api/meta/departments", (req, res) => {
   // Your requested fixed list:
   res.json({ items: ["MEN", "YOUNG ADULTS", "WOMEN"] });
+});
+// Save a report
+app.post('/api/reports', async (req, res) => {
+  try {
+    const { scjId, type, payload } = req.body || {};
+    await pool.query(
+      'INSERT INTO reports (scj_id, type, payload) VALUES ($1, $2, $3)',
+      [scjId, type, payload || {}]
+    );
+    res.json({ ok: true });
+  } catch (e) {
+    console.error("Insert error:", e);
+    res.status(500).json({ ok: false, error: "Failed to save report" });
+  }
+});
+
+// List reports
+app.get('/api/reports', async (req, res) => {
+  try {
+    const { rows } = await pool.query(
+      'SELECT * FROM reports ORDER BY created_at DESC LIMIT 200'
+    );
+    res.json(rows);
+  } catch (e) {
+    console.error("Fetch error:", e);
+    res.status(500).json({ ok: false, error: "Failed to fetch reports" });
+  }
 });
 
 /* -------------------------------- SERVER ------------------------------ */
