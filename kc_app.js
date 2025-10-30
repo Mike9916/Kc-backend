@@ -31,21 +31,117 @@ if (process.env.DATABASE_URL) {
   });
 
   // ✅ No top-level await; just call an async function
-  async function initDb() {
-    try {
-      await pool.query(`CREATE TABLE IF NOT EXISTS reports (...)`);
-      await pool.query(`CREATE TABLE IF NOT EXISTS accounts (...)`);
-      await pool.query(`CREATE TABLE IF NOT EXISTS whitelist (...)`);
-      await pool.query(`CREATE TABLE IF NOT EXISTS media (...)`);
-      await pool.query(`CREATE TABLE IF NOT EXISTS support_inbox (...)`);
-      await pool.query(`CREATE TABLE IF NOT EXISTS audit (...)`);
-      await pool.query(`CREATE TABLE IF NOT EXISTS forwards (...)`);
-      await pool.query(`CREATE TABLE IF NOT EXISTS flags (...)`);
-      console.log("DB tables ready");
-    } catch (e) {
-      console.error("DB init failed:", e);
-    }
+  // ---- DB init (clean SQL, no inline comments) ----
+async function initDb() {
+  try {
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS reports (
+        id SERIAL PRIMARY KEY,
+        scj_id TEXT NOT NULL,
+        type TEXT NOT NULL,
+        payload JSONB NOT NULL,
+        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      )
+    `);
+
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS accounts (
+        id TEXT PRIMARY KEY,
+        scj_id TEXT UNIQUE NOT NULL,
+        password_hash TEXT,
+        password_reset_at TIMESTAMPTZ
+      )
+    `);
+
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS whitelist (
+        scj_id TEXT PRIMARY KEY,
+        name  TEXT,
+        phone TEXT,
+        jyk   TEXT,
+        dept  TEXT,
+        cell  TEXT,
+        role  TEXT
+      )
+    `);
+
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS media (
+        id TEXT PRIMARY KEY,
+        scj_id TEXT,
+        name   TEXT,
+        jyk    TEXT,
+        type   TEXT,
+        url    TEXT,
+        title  TEXT,
+        caption TEXT,
+        size_bytes INTEGER,
+        ts TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      )
+    `);
+
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS support_inbox (
+        id TEXT PRIMARY KEY,
+        type TEXT,
+        name TEXT,
+        scj_id TEXT,
+        phone TEXT,
+        jyk TEXT,
+        dept TEXT,
+        cell TEXT,
+        details TEXT,
+        status TEXT,
+        ts TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+        resolved_at TIMESTAMPTZ
+      )
+    `);
+
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS audit (
+        ts TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+        actor_scj_id TEXT,
+        action TEXT,
+        entity TEXT,
+        entity_id TEXT,
+        meta JSONB
+      )
+    `);
+
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS forwards (
+        key TEXT PRIMARY KEY,
+        date TEXT,
+        type TEXT,
+        by_scj_id TEXT,
+        forward_attempts INT DEFAULT 0,
+        needs_verify BOOLEAN DEFAULT false,
+        status TEXT,
+        returns INT DEFAULT 0,
+        note TEXT,
+        updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      )
+    `);
+
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS flags (
+        name TEXT PRIMARY KEY,
+        value JSONB
+      )
+    `);
+
+    /* Optional performance indexes */
+    await pool.query(`CREATE INDEX IF NOT EXISTS idx_reports_type ON reports (type)`);
+    await pool.query(`CREATE INDEX IF NOT EXISTS idx_reports_type_date ON reports (type, (payload->>'scjDate'))`);
+    await pool.query(`CREATE INDEX IF NOT EXISTS idx_reports_scj ON reports (scj_id)`);
+    await pool.query(`CREATE INDEX IF NOT EXISTS idx_forwards_key ON forwards (key)`);
+    await pool.query(`CREATE INDEX IF NOT EXISTS idx_support_ts ON support_inbox (ts DESC)`);
+
+    console.log("DB tables ready");
+  } catch (e) {
+    console.error("DB init failed:", e);
   }
+}
   initDb(); // fire-and-forget; no top-level await
 } else {
   console.warn("DATABASE_URL not set — DB features are disabled locally.");
