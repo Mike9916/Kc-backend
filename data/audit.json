@@ -1,5 +1,23 @@
 [
   {
+    "ts": "2025-10-29T15:21:27.937Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "SUPPORT_OVERRIDE",
+    "entity": "whitelist",
+    "entityId": "KC-KIB-MEN-C1-S2",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-29T15:21:10.289Z",
+    "actorScjId": "KC-KIB-MEN-C1-S2",
+    "action": "SUPPORT_CREATE",
+    "entity": "support",
+    "entityId": "sup_1761751270283",
+    "meta": {
+      "type": "forgot_password"
+    }
+  },
+  {
     "ts": "2025-10-27T15:06:26.234Z",
     "actorScjId": "KC-KIB-MEN-C1-S1",
     "action": "MEDIA_UPLOAD",

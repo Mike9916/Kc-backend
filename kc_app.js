@@ -10,7 +10,7 @@
  *  - Admin console basics: whitelist upsert, set role, support inbox/override, feature flags, audit
  *  - Static serving of uploaded files under /uploads
  */
-
+require('dotenv').config();
 const fs = require("fs");
 const path = require("path");
 const express = require("express");
@@ -40,6 +40,96 @@ if (process.env.DATABASE_URL) {
           created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
         )
       `);
+      // Accounts table (DB-first) — id is your existing acc_*, scj_id unique
+await pool.query(`
+  CREATE TABLE IF NOT EXISTS accounts (
+    id TEXT PRIMARY KEY,
+    scj_id TEXT UNIQUE NOT NULL,
+    password_hash TEXT,
+    password_reset_at TIMESTAMPTZ
+  )
+`);
+
+// Whitelist table (DB-first)
+await pool.query(`
+  CREATE TABLE IF NOT EXISTS whitelist (
+    scj_id TEXT PRIMARY KEY,
+    name  TEXT,
+    phone TEXT,
+    jyk   TEXT,
+    dept  TEXT,
+    cell  TEXT,
+    role  TEXT
+  )
+`);
+// Media table (stores uploaded/linked items)
+await pool.query(`
+  CREATE TABLE IF NOT EXISTS media (
+    id TEXT PRIMARY KEY,
+    scj_id TEXT,
+    name   TEXT,
+    jyk    TEXT,
+    type   TEXT,            -- "image" | "video"
+    url    TEXT,            -- "uploads/..." or external URL
+    title  TEXT,
+    caption TEXT,
+    size_bytes INTEGER,
+    ts TIMESTAMPTZ NOT NULL DEFAULT NOW()
+  )
+`);
+
+// Support inbox table
+await pool.query(`
+  CREATE TABLE IF NOT EXISTS support_inbox (
+    id TEXT PRIMARY KEY,
+    type TEXT,              -- "forgot_password" | "create_account" | "other"
+    name TEXT,
+    scj_id TEXT,
+    phone TEXT,
+    jyk TEXT,
+    dept TEXT,
+    cell TEXT,
+    details TEXT,
+    status TEXT,            -- "Open" | "Pending" | "Resolved"
+    ts TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    resolved_at TIMESTAMPTZ
+  )
+`);
+// Audit log (append-only)
+await pool.query(`
+  CREATE TABLE IF NOT EXISTS audit (
+    ts TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    actor_scj_id TEXT,
+    action TEXT,
+    entity TEXT,
+    entity_id TEXT,
+    meta JSONB
+  )
+`);
+
+// Forwards state (leaders workflow)
+await pool.query(`
+  CREATE TABLE IF NOT EXISTS forwards (
+    key TEXT PRIMARY KEY,
+    date TEXT,
+    type TEXT,
+    by_scj_id TEXT,
+    forward_attempts INT DEFAULT 0,
+    needs_verify BOOLEAN DEFAULT false,
+    status TEXT,           -- e.g., "Pending","Returned","Verified"
+    returns INT DEFAULT 0,
+    note TEXT,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+  )
+`);
+
+// Feature flags (optional JSON values)
+await pool.query(`
+  CREATE TABLE IF NOT EXISTS flags (
+    name TEXT PRIMARY KEY,
+    value JSONB
+  )
+`);
       console.log('Reports table ready');
     } catch (e) {
       console.error('DB init failed:', e);
@@ -87,317 +177,6 @@ function pruneAnnouncements() {
 }
 
 
-// ================================
-//  SAINTS — Announcements Feed (public read)
-// ================================
-app.get("/api/culture/announcements", (req, res) => {
-  const items = pruneAnnouncements();
-  // Return only published (no drafts) for saints
-  res.json({ items: items.filter(a => a.status === "Published") });
-});
-
-// ================================
-//  CULTURE — Manage Announcements (restricted)
-//  Roles allowed: CULTURE / ADMIN
-// ================================
-function requireCulture(req, res) {
-  const role = String(req.user?.role || "").toUpperCase();
-  if (!["CULTURE", "ADMIN"].includes(role)) {
-    res.status(403).json({ error: "restricted" });
-    return false;
-  }
-  return true;
-}
-
-// List ALL (including Drafts) for culture team
-app.get("/api/culture/manage", auth, (req, res) => {
-  if (!requireCulture(req, res)) return;
-  const items = pruneAnnouncements();
-  res.json({ items });
-});
-
-// Create announcement (text or base64 media), default 72h TTL
-app.post("/api/culture/announcement", auth, (req, res) => {
-  if (!requireCulture(req, res)) return;
-
-  const { text = "", media = null, status = "Published", ttlHours = 72 } = req.body || {};
-  const clean = String(text || "").trim();
-  if (!clean && !media) return res.status(400).json({ error: "text or media required" });
-
-  const all = pruneAnnouncements();
-  const now = Date.now();
-  const expiresAt = new Date(now + (Number(ttlHours) || 72) * 3600 * 1000).toISOString();
-
-  const rec = {
-    id: `ann_${now}`,
-    text: clean,
-    media: media || null,          // base64 or URL (your choice on the client)
-    status: status === "Draft" ? "Draft" : "Published",
-    createdAt: new Date(now).toISOString(),
-    expiresAt
-  };
-
-  all.unshift(rec);
-  write("announcements.json", all);
-  audit(req.user.scjId, "ANNOUNCEMENT_CREATE", "announcement", rec.id);
-  res.json({ ok: true, item: rec });
-});
-
-// Edit announcement
-app.post("/api/culture/announcement/edit", auth, (req, res) => {
-  if (!requireCulture(req, res)) return;
-
-  const { id = "", text, media, status, ttlHours } = req.body || {};
-  if (!id) return res.status(400).json({ error: "id required" });
-
-  const all = pruneAnnouncements();
-  const i = all.findIndex(a => a.id === id);
-  if (i < 0) return res.status(404).json({ error: "not found" });
-
-  if (typeof text !== "undefined") all[i].text = String(text || "");
-  if (typeof media !== "undefined") all[i].media = media;
-  if (typeof status !== "undefined") all[i].status = status === "Draft" ? "Draft" : "Published";
-  if (ttlHours) {
-    const now = Date.now();
-    all[i].expiresAt = new Date(now + Number(ttlHours) * 3600 * 1000).toISOString();
-  }
-
-  write("announcements.json", all);
-  audit(req.user.scjId, "ANNOUNCEMENT_EDIT", "announcement", id);
-  res.json({ ok: true, item: all[i] });
-});
-
-// Delete announcement
-app.post("/api/culture/announcement/delete", auth, (req, res) => {
-  if (!requireCulture(req, res)) return;
-  const { id = "" } = req.body || {};
-  if (!id) return res.status(400).json({ error: "id required" });
-
-  const all = pruneAnnouncements();
-  const kept = all.filter(a => a.id !== id);
-  if (kept.length === all.length) return res.status(404).json({ error: "not found" });
-
-  write("announcements.json", kept);
-  audit(req.user.scjId, "ANNOUNCEMENT_DELETE", "announcement", id);
-  res.json({ ok: true });
-});
-// ---- Announcements & Issues helpers ----
-function nowIso(){ return new Date().toISOString(); }
-function addHoursIso(iso, hrs){ return new Date(new Date(iso).getTime() + hrs*3600e3).toISOString(); }
-
-// Auto-remove expired posted announcements
-function purgeAnnouncements(list){
-  const now = Date.now();
-  return (list||[]).filter(a => !a.expiresAt || new Date(a.expiresAt).getTime() > now);
-}
-
-// Public feed (saints)
-app.get("/api/announcements", (req,res)=>{
-  const allRaw = read("announcements.json", []);
-  const all = purgeAnnouncements(allRaw);
-  if (all.length !== allRaw.length) write("announcements.json", all);  // persist purge
-  const live = all
-    .filter(a => a.status === "posted")
-    .sort((a,b)=> new Date(b.createdAt) - new Date(a.createdAt));
-  res.json({ items: live });
-});
-
-// Culture list (restricted)
-app.get("/api/culture/announcements", auth, (req,res)=>{
-  const role = String(req.user.role||"").toUpperCase();
-  if (!["CULTURE","ADMIN"].includes(role)) return res.status(403).json({ error:"culture only" });
-  const all = purgeAnnouncements(read("announcements.json", []))
-    .sort((a,b)=> new Date(b.createdAt) - new Date(a.createdAt));
-  write("announcements.json", all);
-  res.json({ items: all });
-});
-
-// Create (draft or posted)
-app.post("/api/culture/announcement", auth, (req,res)=>{
-  const role = String(req.user.role||"").toUpperCase();
-  if (!["CULTURE","ADMIN"].includes(role)) return res.status(403).json({ error:"culture only" });
-  const { title="", body="", status="draft" } = req.body||{};
-  const all = read("announcements.json", []);
-  const now = nowIso();
-  const rec = {
-    id: `ann_${Date.now()}`,
-    title:String(title), body:String(body),
-    image:null,
-    authorId:req.user.scjId, authorName:req.user.name||"",
-    status: status==="posted" ? "posted" : "draft",
-    createdAt: now, updatedAt: now,
-    expiresAt: status==="posted" ? addHoursIso(now, 72) : null
-  };
-  all.unshift(rec); write("announcements.json", all);
-  audit(req.user.scjId, "ANN_CREATE", "announcement", rec.id);
-  res.json({ ok:true, item:rec });
-});
-
-// Update (edit / move draft→posted)
-app.put("/api/culture/announcement/:id", auth, (req,res)=>{
-  const role = String(req.user.role||"").toUpperCase();
-  if (!["CULTURE","ADMIN"].includes(role)) return res.status(403).json({ error:"culture only" });
-  const id = req.params.id;
-  const all = read("announcements.json", []);
-  const i = all.findIndex(x=>x.id===id);
-  if (i<0) return res.status(404).json({ error:"not found" });
-  const prev = all[i];
-  const now = nowIso();
-  const next = { ...prev, ...req.body, updatedAt: now };
-  // if newly posted, set a fresh 72h window
-  if (prev.status!=="posted" && next.status==="posted") next.expiresAt = addHoursIso(now, 72);
-  all[i] = next; write("announcements.json", all);
-  audit(req.user.scjId, "ANN_UPDATE", "announcement", id);
-  res.json({ ok:true, item: next });
-});
-
-// Delete immediately
-app.post("/api/culture/announcement/:id/delete", auth, (req,res)=>{
-  const role = String(req.user.role||"").toUpperCase();
-  if (!["CULTURE","ADMIN"].includes(role)) return res.status(403).json({ error:"culture only" });
-  const id = req.params.id;
-  const all = read("announcements.json", []);
-  write("announcements.json", all.filter(x=>x.id!==id));
-  audit(req.user.scjId, "ANN_DELETE", "announcement", id);
-  res.json({ ok:true });
-});
-
-// ================================
-//  SAINTS — Submit Issues/Suggestions
-// ================================
-
-app.post("/api/issues", (req, res) => {
-  try {
-    const { text = "", media = null, kind = "issue" } = req.body || {};
-    const clean = String(text || "").trim();
-
-    if (!clean) {
-      return res.status(400).json({ error: "text required" });
-    }
-
-    const all = read("issues.json", []);
-    const rec = {
-      id: `iss_${Date.now()}`,
-      kind: kind === "suggestion" ? "suggestion" : "issue",
-      text: clean,
-      media: media || null,
-      status: "Pending",
-      createdAt: new Date().toISOString(),
-      resolvedAt: null
-      // intentionally no user info → anonymous for saints
-    };
-
-    all.unshift(rec);
-    write("issues.json", all);
-
-    // optional: record who sent it in audit log
-    if (req.user && req.user.scjId) {
-      audit(req.user.scjId, "ISSUE_SUBMIT", "issue", rec.id);
-    }
-
-    res.json({ ok: true, item: rec });
-  } catch (e) {
-    console.error("Error creating issue:", e);
-    res.status(500).json({ error: "internal error" });
-  }
-});
-// Communication list (restricted)
-app.get("/api/comm/issues", auth, (req,res)=>{
-  const role = String(req.user.role||"").toUpperCase();
-  if (!["COMMS","ADMIN"].includes(role)) return res.status(403).json({ error:"comms only" });
-  let items = read("issues.json", []);
-  const { status, kind } = req.query||{};
-  if (status) items = items.filter(x=>String(x.status).toLowerCase()===String(status).toLowerCase());
-  if (kind)   items = items.filter(x=>String(x.kind).toLowerCase()===String(kind).toLowerCase());
-  items.sort((a,b)=> new Date(b.createdAt)-new Date(a.createdAt));
-  res.json({ items });
-});
-
-// ================================
-//  COMMUNICATION — Issues Inbox (restricted)
-//  Roles allowed: COMM(S) / ADMIN  -> adjust to your role names
-// ================================
-
-// GET all issues (optionally by status)
-app.get("/api/comm/issues", auth, (req, res) => {
-  const role = String(req.user.role || "").toUpperCase();
-  if (!["COMMS", "COMMUNICATION", "ADMIN"].includes(role)) {
-    return res.status(403).json({ error: "restricted" });
-  }
-
-  const status = String(req.query.status || "").trim(); // optional ?status=Pending|Resolved
-  const all = read("issues.json", []);
-  const items = status ? all.filter(x => String(x.status||"").toLowerCase() === status.toLowerCase()) : all;
-  res.json({ items });
-});
-
-// Mark issue status (Resolved/Pending)
-app.post("/api/comm/issues/status", auth, (req, res) => {
-  const role = String(req.user.role || "").toUpperCase();
-  if (!["COMMS", "COMMUNICATION", "ADMIN"].includes(role)) {
-    return res.status(403).json({ error: "restricted" });
-  }
-
-  const { id = "", status = "" } = req.body||{};
-  const clean = String(status||"").trim();
-  if (!id || !clean) return res.status(400).json({ error: "id & status required" });
-
-  const all = read("issues.json", []);
-  const i = all.findIndex(x => x.id === id);
-  if (i < 0) return res.status(404).json({ error: "not found" });
-
-  all[i].status = clean;
-  all[i].resolvedAt = /resolved/i.test(clean) ? new Date().toISOString() : null;
-
-  write("issues.json", all);
-  audit(req.user.scjId, "ISSUE_STATUS", "issue", id, { status: clean });
-  res.json({ ok: true, item: all[i] });
-});
-
-// Delete an issue
-app.post("/api/comm/issues/delete", auth, (req, res) => {
-  const role = String(req.user.role || "").toUpperCase();
-  if (!["COMMS", "COMMUNICATION", "ADMIN"].includes(role)) {
-    return res.status(403).json({ error: "restricted" });
-  }
-
-  const { id = "" } = req.body||{};
-  if (!id) return res.status(400).json({ error: "id required" });
-
-  const all = read("issues.json", []);
-  const kept = all.filter(x => x.id !== id);
-  if (kept.length === all.length) return res.status(404).json({ error: "not found" });
-
-  write("issues.json", kept);
-  audit(req.user.scjId, "ISSUE_DELETE", "issue", id);
-  res.json({ ok: true });
-});
-// Toggle status
-app.post("/api/comm/issues/status", auth, (req,res)=>{
-  const role = String(req.user.role||"").toUpperCase();
-  if (!["COMMS","ADMIN"].includes(role)) return res.status(403).json({ error:"comms only" });
-  const { id, status } = req.body||{};
-  const all = read("issues.json", []);
-  const i = all.findIndex(x=>x.id===id);
-  if (i<0) return res.status(404).json({ error:"not found" });
-  const s = String(status||"Pending");
-  all[i].status = s;
-  all[i].resolvedAt = (s.toLowerCase()==="resolved") ? nowIso() : null;
-  write("issues.json", all);
-  audit(req.user.scjId, "ISSUE_STATUS", "issue", id, { status:s });
-  res.json({ ok:true });
-});
-
-// Delete
-app.post("/api/comm/issues/delete", auth, (req,res)=>{
-  const role = String(req.user.role||"").toUpperCase();
-  if (!["COMMS","ADMIN"].includes(role)) return res.status(403).json({ error:"comms only" });
-  const { id } = req.body||{};
-  const all = read("issues.json", []);
-  write("issues.json", all.filter(x=>x.id!==id));
-  audit(req.user.scjId, "ISSUE_DELETE", "issue", id);
-  res.json({ ok:true });
-});
 // --- Support inbox helpers ---
 function ms(n){ return n; }
 const HOUR = 60 * 60 * 1000;
@@ -451,7 +230,8 @@ async function saveUser(updatedUser) {
   write("accounts.json", users);
 }
 /* --- tiny utils --- */
-const JWT_SECRET = process.env.JWT_SECRET || "dev_secret_change_me";
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET) { throw new Error("JWT_SECRET is required"); }
 const ROLES = new Set(["SAINT","GYJN","JYJN","WEJANM","NEMOBU", "CHMN","DNGSN","CULTURE","COMMS","ADMIN"]);
 // >>> LEADERS: Roles (NEMOBU added)
 const LEADER_ROLES = new Set(["GYJN", "JYJN", "WEJANM", "NEMOBU", "CHMN", "DNGSN", "ADMIN"]);
@@ -468,11 +248,20 @@ function toBool(v) {
 }
 
 function audit(actorScjId, action, entity, entityId, meta = {}) {
+  if (pool) {
+    // fire-and-forget; don't block request if audit fails
+    pool.query(
+      `insert into audit (actor_scj_id, action, entity, entity_id, meta)
+       values ($1,$2,$3,$4,$5)`,
+      [actorScjId || null, action || "", entity || "", entityId || "", JSON.stringify(meta || {})]
+    ).catch(()=>{});
+    return;
+  }
+  // JSON fallback (dev/offline)
   const log = read("audit.json", []);
   log.unshift({ ts: new Date().toISOString(), actorScjId, action, entity, entityId, meta });
   write("audit.json", log.slice(0, 5000));
 }
-
 function profileFor(scjId) {
   const wl = read("whitelist.json", []);
   return wl.find(w => String(w.scjId) === String(scjId)) || null;
@@ -574,9 +363,7 @@ app.use(express.urlencoded({ extended: true }));
 // Rate limiting (general)
 const limiter = rateLimit({ windowMs: 60_000, max: 300 }); // 300 req/min per IP
 app.use(limiter);
-app.use('/api/auth', require('./routes/auth_login_json')); // mount before 404/error handlers
-
-
+app.use('/api/auth', require('./routes/auth')); // <- the file you pasted
 
 // Auth (robust)
 function auth(req, res, next) {
@@ -611,31 +398,6 @@ const upload = multer({ storage, limits: { fileSize: 1024 * 1024 * 1024 } }); //
 
 /* ------------------------------- AUTH ------------------------------- */
 function dbg(...a){ console.log('[LOGINDBG]', ...a); }
-// JSON login endpoint (frontend uses this)
-app.post("/api/auth/login-json", (req, res) => {
-  const { scjId, password } = req.body || {};
-  const accounts = read("accounts.json", []);
-  const whitelist = read("whitelist.json", []);
-
-  const acc = accounts.find((a) => a.scjId === scjId);
-  if (!acc) {
-    dbg('no account for', JSON.stringify(scjId));
-    return res.status(401).json({ error: "Invalid credentials" });
-  }
-  const profile = whitelist.find((w) => w.scjId === scjId);
-  if (!profile) {
-    dbg('no whitelist profile for', JSON.stringify(scjId));
-    return res.status(401).json({ error: "Invalid credentials" });
-  }
-  if (!bcrypt.compareSync(String(password), acc.passwordHash)) {
-    dbg('bad password for', JSON.stringify(scjId));
-    return res.status(401).json({ error: "Invalid credentials" });
-  }
-
-  const token = tokenFor(acc, profile);
-  audit(scjId, "LOGIN", "account", acc.id);
-  res.json({ token, profile });
-});
 
 // Optional signup (validate against whitelist)
 app.post("/api/auth/signup", (req, res) => {
@@ -872,41 +634,95 @@ function already(store, scjId, scjDate) {
 }
 function validDate(s) { return /^\d{4}-\d{2}-\d{2}$/.test(String(s||"")); }
 
-app.post("/api/reports/service", auth, (req, res) => {
+app.post("/api/reports/service", auth, async (req, res) => {
   const me = req.user;
   const { scjDate, method = "physical", notAttended = false, realization = "" } = req.body || {};
   if (!validDate(scjDate)) return res.status(400).json({ error: "invalid date" });
-  const store = read("reports_service.json", []);
-  if (already(store, me.scjId, scjDate)) return res.status(409).json({ error: "duplicate", details: "service already submitted for this date" });
-  const rec = { id: `svc_${Date.now()}`, scjId: me.scjId, scjDate, method: String(method).toLowerCase(), notAttended: toBool(notAttended), realization: String(realization||""), createdAt: new Date().toISOString() };
-  store.push(rec); write("reports_service.json", store);
+  if (pool) {
+  // duplicate by (scjId, type, scjDate)
+  const dup = await pool.query(
+    `select 1 from reports 
+     where scj_id=$1 and type='service' and payload->>'scjDate'=$2 limit 1`,
+    [me.scjId, scjDate]
+  );
+  if (dup.rowCount) return res.status(409).json({ error:"duplicate", details:"service already submitted for this date" });
+
+  const rec = {
+    id: `svc_${Date.now()}`,
+    scjId: me.scjId,
+    scjDate,
+    method: String(method).toLowerCase(),
+    notAttended: toBool(notAttended),
+    realization: String(realization || ""),
+    createdAt: new Date().toISOString()
+  };
+  await pool.query(
+    `insert into reports (scj_id, type, payload) values ($1,'service',$2::jsonb)`,
+    [me.scjId, JSON.stringify(rec)]
+  );
+
+  // (temporary) mirror to JSON so existing leader views still see it
+  try { const s = read("reports_service.json", []); s.push(rec); write("reports_service.json", s); } catch {}
   audit(me.scjId, "SUBMIT", "report_service", rec.id, { scjDate });
-  res.json({ ok: true, record: rec });
+  return res.json({ ok:true, record:rec });
+}
+
+// fallback: original JSON path
+const store = read("reports_service.json", []);
+if (already(store, me.scjId, scjDate)) return res.status(409).json({ error:"duplicate", details:"service already submitted for this date" });
+const rec = { id:`svc_${Date.now()}`, scjId: me.scjId, scjDate, method:String(method).toLowerCase(), notAttended:toBool(notAttended), realization:String(realization||""), createdAt:new Date().toISOString() };
+store.push(rec); write("reports_service.json", store);
+audit(me.scjId, "SUBMIT", "report_service", rec.id, { scjDate });
+return res.json({ ok:true, record:rec });
 });
 
-app.post("/api/reports/education", auth, (req, res) => {
+app.post("/api/reports/education", auth, async (req, res) => {
   const me = req.user;
   const { scjDate, session = "ALL_SUN", method = "physical", notAttended = false, realization = "" } = req.body || {};
   if (!validDate(scjDate)) return res.status(400).json({ error: "invalid date" });
-  const store = read("reports_education.json", []);
-  if (already(store, me.scjId, scjDate)) return res.status(409).json({ error: "duplicate", details: "education already submitted for this date" });
-  const rec = { id: `edu_${Date.now()}`, scjId: me.scjId, scjDate, session: String(session).toUpperCase(), method: String(method).toLowerCase(), notAttended: toBool(notAttended), realization: String(realization||""), createdAt: new Date().toISOString() };
-  store.push(rec); write("reports_education.json", store);
+ if (pool) {
+  const dup = await pool.query(
+    `select 1 from reports 
+     where scj_id=$1 and type='education' and payload->>'scjDate'=$2 limit 1`,
+    [me.scjId, scjDate]
+  );
+  if (dup.rowCount) return res.status(409).json({ error:"duplicate", details:"education already submitted for this date" });
+
+  const rec = {
+    id: `edu_${Date.now()}`,
+    scjId: me.scjId,
+    scjDate,
+    session: String(session).toUpperCase(),
+    method: String(method).toLowerCase(),
+    notAttended: toBool(notAttended),
+    realization: String(realization || ""),
+    createdAt: new Date().toISOString()
+  };
+  await pool.query(
+    `insert into reports (scj_id, type, payload) values ($1,'education',$2::jsonb)`,
+    [me.scjId, JSON.stringify(rec)]
+  );
+
+  try { const s = read("reports_education.json", []); s.push(rec); write("reports_education.json", s); } catch {}
   audit(me.scjId, "SUBMIT", "report_education", rec.id, { scjDate, session });
-  res.json({ ok: true, record: rec });
+  return res.json({ ok:true, record:rec });
+}
+
+// fallback: original JSON path (keep)
+const store = read("reports_education.json", []);
+if (already(store, me.scjId, scjDate)) return res.status(409).json({ error:"duplicate", details:"education already submitted for this date" });
+const rec = { id:`edu_${Date.now()}`, scjId: me.scjId, scjDate, session:String(session).toUpperCase(), method:String(method).toLowerCase(), notAttended:toBool(notAttended), realization:String(realization||""), createdAt:new Date().toISOString() };
+store.push(rec); write("reports_education.json", store);
+audit(me.scjId, "SUBMIT", "report_education", rec.id, { scjDate, session });
+return res.json({ ok:true, record:rec });
 });
 
-app.post("/api/reports/evangelism", auth, (req, res) => {
+app.post("/api/reports/evangelism", auth, async (req, res) => {
   const me = req.user;
   const { scjDate, participated = false, findings = 0, nfp = 0, rp = 0, bb = 0 } = req.body || {};
 
   if (!validDate(scjDate)) {
     return res.status(400).json({ error: "invalid date" });
-  }
-
-  const store = read("reports_evangelism.json", []);
-  if (already(store, me.scjId, scjDate)) {
-    return res.status(409).json({ error: "duplicate", details: "evangelism already submitted for this date" });
   }
 
   // helper: clean non-negative integers
@@ -915,21 +731,67 @@ app.post("/api/reports/evangelism", auth, (req, res) => {
     return Number.isFinite(x) && x >= 0 ? Math.floor(x) : 0;
   };
 
+  // compute metrics FIRST
   const F = n(findings);
   const N = n(nfp);
   const R = n(rp);
   const B = n(bb);
 
-  // ✅ infer participation if any metric > 0
+  // infer participation if any metric > 0
   const inferred = (F > 0) || (N > 0) || (R > 0) || (B > 0);
   const part = Boolean(participated) || inferred;
+
+  // --- DB-first path ---
+  if (pool) {
+    const dup = await pool.query(
+      `select 1 from reports 
+       where scj_id=$1 and type='evangelism' and payload->>'scjDate'=$2
+       limit 1`,
+      [me.scjId, scjDate]
+    );
+    if (dup.rowCount) {
+      return res.status(409).json({ error: "duplicate", details: "evangelism already submitted for this date" });
+    }
+
+    const rec = {
+      id: `ev_${Date.now()}`,
+      scjId: me.scjId,
+      scjDate: String(scjDate),
+      participated: part,
+      findings: part ? F : 0,
+      nfp: part ? N : 0,
+      rp: part ? R : 0,
+      bb: part ? B : 0,
+      createdAt: new Date().toISOString(),
+    };
+
+    await pool.query(
+      `insert into reports (scj_id, type, payload) values ($1,'evangelism',$2::jsonb)`,
+      [me.scjId, JSON.stringify(rec)]
+    );
+
+    // Optional: mirror to JSON so existing leader views still work
+    try {
+      const s = read("reports_evangelism.json", []);
+      s.push(rec);
+      write("reports_evangelism.json", s);
+    } catch {}
+
+    audit(me.scjId, "SUBMIT", "report_evangelism", rec.id, { scjDate });
+    return res.json({ ok: true, record: rec });
+  }
+
+  // --- Fallback JSON path ---
+  const store = read("reports_evangelism.json", []);
+  if (already(store, me.scjId, scjDate)) {
+    return res.status(409).json({ error: "duplicate", details: "evangelism already submitted for this date" });
+  }
 
   const rec = {
     id: `ev_${Date.now()}`,
     scjId: me.scjId,
     scjDate: String(scjDate),
     participated: part,
-    // if not participated, force metrics to 0 to keep data clean
     findings: part ? F : 0,
     nfp: part ? N : 0,
     rp: part ? R : 0,
@@ -940,21 +802,46 @@ app.post("/api/reports/evangelism", auth, (req, res) => {
   store.push(rec);
   write("reports_evangelism.json", store);
   audit(me.scjId, "SUBMIT", "report_evangelism", rec.id, { scjDate });
-
   return res.json({ ok: true, record: rec });
 });
-
-app.post("/api/reports/offering", auth, (req, res) => {
+app.post("/api/reports/offering", auth, async (req, res) => {
   const me = req.user;
   const { scjDate, channel = "cash", amount = 0 } = req.body || {};
   if (!validDate(scjDate)) return res.status(400).json({ error: "invalid date" });
   const amt = Number(amount); if (!isFinite(amt) || amt < 0) return res.status(400).json({ error: "invalid amount" });
-  const store = read("reports_offering.json", []);
-  if (already(store, me.scjId, scjDate)) return res.status(409).json({ error: "duplicate", details: "offering already submitted for this date" });
-  const rec = { id: `off_${Date.now()}`, scjId: me.scjId, scjDate, channel: String(channel).toLowerCase(), amount: amt, createdAt: new Date().toISOString() };
-  store.push(rec); write("reports_offering.json", store);
+  if (pool) {
+  const dup = await pool.query(
+    `select 1 from reports 
+     where scj_id=$1 and type='offering' and payload->>'scjDate'=$2 limit 1`,
+    [me.scjId, scjDate]
+  );
+  if (dup.rowCount) return res.status(409).json({ error:"duplicate", details:"offering already submitted for this date" });
+
+  const rec = {
+    id: `off_${Date.now()}`,
+    scjId: me.scjId,
+    scjDate,
+    channel: String(channel).toLowerCase(),
+    amount: amt,
+    createdAt: new Date().toISOString()
+  };
+  await pool.query(
+    `insert into reports (scj_id, type, payload) values ($1,'offering',$2::jsonb)`,
+    [me.scjId, JSON.stringify(rec)]
+  );
+
+  try { const s = read("reports_offering.json", []); s.push(rec); write("reports_offering.json", s); } catch {}
   audit(me.scjId, "SUBMIT", "report_offering", rec.id, { scjDate });
-  res.json({ ok: true, record: rec });
+  return res.json({ ok:true, record:rec });
+}
+
+// fallback: original JSON path (keep)
+const store = read("reports_offering.json", []);
+if (already(store, me.scjId, scjDate)) return res.status(409).json({ error:"duplicate", details:"offering already submitted for this date" });
+const rec = { id:`off_${Date.now()}`, scjId: me.scjId, scjDate, channel:String(channel).toLowerCase(), amount:amt, createdAt:new Date().toISOString() };
+store.push(rec); write("reports_offering.json", store);
+audit(me.scjId, "SUBMIT", "report_offering", rec.id, { scjDate });
+return res.json({ ok:true, record:rec });
 });
 
 /* ------------------------------- LEADERS ------------------------------ */
@@ -989,13 +876,27 @@ function scopeFilter(me, s){
   const sameC = (s.cell||"").toUpperCase()===(me.cell||"").toUpperCase();
   
   if (s.scjId === me.scjId) return true;
-  if (role === "GYJN") return sameJ && sameD && sameC;
-  if (role === "JYJN") return sameJ && sameD;
-  if (role === "WEJANM") return sameD;           // 🔧 was sameJ; now department-wide
-  if (role === "CHMN") return true;              // 🔧 full church visibility
-  if (role === "NEMOBU") return true;            // full Kenya
-  if (role === "DNGSN" || role === "ADMIN") return true;
-  return false;
+
+// GYJN: same JYK + same department + same cell
+if (role === "GYJN") return sameJ && sameD && sameC;
+
+// JYJN: same JYK + same department
+if (role === "JYJN") return sameJ && sameD;
+
+// WEJANM: department-wide across ALL JYKs
+if (role === "WEJANM") return sameD;
+
+// NEMOBU: whole church EXCEPT CHUMN and DNGSN
+if (role === "NEMOBU") return s.role !== "CHUMN" && s.role !== "DNGSN";
+
+// CHUMN: whole church EXCEPT DNGSN
+if (role === "CHUMN") return s.role !== "DNGSN";
+
+// DNGSN: sees everyone (no exceptions)
+if (role === "DNGSN") return true;
+if (role === "ADMIN") return true;
+
+return false;
 }
  
 function buildRow(type, saint, report){
@@ -1099,7 +1000,7 @@ function computeTotals(type, rows){
 }
 
 // SUMMARY (shape that Leaders.jsx expects)
-app.get("/api/leader/summary", auth, (req, res) => {
+app.get("/api/leader/summary", auth, async (req, res) => {
   try{
     const me = req.user;
     if (!isLeader(me)) return res.status(403).json({ error: "leaders only" });
@@ -1110,7 +1011,7 @@ app.get("/api/leader/summary", auth, (req, res) => {
     const file = TYPE_FILES[type];
     if (!file) return res.status(400).json({ error: "invalid type" });
 
-    const wl = read("whitelist.json", []);
+    const wl = pool ? (await pool.query(`select * from whitelist`)).rows : read("whitelist.json", []);
     const all = Array.isArray(wl) ? wl : (wl.items||[]);
     const meProf = all.find(x => String(x.scjId)===String(me.scjId)) || { scjId: me.scjId, role: me.role, jyk: me.jyk, dept: me.dept, cell: me.cell, name: me.name||"" };
 
@@ -1121,9 +1022,19 @@ app.get("/api/leader/summary", auth, (req, res) => {
       cell:String(s.cell||"")
     }));
 
-    const store = read(file, []);
-    const reportsOnDate = store.filter(r => String(r.scjDate)===scjDate);
-
+    let reportsOnDate = [];
+if (pool) {
+  const { rows } = await pool.query(
+    `select payload from reports 
+     where type=$1 and payload->>'scjDate'=$2`,
+    [type, scjDate]
+  );
+  reportsOnDate = rows.map(r => r.payload);
+} else {
+  const file = TYPE_FILES[type];
+  const store = read(file, []);
+  reportsOnDate = store.filter(r => String(r.scjDate)===scjDate);
+}
     const byId = new Map();
     for (const r of reportsOnDate) byId.set(String(r.scjId), r);
 
@@ -1212,77 +1123,156 @@ app.post("/api/leader/reports/:type", auth, (req, res) => {
 });
 
 // VERIFY
-app.post("/api/leader/verify/:type", auth, (req, res) => {
-  try{
-    const me = req.user;
-    if (!isLeader(me)) return res.status(403).json({ error: "leaders only" });
-    const type = String(req.params.type||"");
-    const scjDate = String((req.body||{}).scjDate||"");
-    if (!scjDate) return res.status(400).json({ error: "date required" });
+// VERIFY a report for a given date & type
+app.post("/api/leader/verify/:type", auth, async (req, res) => {
+  const me = req.user || {};
+  const type = String(req.params.type || "").toLowerCase();
 
-    const forwards = read("forwards.json", []);
-    const key = `${scjDate}:${type}:${me.scjId}`;
-    let wf = forwards.find(f => f.key===key);
-    if (!wf){ wf = { key, date: scjDate, type, by: me.scjId, forwardAttempts: 0, needsVerify: false, status: "Pending", returns:0 }; forwards.push(wf); }
-    wf.status = "Verified";
-    wf.needsVerify = false;
-    write("forwards.json", forwards);
+  // scjDate can come from body or query
+  const scjDate = String(
+    (req.body && req.body.scjDate) ||
+    (req.query && req.query.scjDate) ||
+    ""
+  );
+
+  if (!scjDate) return res.status(400).json({ error: "missing scjDate" });
+
+  const key = `${scjDate}:${type}:${me.scjId}`;
+
+  // --- DB-first path ---
+  if (pool) {
+    await pool.query(
+      `insert into forwards (key, date, type, by_scj_id, forward_attempts, needs_verify, status, returns, note)
+       values ($1,$2,$3,$4,0,false,'Verified',0,null)
+       on conflict (key) do update set
+         status='Verified',
+         needs_verify=false,
+         note=null`,
+      [key, scjDate, type, me.scjId]
+    );
     audit(me.scjId, "LEADER_VERIFY", "workflow", key);
-    res.json({ ok:true });
-  } catch(e){
-    res.status(500).json({ error: "server error" });
+    return res.json({ ok: true });
   }
+
+  // --- JSON fallback (local/dev) ---
+  const forwards = read("forwards.json", []);
+  const i = forwards.findIndex(f => f.key === key);
+  if (i >= 0) {
+    forwards[i].status = "Verified";
+    forwards[i].needsVerify = false;
+    forwards[i].note = null;
+  } else {
+    forwards.push({
+      key, date: scjDate, type, byScjId: me.scjId,
+      forwardAttempts: 0, needsVerify: false, status: "Verified",
+      returns: 0, note: null
+    });
+  }
+  write("forwards.json", forwards);
+  audit(me.scjId, "LEADER_VERIFY", "workflow", key);
+  return res.json({ ok: true });
 });
 
 // RETURN
-app.post("/api/leader/return/:type", auth, (req, res) => {
-  try{
-    const me = req.user;
-    if (!isLeader(me)) return res.status(403).json({ error: "leaders only" });
-    const type = String(req.params.type||"");
-    const scjDate = String((req.body||{}).scjDate||"");
-    const note = String((req.body||{}).note||"");
-    if (!scjDate) return res.status(400).json({ error: "date required" });
+// RETURN a report for a given date & type (marks it as Returned + needs verify + saves note)
+app.post("/api/leader/return/:type", auth, async (req, res) => {
+  const me = req.user || {};
+  const type = String(req.params.type || "").toLowerCase();
 
-    const forwards = read("forwards.json", []);
-    const key = `${scjDate}:${type}:${me.scjId}`;
-    let wf = forwards.find(f => f.key===key);
-    if (!wf){ wf = { key, date: scjDate, type, by: me.scjId, forwardAttempts: 0, needsVerify: true, status: "Returned", returns:0 }; forwards.push(wf); }
-    wf.status = "Returned";
-    wf.needsVerify = true;
-    wf.returns = (wf.returns||0)+1;
-    wf.note = note;
-    write("forwards.json", forwards);
+  const scjDate = String(
+    (req.body && req.body.scjDate) ||
+    (req.query && req.query.scjDate) ||
+    ""
+  );
+  if (!scjDate) return res.status(400).json({ error: "missing scjDate" });
+
+  const note = String((req.body && req.body.note) || "");
+  const key = `${scjDate}:${type}:${me.scjId}`;
+
+  // --- DB-first path ---
+  if (pool) {
+    await pool.query(
+      `insert into forwards (key, date, type, by_scj_id, forward_attempts, needs_verify, status, returns, note)
+       values ($1,$2,$3,$4,0,true,'Returned',1,$5)
+       on conflict (key) do update set
+         status='Returned',
+         needs_verify=true,
+         returns = coalesce(forwards.returns,0) + 1,
+         note=$5`,
+      [key, scjDate, type, me.scjId, note]
+    );
     audit(me.scjId, "LEADER_RETURN", "workflow", key, { note });
-    res.json({ ok:true });
-  } catch(e){
-    res.status(500).json({ error: "server error" });
+    return res.json({ ok: true });
   }
+
+  // --- JSON fallback (local/dev) ---
+  const forwards = read("forwards.json", []);
+  const i = forwards.findIndex(f => f.key === key);
+  if (i >= 0) {
+    forwards[i].status = "Returned";
+    forwards[i].needsVerify = true;
+    forwards[i].returns = (Number(forwards[i].returns) || 0) + 1;
+    forwards[i].note = note;
+  } else {
+    forwards.push({
+      key, date: scjDate, type, byScjId: me.scjId,
+      forwardAttempts: 0, needsVerify: true, status: "Returned",
+      returns: 1, note
+    });
+  }
+  write("forwards.json", forwards);
+  audit(me.scjId, "LEADER_RETURN", "workflow", key, { note });
+  return res.json({ ok: true });
 });
 
 // FORWARD
-app.post("/api/leader/forward/:type", auth, (req, res) => {
-  try{
-    const me = req.user;
-    if (!isLeader(me)) return res.status(403).json({ error: "leaders only" });
-    const type = String(req.params.type||"");
-    const scjDate = String((req.body||{}).scjDate||"");
-    if (!scjDate) return res.status(400).json({ error: "date required" });
+// FORWARD a report for a given date & type (increments forward attempts, sets Pending)
+app.post("/api/leader/forward/:type", auth, async (req, res) => {
+  const me = req.user || {};
+  const type = String(req.params.type || "").toLowerCase();
 
-    const forwards = read("forwards.json", []);
-    const key = `${scjDate}:${type}:${me.scjId}`;
-    let wf = forwards.find(f => f.key===key);
-    if (!wf){ wf = { key, date: scjDate, type, by: me.scjId, forwardAttempts: 0, needsVerify: false, status: "Pending", returns:0 }; forwards.push(wf); }
-    wf.forwardAttempts = (wf.forwardAttempts||0)+1;
-    wf.status = "Pending";
-    write("forwards.json", forwards);
+  const scjDate = String(
+    (req.body && req.body.scjDate) ||
+    (req.query && req.query.scjDate) ||
+    ""
+  );
+  if (!scjDate) return res.status(400).json({ error: "missing scjDate" });
+
+  const key = `${scjDate}:${type}:${me.scjId}`;
+
+  // --- DB-first path ---
+  if (pool) {
+    await pool.query(
+      `insert into forwards (key, date, type, by_scj_id, forward_attempts, needs_verify, status, returns, note)
+       values ($1,$2,$3,$4,1,false,'Pending',0,null)
+       on conflict (key) do update set
+         forward_attempts = coalesce(forwards.forward_attempts,0) + 1,
+         status='Pending',
+         needs_verify=false`,
+      [key, scjDate, type, me.scjId]
+    );
     audit(me.scjId, "LEADER_FORWARD", "workflow", key);
-    res.json({ ok:true });
-  } catch(e){
-    res.status(500).json({ error: "server error" });
+    return res.json({ ok: true });
   }
-});
 
+  // --- JSON fallback (local/dev) ---
+  const forwards = read("forwards.json", []);
+  const i = forwards.findIndex(f => f.key === key);
+  if (i >= 0) {
+    forwards[i].forwardAttempts = (Number(forwards[i].forwardAttempts) || 0) + 1;
+    forwards[i].status = "Pending";
+    forwards[i].needsVerify = false;
+  } else {
+    forwards.push({
+      key, date: scjDate, type, byScjId: me.scjId,
+      forwardAttempts: 1, needsVerify: false, status: "Pending",
+      returns: 0, note: null
+    });
+  }
+  write("forwards.json", forwards);
+  audit(me.scjId, "LEADER_FORWARD", "workflow", key);
+  return res.json({ ok: true });
+});
 // --- export footer helpers (ADD ONLY) ---
 function _aggForFooter(type, rows){
   const t = {
@@ -1685,7 +1675,7 @@ function buildXlsxBuffer(rows, sheetName="Sheet1"){
   return zipStore(files);
 }
 
-app.get("/api/leader/export.csv", auth, (req, res) => {
+app.get("/api/leader/export.csv", auth,async (req, res) => {
   try{
     const me = req.user;
     if (!isLeader(me)) return res.status(403).json({ error: "leaders only" });
@@ -1695,12 +1685,23 @@ app.get("/api/leader/export.csv", auth, (req, res) => {
     if (!TYPE_FILES[type]) return res.status(400).json({ error: "invalid type" });
 
     // reuse summary build to get rows in scope
-    const wl = read("whitelist.json", []);
+    const wl = pool ? (await pool.query(`select * from whitelist`)).rows : read("whitelist.json", []);
     const all = Array.isArray(wl) ? wl : (wl.items||[]);
     const meProf = all.find(x => String(x.scjId)===String(me.scjId)) || me;
     const scope = all.filter(s => scopeFilter(meProf, s));
-    const store = read(TYPE_FILES[type], []);
-    const reportsOnDate = store.filter(r => String(r.scjDate)===scjDate);
+    const reports = await loadReports(type);
+    let reportsOnDate = [];
+if (pool) {
+  const { rows } = await pool.query(
+    `select payload from reports 
+     where type=$1 and payload->>'scjDate'=$2`,
+    [type, scjDate]
+  );
+  reportsOnDate = rows.map(r => r.payload);
+} else {
+  const store = read(TYPE_FILES[type], []);
+  reportsOnDate = store.filter(r => String(r.scjDate)===scjDate);
+}
     const byId = new Map(); for (const r of reportsOnDate) byId.set(String(r.scjId), r);
     const rows = scope.map(s => buildRow(type, s, byId.get(String(s.scjId))));
 
@@ -1714,7 +1715,7 @@ app.get("/api/leader/export.csv", auth, (req, res) => {
   }
 });
 
-app.get("/api/leader/export.xlsx", auth, (req, res) => {
+app.get("/api/leader/export.xlsx", auth, async (req, res) => {
   try{
     const me = req.user;
     if (!isLeader(me)) return res.status(403).json({ error: "leaders only" });
@@ -1723,12 +1724,22 @@ app.get("/api/leader/export.xlsx", auth, (req, res) => {
     const type = String(req.query.type||"service").toLowerCase();
     if (!TYPE_FILES[type]) return res.status(400).json({ error: "invalid type" });
 
-    const wl = read("whitelist.json", []);
+    const wl = pool ? (await pool.query(`select * from whitelist`)).rows : read("whitelist.json", []);
     const all = Array.isArray(wl) ? wl : (wl.items||[]);
     const meProf = all.find(x => String(x.scjId)===String(me.scjId)) || me;
     const scope = all.filter(s => scopeFilter(meProf, s));
-    const store = read(TYPE_FILES[type], []);
-    const reportsOnDate = store.filter(r => String(r.scjDate)===scjDate);
+    let reportsOnDate = [];
+if (pool) {
+  const { rows } = await pool.query(
+    `select payload from reports 
+     where type=$1 and payload->>'scjDate'=$2`,
+    [type, scjDate]
+  );
+  reportsOnDate = rows.map(r => r.payload);
+} else {
+  const store = read(TYPE_FILES[type], []);
+  reportsOnDate = store.filter(r => String(r.scjDate)===scjDate);
+}
     const byId = new Map(); for (const r of reportsOnDate) byId.set(String(r.scjId), r);
     const rows = scope.map(s => buildRow(type, s, byId.get(String(s.scjId))));
 
@@ -1747,55 +1758,97 @@ app.get("/api/leader/export.xlsx", auth, (req, res) => {
 /* --------------------------- EVANGELISM MEDIA ------------------------- */
 
 // list my JYK (saints see their JYK; you can extend server-side policy later)
-app.get("/api/media/jyk", auth, (req, res) => {
+app.get("/api/media/jyk", auth, async (req, res) => {
   const me = req.user || {};
   const jyk = String(me.jyk || "");
+  if (pool) {
+    const { rows } = await pool.query(
+      `select * from media where jyk=$1 order by ts desc`, [jyk]
+    );
+    return res.json(rows);
+  }
   const all = read("media.json", []);
   const list = all.filter(x => String(x.jyk) === jyk);
   res.json(list);
 });
-
 // JSON URL add (legacy)
-app.post("/api/media", auth, (req, res) => {
+app.post("/api/media", auth, async (req, res) => {
   const { type = "image", url = "", sizeBytes = 0 } = req.body || {};
   if (!url.trim()) return res.status(400).json({ error: "url required" });
   const me = req.user || {};
-  const items = read("media.json", []);
   const rec = {
     id: `m_${Date.now()}`,
     scjId: me.scjId, name: me.name || "", jyk: me.jyk || "",
-    type: String(type).toLowerCase(), url: String(url), sizeBytes: Number(sizeBytes)||0,
-    title: "", caption: "", ts: new Date().toISOString()
+    type: String(type).toLowerCase(),
+    url: String(url),
+    title: "", caption: "", sizeBytes: Number(sizeBytes)||0,
+    ts: new Date().toISOString()
   };
+
+  if (pool) {
+    await pool.query(
+      `insert into media (id, scj_id, name, jyk, type, url, title, caption, size_bytes, ts)
+       values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)`,
+      [rec.id, rec.scjId, rec.name, rec.jyk, rec.type, rec.url, rec.title, rec.caption, rec.sizeBytes, rec.ts]
+    );
+    audit(me.scjId, "MEDIA_ADD_URL", "media", rec.id);
+    return res.json({ ok: true, record: rec });
+  }
+
+  const items = read("media.json", []);
   items.unshift(rec); write("media.json", items);
   audit(me.scjId, "MEDIA_ADD_URL", "media", rec.id);
   res.json({ ok: true, record: rec });
 });
 
 // multipart upload
-app.post("/api/media/upload", auth, upload.single("file"), (req, res) => {
+app.post("/api/media/upload", auth, upload.single("file"), async (req, res) => {
   if (!req.file) return res.status(400).json({ error: "File missing" });
   const me = req.user || {};
   const mime = String(req.file.mimetype || "");
   const typ = mime.startsWith("video") ? "video" : "image";
-  const items = read("media.json", []);
+
   const rec = {
     id: `m_${Date.now()}`,
     scjId: me.scjId, name: me.name || "", jyk: me.jyk || "",
     type: typ,
     url: `uploads/${req.file.filename}`,
-    title: "", caption: "", ts: new Date().toISOString()
+    title: "", caption: "", sizeBytes: Number(req.file.size)||0,
+    ts: new Date().toISOString()
   };
+
+  if (pool) {
+    await pool.query(
+      `insert into media (id, scj_id, name, jyk, type, url, title, caption, size_bytes, ts)
+       values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)`,
+      [rec.id, rec.scjId, rec.name, rec.jyk, rec.type, rec.url, rec.title, rec.caption, rec.sizeBytes, rec.ts]
+    );
+    audit(me.scjId, "MEDIA_UPLOAD", "media", rec.id, { file: rec.url });
+    return res.json({ ok: true, record: rec });
+  }
+
+  const items = read("media.json", []);
   items.unshift(rec); write("media.json", items);
   audit(me.scjId, "MEDIA_UPLOAD", "media", rec.id, { file: rec.url });
   res.json({ ok: true, record: rec });
 });
 
 // optional edit (owner only)
-app.post("/api/media/update", auth, (req, res) => {
+app.post("/api/media/update", auth, async (req, res) => {
   const { id, title = "", caption = "" } = req.body || {};
   if (!id) return res.status(400).json({ error: "id required" });
   const me = req.user || {};
+
+  if (pool) {
+    const r = await pool.query(
+      `update media set title=$1, caption=$2 where id=$3 and scj_id=$4 returning *`,
+      [String(title||""), String(caption||""), id, String(me.scjId)]
+    );
+    if (r.rowCount === 0) return res.status(404).json({ error: "not found/owner only" });
+    audit(me.scjId, "MEDIA_EDIT", "media", id);
+    return res.json({ ok: true, record: r.rows[0] });
+  }
+
   const items = read("media.json", []);
   const idx = items.findIndex(x => x.id === id);
   if (idx < 0) return res.status(404).json({ error: "not found" });
@@ -1808,15 +1861,38 @@ app.post("/api/media/update", auth, (req, res) => {
 });
 
 // delete (owner only)
-app.post("/api/media/delete", auth, (req, res) => {
+app.post("/api/media/delete", auth, async (req, res) => {
   const { id } = req.body || {};
   if (!id) return res.status(400).json({ error: "id required" });
   const me = req.user || {};
+
+  if (pool) {
+    // get item to know the url for disk cleanup
+    const { rows } = await pool.query(
+      `select * from media where id=$1 and scj_id=$2`, [id, String(me.scjId)]
+    );
+    if (rows.length === 0) return res.status(404).json({ error: "not found/owner only" });
+    const item = rows[0];
+
+    // delete DB row
+    await pool.query(`delete from media where id=$1 and scj_id=$2`, [id, String(me.scjId)]);
+
+    // remove disk file if it's a local upload
+    const url = String(item.url || "");
+    if (url.startsWith("uploads/")) {
+      const abs = path.join(DATA_DIR, url);
+      try { if (fs.existsSync(abs)) fs.unlinkSync(abs); } catch {}
+    }
+
+    audit(me.scjId, "MEDIA_DELETE", "media", id);
+    return res.json({ ok: true });
+  }
+
+  // JSON fallback
   const items = read("media.json", []);
   const idx = items.findIndex(x => x.id === id);
   if (idx < 0) return res.status(404).json({ error: "not found" });
   if (String(items[idx].scjId) !== String(me.scjId)) return res.status(403).json({ error: "owner only" });
-
   const url = String(items[idx].url || "");
   if (url.startsWith("uploads/")) {
     const abs = path.join(DATA_DIR, url);
@@ -1829,21 +1905,31 @@ app.post("/api/media/delete", auth, (req, res) => {
 
 /* ------------------------------ PUBLIC SUPPORT ------------------------------ */
 // Saints (no auth) can open a support ticket (forgot password / can't create account / other)
-app.post("/api/support/request", (req, res) => {
+app.post("/api/support/request", async (req, res) => {
   try {
     const { name="", scjId="", phone="", jyk="", dept="", cell="", type="help", details="" } = req.body || {};
     if (!name.trim() || !scjId.trim() || !phone.trim() || !jyk.trim() || !dept.trim() || !cell.trim()) {
       return res.status(400).json({ error: "All fields are required: name, scjId, phone, jyk, dept, cell" });
     }
-    const inbox = read("support_inbox.json", []);
+
     const rec = {
       id: `sup_${Date.now()}`,
-      type,           // e.g. "forgot_password" | "create_account" | "other"
-      name, scjId, phone, jyk, dept, cell,
+      type, name, scjId, phone, jyk, dept, cell,
       details: details || "",
       status: "Open",
       ts: new Date().toISOString()
     };
+
+    if (pool) {
+      await pool.query(
+        `insert into support_inbox (id, type, name, scj_id, phone, jyk, dept, cell, details, status, ts)
+         values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)`,
+        [rec.id, rec.type, rec.name, rec.scjId, rec.phone, rec.jyk, rec.dept, rec.cell, rec.details, rec.status, rec.ts]
+      );
+      return res.json({ ok: true, ticket: rec });
+    }
+
+    const inbox = read("support_inbox.json", []);
     inbox.unshift(rec);
     write("support_inbox.json", inbox);
     res.json({ ok: true, ticket: rec });
@@ -1913,23 +1999,51 @@ app.post("/api/support", async (req, res) => {
   }
 });
 // Support inbox (help from signup/login)
-app.get("/api/admin/support/inbox", auth, (req, res) => {
+app.get("/api/admin/support/inbox", auth, async (req, res) => {
   if (String(req.user.role || "").toUpperCase() !== "ADMIN")
     return res.status(403).json({ error: "admin only" });
-  // BEFORE: const list = read("support_inbox.json", []);
-  const list = cleanupSupportInbox(); // <--- replace with cleanup
-  res.json({ items: list });          // keep object form: {items:[...]}
+
+  if (pool) {
+    const { rows } = await pool.query(
+      `select * from support_inbox order by ts desc`
+    );
+    return res.json({ items: rows });
+  }
+
+  const list = cleanupSupportInbox(); // JSON fallback
+  res.json({ items: list });
+});
+// Update support ticket status: "Pending" | "Resolved"
+app.post("/api/admin/support/status", auth, async (req, res) => {
+  const { id, status } = req.body || {};
+  if (!id) return res.status(400).json({ error: "missing id" });
+  const S = String(status || "Pending");
+
+  try {
+    if (pool) {
+      const { rowCount } = await pool.query(
+        `update support_inbox set status=$1, resolved_at = case when $1='Resolved' then now() else null end
+         where id=$2`,
+        [S, id]
+      );
+      if (!rowCount) return res.status(404).json({ error: "not found" });
+      audit(req.user.scjId, "SUPPORT_STATUS", "support", id, { status:S });
+      return res.json({ ok:true });
+    } else {
+      const list = read("support_inbox.json", []);
+      const i = list.findIndex(x => x.id === id);
+      if (i < 0) return res.status(404).json({ error: "not found" });
+      list[i].status = S;
+      if (S === "Resolved") list[i].resolvedAt = new Date().toISOString();
+      write("support_inbox.json", list);
+      audit(req.user.scjId, "SUPPORT_STATUS", "support", id, { status:S });
+      return res.json({ ok:true });
+    }
+  } catch (e) {
+    res.status(500).json({ error: "server error" });
+  }
 });
 
-// Update support ticket status: "Pending" | "Resolved"
-app.post("/api/admin/support/status", auth, (req, res) => {
-  if (String(req.user.role || "").toUpperCase() !== "ADMIN")
-    return res.status(403).json({ error: "admin only" });
-  const { id, status } = req.body || {};
-  const S = String(status || "").trim();
-  if (!id || !["Pending","Resolved"].includes(S)) {
-    return res.status(400).json({ error: "id and valid status required" });
-  }
   const list = read("support_inbox.json", []);
   const i = list.findIndex(x => x.id === id);
   if (i < 0) return res.status(404).json({ error: "not found" });
@@ -1938,24 +2052,35 @@ app.post("/api/admin/support/status", auth, (req, res) => {
   write("support_inbox.json", list);
   audit(req.user.scjId, "SUPPORT_STATUS", "support", id, { status:S });
   res.json({ ok:true });
-});
 
 // Delete a support ticket now (manual)
-app.post("/api/admin/support/delete", auth, (req, res) => {
-  if (String(req.user.role || "").toUpperCase() !== "ADMIN")
-    return res.status(403).json({ error: "admin only" });
+app.post("/api/admin/support/delete", auth, async (req, res) => {
   const { id } = req.body || {};
-  if (!id) return res.status(400).json({ error: "id required" });
-  const list = read("support_inbox.json", []);
-  const i = list.findIndex(x => x.id === id);
-  if (i < 0) return res.status(404).json({ error: "not found" });
-  const [removed] = list.splice(i, 1);
-  write("support_inbox.json", list);
-  audit(req.user.scjId, "SUPPORT_DELETE", "support", id, { type: removed?.type });
-  res.json({ ok:true });
+  if (!id) return res.status(400).json({ error: "missing id" });
+
+  try {
+    if (pool) {
+      const { rows } = await pool.query(
+        `delete from support_inbox where id=$1 returning type`, [id]
+      );
+      if (rows.length === 0) return res.status(404).json({ error: "not found" });
+      audit(req.user.scjId, "SUPPORT_DELETE", "support", id, { type: rows[0]?.type });
+      return res.json({ ok:true });
+    } else {
+      const list = read("support_inbox.json", []);
+      const i = list.findIndex(x => x.id === id);
+      if (i < 0) return res.status(404).json({ error: "not found" });
+      const [removed] = list.splice(i, 1);
+      write("support_inbox.json", list);
+      audit(req.user.scjId, "SUPPORT_DELETE", "support", id, { type: removed?.type });
+      return res.json({ ok:true });
+    }
+  } catch (e) {
+    res.status(500).json({ error: "server error" });
+  }
 });
 
-app.post("/api/admin/support/override", auth, (req, res) => {
+app.post("/api/admin/support/override", auth,async (req, res) => {
   if (String(req.user.role || "").toUpperCase() !== "ADMIN")
     return res.status(403).json({ error: "admin only" });
   const { scjId, name, phone, jyk, dept, cell, role = "SAINT" } = req.body || {};
@@ -1963,90 +2088,185 @@ app.post("/api/admin/support/override", auth, (req, res) => {
   if (!scjId || !name) return res.status(400).json({ error: "scjId & name required" });
 
   
-  // whitelist upsert
+  // whitelist upsert (DB-first)
+if (pool) {
+  await pool.query(
+    `insert into whitelist (scj_id, name, phone, jyk, dept, cell, role)
+     values ($1,$2,$3,$4,$5,$6,$7)
+     on conflict (scj_id) do update set
+       name = excluded.name,
+       phone = excluded.phone,
+       jyk = excluded.jyk,
+       dept = excluded.dept,
+       cell = excluded.cell,
+       role = excluded.role`,
+    [scjId, name, phone, jyk, dept, cell, String(role).toUpperCase()]
+  );
+} else {
   const wl = read("whitelist.json", []);
   const idx = wl.findIndex(w => String(w.scjId) === String(scjId));
   const entry = { scjId, name, phone, jyk, dept, cell, role: String(role).toUpperCase() };
   if (idx >= 0) wl[idx] = { ...wl[idx], ...entry }; else wl.push(entry);
   write("whitelist.json", wl);
+}
 
-  // Optional: force-reset an existing account to 0000
-if (action === "reset_password") {
-  const accounts = read("accounts.json", []);
-  const idx = accounts.findIndex(a => a.scjId === scjId);
-  if (idx >= 0) {
-    accounts[idx].passwordHash = bcrypt.hashSync("0000", 10);
-    accounts[idx].passwordResetAt = new Date().toISOString();
+// Optional: force-reset to 0000
+if (String((req.body||{}).action || "") === "reset_password") {
+  const hash = bcrypt.hashSync("0000", 10);
+  if (pool) {
+    await pool.query(
+      `insert into accounts (id, scj_id, password_hash, password_reset_at)
+       values ($1,$2,$3, now())
+       on conflict (scj_id) do update set password_hash = excluded.password_hash, password_reset_at = now()`,
+      [`acc_${Date.now()}`, scjId, hash]
+    );
+  } else {
+    const accounts = read("accounts.json", []);
+    const i = accounts.findIndex(a => a.scjId === scjId);
+    if (i >= 0) accounts[i].passwordHash = hash;
+    else accounts.push({ id: `acc_${Date.now()}`, scjId, passwordHash: hash });
     write("accounts.json", accounts);
   }
 }
 
-  // ensure account exists (password default 0000 if missing)
+// ensure account exists (default 0000 if missing)
+if (pool) {
+  await pool.query(
+    `insert into accounts (id, scj_id, password_hash)
+     values ($1,$2,$3)
+     on conflict (scj_id) do nothing`,
+    [`acc_${Date.now()}`, scjId, bcrypt.hashSync("0000", 10)]
+  );
+} else {
   const accounts = read("accounts.json", []);
   if (!accounts.some(a => a.scjId === scjId)) {
     accounts.push({ id: `acc_${Date.now()}`, scjId, passwordHash: bcrypt.hashSync("0000", 10) });
     write("accounts.json", accounts);
   }
+}
 
   audit(req.user.scjId, "SUPPORT_OVERRIDE", "whitelist", scjId);
   res.json({ ok: true, entry });
 });
 
 // Feature flags
-app.get("/api/admin/flags", auth, (req, res) => {
+app.get("/api/admin/flags", auth, async (req, res) => {
   if (String(req.user.role || "").toUpperCase() !== "ADMIN")
     return res.status(403).json({ error: "admin only" });
-  res.json(read("flags.json", {}));
+
+  if (pool) {
+    const { rows } = await pool.query(`select name, value from flags`);
+    const out = {};
+    for (const r of rows) out[r.name] = r.value;
+    return res.json(out);
+  }
+  return res.json(read("flags.json", {})); // JSON fallback
 });
-app.post("/api/admin/flags", auth, (req, res) => {
+app.post("/api/admin/flags", auth, async (req, res) => {
   if (String(req.user.role || "").toUpperCase() !== "ADMIN")
     return res.status(403).json({ error: "admin only" });
-  const flags = { ...read("flags.json", {}), ...(req.body || {}) };
+
+  const updates = req.body || {};
+  if (pool) {
+    const names = Object.keys(updates);
+    for (const name of names) {
+      await pool.query(
+        `insert into flags (name, value) values ($1,$2)
+         on conflict (name) do update set value=excluded.value`,
+        [name, JSON.stringify(updates[name])]
+      );
+    }
+    audit(req.user.scjId, "FLAGS_SET", "flags", "-", updates);
+    // return merged current flags
+    const { rows } = await pool.query(`select name, value from flags`);
+    const out = {}; for (const r of rows) out[r.name] = r.value;
+    return res.json({ ok:true, flags: out });
+  }
+
+  // JSON fallback
+  const flags = { ...read("flags.json", {}), ...updates };
   write("flags.json", flags);
-  audit(req.user.scjId, "FLAGS_SET", "flags", "-", flags);
+  audit(req.user.scjId, "FLAGS_SET", "flags", "-", updates);
   res.json({ ok: true, flags });
 });
 
 // Audit list
-app.get("/api/admin/audit", auth, (req, res) => {
+app.get("/api/admin/audit", auth, async (req, res) => {
   if (String(req.user.role || "").toUpperCase() !== "ADMIN")
     return res.status(403).json({ error: "admin only" });
   const limit = Math.max(1, Math.min(1000, Number(req.query.limit) || 100));
+
+  if (pool) {
+    const { rows } = await pool.query(
+      `select ts, actor_scj_id, action, entity, entity_id, meta
+       from audit
+       order by ts desc
+       limit $1`, [limit]
+    );
+    return res.json(rows);
+  }
+
   const log = read("audit.json", []);
-  res.json(log.slice(0, limit));
+  return res.json(log.slice(0, limit));
 });
 
 // TEMP ADMIN RESET: POST /api/admin/force-reset
 // body: { scjId: "0009-006", newPassword: "0000" }
-app.post("/api/admin/force-reset", (req, res) => {
+app.post("/api/admin/force-reset", async (req, res) => {
   try {
     const { scjId, newPassword = "0000" } = req.body || {};
     if (!scjId) return res.status(400).json({ error: "scjId required" });
 
-    const accounts = read("accounts.json", []);
-    const acc = accounts.find(a => a.scjId === scjId);
-    if (!acc) return res.status(404).json({ error: "account not found" });
+    const hash = bcrypt.hashSync(String(newPassword), 10);
 
-    acc.passwordHash = bcrypt.hashSync(String(newPassword), 10);
-    write("accounts.json", accounts);
+if (pool) {
+  const { rowCount } = await pool.query(
+    `update accounts set password_hash=$1, password_reset_at=now()
+     where scj_id=$2`,
+    [hash, scjId]
+  );
+  if (rowCount === 0) {
+    // create if missing
+    await pool.query(
+      `insert into accounts (id, scj_id, password_hash, password_reset_at)
+       values ($1,$2,$3, now())`,
+      [`acc_${Date.now()}`, scjId, hash]
+    );
+  }
 
-    // (optional) ensure whitelist has this id too
-    const wl = read("whitelist.json", []);
-    if (!wl.find(w => w.scjId === scjId)) {
-      return res.status(409).json({ 
-        ok: false, 
-        warn: "Password reset, but whitelist entry missing for this scjId." 
-      });
-    }
+  // optional: ensure whitelist entry exists (return warn if missing)
+  const { rows: wrows } = await pool.query(`select 1 from whitelist where scj_id=$1`, [scjId]);
+  if (wrows.length === 0) {
+    return res.status(409).json({
+      ok: false,
+      warn: "Password reset, but whitelist entry missing for this scjId."
+    });
+  }
+} else {
+  const accounts = read("accounts.json", []);
+  const acc = accounts.find(a => a.scjId === scjId);
+  if (!acc) {
+    accounts.push({ id: `acc_${Date.now()}`, scjId, passwordHash: hash });
+  } else {
+    acc.passwordHash = hash;
+    acc.passwordResetAt = new Date().toISOString();
+  }
+  write("accounts.json", accounts);
 
-    return res.json({ ok: true });
+  const wl = read("whitelist.json", []);
+  if (!wl.find(w => w.scjId === scjId)) {
+    return res.status(409).json({ ok:false, warn:"Password reset, but whitelist entry missing for this scjId." });
+  }
+}
+
+return res.json({ ok: true });
   } catch (e) {
     return res.status(500).json({ error: "server error", details: e.message });
   }
 });
 /* -------------------- Meta lists for UI -------------------- */
-app.get("/api/meta/jyks", (req, res) => {
-  const wl = read("whitelist.json", []);
+app.get("/api/meta/jyks",async (req, res) => {
+  const wl = pool ? (await pool.query(`select * from whitelist`)).rows : read("whitelist.json", []);
   const set = new Set();
   for (const w of wl) {
     const v = String(w.jyk || "").trim();
@@ -2109,15 +2329,34 @@ app.get("/", (_req, res) => res.send("KC backend running"));
 // --- helpers used by password & recovery routes (place above app.listen) ---
 // Verifies the user's current password against accounts.json.
 // Also supports migrating any legacy plain "password" fields to bcrypt hash.
+// Verifies the user's current password (DB-first), falls back to JSON locally.
 async function compareAndMaybeMigratePassword(jwtUser, currentPlain) {
+  const cur = String(currentPlain || "");
+
+  if (pool) {
+    // Look up by scj_id first, fall back to id
+    const { rows } = await pool.query(
+      `select * from accounts where scj_id = $1 or id = $2 limit 1`,
+      [String(jwtUser.scjId || ""), String(jwtUser.id || "")]
+    );
+    if (rows.length === 0) return { ok: false };
+
+    const acc = rows[0];
+    if (!acc.password_hash) return { ok: false };
+    const ok = bcrypt.compareSync(cur, acc.password_hash);
+    return { ok, account: { id: acc.id, scjId: acc.scj_id } };
+  }
+
+  // ---- JSON fallback (dev/local) ----
   const accounts = read("accounts.json", []);
-  const idx = accounts.findIndex(a => String(a.id) === String(jwtUser.id) || String(a.scjId) === String(jwtUser.scjId));
+  const idx = accounts.findIndex(a =>
+    String(a.id) === String(jwtUser.id) || String(a.scjId) === String(jwtUser.scjId)
+  );
   if (idx < 0) return { ok: false };
 
   let acc = accounts[idx];
-  const cur = String(currentPlain || "");
 
-  // Legacy support: if an old plain password field exists, accept it once and migrate to hash
+  // Legacy one-time migration for plain password -> hash
   if (acc.password && !acc.passwordHash) {
     if (String(acc.password) !== cur) return { ok: false };
     acc.passwordHash = bcrypt.hashSync(acc.password, 10);
@@ -2127,7 +2366,6 @@ async function compareAndMaybeMigratePassword(jwtUser, currentPlain) {
     return { ok: true, account: acc };
   }
 
-  // Normal path: compare against bcrypt hash
   if (!acc.passwordHash) return { ok: false };
   const ok = bcrypt.compareSync(cur, acc.passwordHash);
   return { ok, account: acc };
