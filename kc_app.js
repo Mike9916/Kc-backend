@@ -21,122 +21,34 @@ const jwt = require("jsonwebtoken");
 const rateLimit = require("express-rate-limit");
 const multer = require("multer");
 
-const { Pool } = require('pg');
+const {Pool} = require('pg')
 
-let pool = null;
+let pool;
 if (process.env.DATABASE_URL) {
   pool = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: { rejectUnauthorized: false },
   });
-  (async () => {
+
+  // ✅ No top-level await; just call an async function
+  async function initDb() {
     try {
-      await pool.query(`
-        CREATE TABLE IF NOT EXISTS reports (
-          id SERIAL PRIMARY KEY,
-          scj_id TEXT NOT NULL,
-          type TEXT NOT NULL,
-          payload JSONB NOT NULL,
-          created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
-        )
-      `);
-      // Accounts table (DB-first) — id is your existing acc_*, scj_id unique
-await pool.query(`
-  CREATE TABLE IF NOT EXISTS accounts (
-    id TEXT PRIMARY KEY,
-    scj_id TEXT UNIQUE NOT NULL,
-    password_hash TEXT,
-    password_reset_at TIMESTAMPTZ
-  )
-`);
-
-// Whitelist table (DB-first)
-await pool.query(`
-  CREATE TABLE IF NOT EXISTS whitelist (
-    scj_id TEXT PRIMARY KEY,
-    name  TEXT,
-    phone TEXT,
-    jyk   TEXT,
-    dept  TEXT,
-    cell  TEXT,
-    role  TEXT
-  )
-`);
-// Media table (stores uploaded/linked items)
-await pool.query(`
-  CREATE TABLE IF NOT EXISTS media (
-    id TEXT PRIMARY KEY,
-    scj_id TEXT,
-    name   TEXT,
-    jyk    TEXT,
-    type   TEXT,            -- "image" | "video"
-    url    TEXT,            -- "uploads/..." or external URL
-    title  TEXT,
-    caption TEXT,
-    size_bytes INTEGER,
-    ts TIMESTAMPTZ NOT NULL DEFAULT NOW()
-  )
-`);
-
-// Support inbox table
-await pool.query(`
-  CREATE TABLE IF NOT EXISTS support_inbox (
-    id TEXT PRIMARY KEY,
-    type TEXT,              -- "forgot_password" | "create_account" | "other"
-    name TEXT,
-    scj_id TEXT,
-    phone TEXT,
-    jyk TEXT,
-    dept TEXT,
-    cell TEXT,
-    details TEXT,
-    status TEXT,            -- "Open" | "Pending" | "Resolved"
-    ts TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    resolved_at TIMESTAMPTZ
-  )
-`);
-// Audit log (append-only)
-await pool.query(`
-  CREATE TABLE IF NOT EXISTS audit (
-    ts TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    actor_scj_id TEXT,
-    action TEXT,
-    entity TEXT,
-    entity_id TEXT,
-    meta JSONB
-  )
-`);
-
-// Forwards state (leaders workflow)
-await pool.query(`
-  CREATE TABLE IF NOT EXISTS forwards (
-    key TEXT PRIMARY KEY,
-    date TEXT,
-    type TEXT,
-    by_scj_id TEXT,
-    forward_attempts INT DEFAULT 0,
-    needs_verify BOOLEAN DEFAULT false,
-    status TEXT,           -- e.g., "Pending","Returned","Verified"
-    returns INT DEFAULT 0,
-    note TEXT,
-    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
-  )
-`);
-
-// Feature flags (optional JSON values)
-await pool.query(`
-  CREATE TABLE IF NOT EXISTS flags (
-    name TEXT PRIMARY KEY,
-    value JSONB
-  )
-`);
-      console.log('Reports table ready');
+      await pool.query(`CREATE TABLE IF NOT EXISTS reports (...)`);
+      await pool.query(`CREATE TABLE IF NOT EXISTS accounts (...)`);
+      await pool.query(`CREATE TABLE IF NOT EXISTS whitelist (...)`);
+      await pool.query(`CREATE TABLE IF NOT EXISTS media (...)`);
+      await pool.query(`CREATE TABLE IF NOT EXISTS support_inbox (...)`);
+      await pool.query(`CREATE TABLE IF NOT EXISTS audit (...)`);
+      await pool.query(`CREATE TABLE IF NOT EXISTS forwards (...)`);
+      await pool.query(`CREATE TABLE IF NOT EXISTS flags (...)`);
+      console.log("DB tables ready");
     } catch (e) {
-      console.error('DB init failed:', e);
+      console.error("DB init failed:", e);
     }
-  })();
+  }
+  initDb(); // fire-and-forget; no top-level await
 } else {
-  console.warn('DATABASE_URL not set — DB features are disabled locally.');
+  console.warn("DATABASE_URL not set — DB features are disabled locally.");
 }
 const app = express();
 
@@ -1861,46 +1773,54 @@ app.post("/api/media/update", auth, async (req, res) => {
 });
 
 // delete (owner only)
+// Delete a media item (owner only)
 app.post("/api/media/delete", auth, async (req, res) => {
   const { id } = req.body || {};
   if (!id) return res.status(400).json({ error: "id required" });
   const me = req.user || {};
 
-  if (pool) {
-    // get item to know the url for disk cleanup
-    const { rows } = await pool.query(
-      `select * from media where id=$1 and scj_id=$2`, [id, String(me.scjId)]
-    );
-    if (rows.length === 0) return res.status(404).json({ error: "not found/owner only" });
-    const item = rows[0];
+  try {
+    if (pool) {
+      // fetch to know URL for disk cleanup
+      const { rows } = await pool.query(
+        `select * from media where id=$1 and scj_id=$2`,
+        [id, String(me.scjId)]
+      );
+      if (rows.length === 0) return res.status(404).json({ error: "not found/owner only" });
+      const item = rows[0];
 
-    // delete DB row
-    await pool.query(`delete from media where id=$1 and scj_id=$2`, [id, String(me.scjId)]);
+      await pool.query(`delete from media where id=$1 and scj_id=$2`, [id, String(me.scjId)]);
 
-    // remove disk file if it's a local upload
-    const url = String(item.url || "");
-    if (url.startsWith("uploads/")) {
-      const abs = path.join(DATA_DIR, url);
-      try { if (fs.existsSync(abs)) fs.unlinkSync(abs); } catch {}
+      // remove disk file if locally stored
+      const url = String(item.url || "");
+      if (url.startsWith("uploads/")) {
+        const abs = path.join(DATA_DIR, url);
+        try { if (fs.existsSync(abs)) fs.unlinkSync(abs); } catch {}
+      }
+
+      audit(me.scjId, "MEDIA_DELETE", "media", id, { url: item.url });
+      return res.json({ ok: true });
+    } else {
+      const items = read("media.json", []);
+      const i = items.findIndex(x => x.id === id);
+      if (i < 0) return res.status(404).json({ error: "not found" });
+      if (String(items[i].scjId) !== String(me.scjId))
+        return res.status(403).json({ error: "owner only" });
+
+      const url = String(items[i].url || "");
+      if (url.startsWith("uploads/")) {
+        const abs = path.join(DATA_DIR, url);
+        try { if (fs.existsSync(abs)) fs.unlinkSync(abs); } catch {}
+      }
+      items.splice(i, 1);
+      write("media.json", items);
+
+      audit(me.scjId, "MEDIA_DELETE", "media", id, { url });
+      return res.json({ ok: true });
     }
-
-    audit(me.scjId, "MEDIA_DELETE", "media", id);
-    return res.json({ ok: true });
+  } catch (e) {
+    return res.status(500).json({ error: "server error" });
   }
-
-  // JSON fallback
-  const items = read("media.json", []);
-  const idx = items.findIndex(x => x.id === id);
-  if (idx < 0) return res.status(404).json({ error: "not found" });
-  if (String(items[idx].scjId) !== String(me.scjId)) return res.status(403).json({ error: "owner only" });
-  const url = String(items[idx].url || "");
-  if (url.startsWith("uploads/")) {
-    const abs = path.join(DATA_DIR, url);
-    try { if (fs.existsSync(abs)) fs.unlinkSync(abs); } catch {}
-  }
-  items.splice(idx, 1); write("media.json", items);
-  audit(me.scjId, "MEDIA_DELETE", "media", id);
-  res.json({ ok: true });
 });
 
 /* ------------------------------ PUBLIC SUPPORT ------------------------------ */
@@ -2014,44 +1934,39 @@ app.get("/api/admin/support/inbox", auth, async (req, res) => {
   res.json({ items: list });
 });
 // Update support ticket status: "Pending" | "Resolved"
+// Update support ticket status: "Pending" | "Resolved"
 app.post("/api/admin/support/status", auth, async (req, res) => {
-  const { id, status } = req.body || {};
+  const { id, status } = req.body || {};            // ✅ id declared here
   if (!id) return res.status(400).json({ error: "missing id" });
   const S = String(status || "Pending");
 
   try {
     if (pool) {
       const { rowCount } = await pool.query(
-        `update support_inbox set status=$1, resolved_at = case when $1='Resolved' then now() else null end
+        `update support_inbox
+           set status=$1,
+               resolved_at = case when $1='Resolved' then now() else null end
          where id=$2`,
         [S, id]
       );
       if (!rowCount) return res.status(404).json({ error: "not found" });
-      audit(req.user.scjId, "SUPPORT_STATUS", "support", id, { status:S });
-      return res.json({ ok:true });
+      audit(req.user.scjId, "SUPPORT_STATUS", "support", id, { status: S });
+      return res.json({ ok: true });
     } else {
-      const list = read("support_inbox.json", []);
+      const list = read("support_inbox.json", []);   // ✅ this is inside the route
       const i = list.findIndex(x => x.id === id);
       if (i < 0) return res.status(404).json({ error: "not found" });
       list[i].status = S;
       if (S === "Resolved") list[i].resolvedAt = new Date().toISOString();
       write("support_inbox.json", list);
-      audit(req.user.scjId, "SUPPORT_STATUS", "support", id, { status:S });
-      return res.json({ ok:true });
+      audit(req.user.scjId, "SUPPORT_STATUS", "support", id, { status: S });
+      return res.json({ ok: true });
     }
   } catch (e) {
-    res.status(500).json({ error: "server error" });
+    return res.status(500).json({ error: "server error" });
   }
 });
 
-  const list = read("support_inbox.json", []);
-  const i = list.findIndex(x => x.id === id);
-  if (i < 0) return res.status(404).json({ error: "not found" });
-  list[i].status = S;
-  if (S === "Resolved") list[i].resolvedAt = new Date().toISOString();
-  write("support_inbox.json", list);
-  audit(req.user.scjId, "SUPPORT_STATUS", "support", id, { status:S });
-  res.json({ ok:true });
 
 // Delete a support ticket now (manual)
 app.post("/api/admin/support/delete", auth, async (req, res) => {
@@ -2061,11 +1976,12 @@ app.post("/api/admin/support/delete", auth, async (req, res) => {
   try {
     if (pool) {
       const { rows } = await pool.query(
-        `delete from support_inbox where id=$1 returning type`, [id]
+        `delete from support_inbox where id=$1 returning type`,
+        [id]
       );
       if (rows.length === 0) return res.status(404).json({ error: "not found" });
       audit(req.user.scjId, "SUPPORT_DELETE", "support", id, { type: rows[0]?.type });
-      return res.json({ ok:true });
+      return res.json({ ok: true });
     } else {
       const list = read("support_inbox.json", []);
       const i = list.findIndex(x => x.id === id);
@@ -2073,81 +1989,86 @@ app.post("/api/admin/support/delete", auth, async (req, res) => {
       const [removed] = list.splice(i, 1);
       write("support_inbox.json", list);
       audit(req.user.scjId, "SUPPORT_DELETE", "support", id, { type: removed?.type });
-      return res.json({ ok:true });
+      return res.json({ ok: true });
     }
   } catch (e) {
-    res.status(500).json({ error: "server error" });
+    return res.status(500).json({ error: "server error" });
   }
 });
-
-app.post("/api/admin/support/override", auth,async (req, res) => {
+app.post("/api/admin/support/override", auth, async (req, res) => {
   if (String(req.user.role || "").toUpperCase() !== "ADMIN")
     return res.status(403).json({ error: "admin only" });
+
   const { scjId, name, phone, jyk, dept, cell, role = "SAINT" } = req.body || {};
-  const action = String((req.body||{}).action || "");
+  const action = String((req.body || {}).action || "");
   if (!scjId || !name) return res.status(400).json({ error: "scjId & name required" });
 
-  
-  // whitelist upsert (DB-first)
-if (pool) {
-  await pool.query(
-    `insert into whitelist (scj_id, name, phone, jyk, dept, cell, role)
-     values ($1,$2,$3,$4,$5,$6,$7)
-     on conflict (scj_id) do update set
-       name = excluded.name,
-       phone = excluded.phone,
-       jyk = excluded.jyk,
-       dept = excluded.dept,
-       cell = excluded.cell,
-       role = excluded.role`,
-    [scjId, name, phone, jyk, dept, cell, String(role).toUpperCase()]
-  );
-} else {
-  const wl = read("whitelist.json", []);
-  const idx = wl.findIndex(w => String(w.scjId) === String(scjId));
+  // build the entry we’ll return
   const entry = { scjId, name, phone, jyk, dept, cell, role: String(role).toUpperCase() };
-  if (idx >= 0) wl[idx] = { ...wl[idx], ...entry }; else wl.push(entry);
-  write("whitelist.json", wl);
-}
 
-// Optional: force-reset to 0000
-if (String((req.body||{}).action || "") === "reset_password") {
-  const hash = bcrypt.hashSync("0000", 10);
+  // whitelist upsert (DB-first)
   if (pool) {
     await pool.query(
-      `insert into accounts (id, scj_id, password_hash, password_reset_at)
-       values ($1,$2,$3, now())
-       on conflict (scj_id) do update set password_hash = excluded.password_hash, password_reset_at = now()`,
-      [`acc_${Date.now()}`, scjId, hash]
+      `insert into whitelist (scj_id, name, phone, jyk, dept, cell, role)
+       values ($1,$2,$3,$4,$5,$6,$7)
+       on conflict (scj_id) do update set
+         name = excluded.name,
+         phone = excluded.phone,
+         jyk = excluded.jyk,
+         dept = excluded.dept,
+         cell = excluded.cell,
+         role = excluded.role`,
+      [scjId, name, phone, jyk, dept, cell, entry.role]
+    );
+  } else {
+    const wl = read("whitelist.json", []);
+    const idx = wl.findIndex(w => String(w.scjId) === String(scjId));
+    if (idx >= 0) wl[idx] = { ...wl[idx], ...entry }; else wl.push(entry);
+    write("whitelist.json", wl);
+  }
+
+  // ---- Optional: force-reset to 0000 (if action == "reset_password") ----
+  if (action === "reset_password") {
+    const hash = bcrypt.hashSync("0000", 10);
+    if (pool) {
+      await pool.query(
+        `insert into accounts (id, scj_id, password_hash, password_reset_at)
+         values ($1,$2,$3, now())
+         on conflict (scj_id) do update set
+           password_hash = excluded.password_hash,
+           password_reset_at = now()`,
+        [`acc_${Date.now()}`, scjId, hash]
+      );
+    } else {
+      const accounts = read("accounts.json", []);
+      const i = accounts.findIndex(a => a.scjId === scjId);
+      if (i >= 0) accounts[i].passwordHash = hash;
+      else accounts.push({ id: `acc_${Date.now()}`, scjId, passwordHash: hash });
+      write("accounts.json", accounts);
+    }
+  }
+
+  // ---- Ensure an account exists (defaults to 0000 if missing) ----
+  if (pool) {
+    await pool.query(
+      `insert into accounts (id, scj_id, password_hash)
+       values ($1,$2,$3)
+       on conflict (scj_id) do nothing`,
+      [`acc_${Date.now()}`, scjId, bcrypt.hashSync("0000", 10)]
     );
   } else {
     const accounts = read("accounts.json", []);
-    const i = accounts.findIndex(a => a.scjId === scjId);
-    if (i >= 0) accounts[i].passwordHash = hash;
-    else accounts.push({ id: `acc_${Date.now()}`, scjId, passwordHash: hash });
-    write("accounts.json", accounts);
+    if (!accounts.some(a => a.scjId === scjId)) {
+      accounts.push({ id: `acc_${Date.now()}`, scjId, passwordHash: bcrypt.hashSync("0000", 10) });
+      write("accounts.json", accounts);
+    }
   }
-}
 
-// ensure account exists (default 0000 if missing)
-if (pool) {
-  await pool.query(
-    `insert into accounts (id, scj_id, password_hash)
-     values ($1,$2,$3)
-     on conflict (scj_id) do nothing`,
-    [`acc_${Date.now()}`, scjId, bcrypt.hashSync("0000", 10)]
-  );
-} else {
-  const accounts = read("accounts.json", []);
-  if (!accounts.some(a => a.scjId === scjId)) {
-    accounts.push({ id: `acc_${Date.now()}`, scjId, passwordHash: bcrypt.hashSync("0000", 10) });
-    write("accounts.json", accounts);
-  }
-}
-
+  // finalize
   audit(req.user.scjId, "SUPPORT_OVERRIDE", "whitelist", scjId);
-  res.json({ ok: true, entry });
+  return res.json({ ok: true, entry });
 });
+
 
 // Feature flags
 app.get("/api/admin/flags", auth, async (req, res) => {

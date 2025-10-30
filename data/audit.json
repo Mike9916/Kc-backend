@@ -1,5 +1,15 @@
 [
   {
+    "ts": "2025-10-30T14:08:24.960Z",
+    "actorScjId": "0009-006",
+    "action": "SUBMIT",
+    "entity": "report_service",
+    "entityId": "svc_1761833304957",
+    "meta": {
+      "scjDate": "2025-10-30"
+    }
+  },
+  {
     "ts": "2025-10-29T15:21:27.937Z",
     "actorScjId": "KC-KIB-MEN-C1-S1",
     "action": "SUPPORT_OVERRIDE",

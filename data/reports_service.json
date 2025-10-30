@@ -200,5 +200,14 @@
     "realization": "bvbv",
     "createdAt": "2025-10-27T14:59:20.548Z",
     "updatedAt": "2025-10-27T14:59:29.346Z"
+  },
+  {
+    "id": "svc_1761833304957",
+    "scjId": "0009-006",
+    "scjDate": "2025-10-30",
+    "method": "physical",
+    "notAttended": false,
+    "realization": "",
+    "createdAt": "2025-10-30T14:08:24.957Z"
   }
 ]
