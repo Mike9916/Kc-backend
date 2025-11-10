@@ -120,5 +120,27 @@
     "rp": 0,
     "bb": 0,
     "createdAt": "2025-10-27T13:17:24.410Z"
+  },
+  {
+    "id": "ev_1761924025272",
+    "scjId": "KC-KIB-JYJN-MEN",
+    "scjDate": "2025-10-31",
+    "participated": false,
+    "findings": 0,
+    "nfp": 0,
+    "rp": 0,
+    "bb": 0,
+    "createdAt": "2025-10-31T15:20:25.272Z"
+  },
+  {
+    "id": "ev_1762353974666",
+    "scjId": "KC-KIB-MEN-C1-G",
+    "scjDate": "2025-11-05",
+    "participated": true,
+    "findings": 6,
+    "nfp": 8,
+    "rp": 0,
+    "bb": 0,
+    "createdAt": "2025-11-05T14:46:14.666Z"
   }
 ]

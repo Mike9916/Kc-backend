@@ -119,5 +119,35 @@
     "notAttended": false,
     "realization": "",
     "createdAt": "2025-10-27T13:17:16.704Z"
+  },
+  {
+    "id": "edu_1761924023053",
+    "scjId": "KC-KIB-JYJN-MEN",
+    "scjDate": "2025-10-31",
+    "session": "ALL_SUN",
+    "method": "physical",
+    "notAttended": false,
+    "realization": "",
+    "createdAt": "2025-10-31T15:20:23.054Z"
+  },
+  {
+    "id": "edu_1761924075637",
+    "scjId": "KC-KIB-MEN-C1-G",
+    "scjDate": "2025-10-31",
+    "session": "ALL_SUN",
+    "method": "physical",
+    "notAttended": false,
+    "realization": "",
+    "createdAt": "2025-10-31T15:21:15.637Z"
+  },
+  {
+    "id": "edu_1762353951860",
+    "scjId": "KC-KIB-MEN-C1-G",
+    "scjDate": "2025-11-05",
+    "session": "ALL_SUN",
+    "method": "physical",
+    "notAttended": true,
+    "realization": "",
+    "createdAt": "2025-11-05T14:45:51.860Z"
   }
 ]

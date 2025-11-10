@@ -209,5 +209,52 @@
     "notAttended": false,
     "realization": "",
     "createdAt": "2025-10-30T14:08:24.957Z"
+  },
+  {
+    "id": "svc_1761924021211",
+    "scjId": "KC-KIB-JYJN-MEN",
+    "scjDate": "2025-10-31",
+    "method": "physical",
+    "notAttended": false,
+    "realization": "",
+    "createdAt": "2025-10-31T15:20:21.211Z"
+  },
+  {
+    "id": "svc_1761924073584",
+    "scjId": "KC-KIB-MEN-C1-G",
+    "scjDate": "2025-10-31",
+    "method": "physical",
+    "notAttended": false,
+    "realization": "",
+    "createdAt": "2025-10-31T15:21:13.584Z"
+  },
+  {
+    "id": "svc_1761926265860",
+    "scjId": "KC-000003",
+    "scjDate": "2025-10-31",
+    "method": "physical",
+    "notAttended": false,
+    "realization": "",
+    "createdAt": "2025-10-31T15:57:45.861Z"
+  },
+  {
+    "id": "svc_1762353945729",
+    "scjId": "KC-KIB-MEN-C1-G",
+    "scjDate": "2025-11-05",
+    "method": "physical",
+    "notAttended": true,
+    "realization": "",
+    "createdAt": "2025-11-05T14:45:45.729Z",
+    "updatedAt": "2025-11-05T14:47:08.924Z"
+  },
+  {
+    "id": "svc_1762354053986",
+    "scjId": "KC-KIB-MEN-C1-S1",
+    "scjDate": "2025-11-05",
+    "method": "physical",
+    "notAttended": false,
+    "realization": "",
+    "createdAt": "2025-11-05T14:47:33.986Z",
+    "updatedAt": "2025-11-05T14:47:33.986Z"
   }
 ]

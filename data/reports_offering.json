@@ -88,5 +88,21 @@
     "channel": "cash",
     "amount": 100,
     "createdAt": "2025-10-27T13:17:32.771Z"
+  },
+  {
+    "id": "off_1761924026894",
+    "scjId": "KC-KIB-JYJN-MEN",
+    "scjDate": "2025-10-31",
+    "channel": "cash",
+    "amount": 0,
+    "createdAt": "2025-10-31T15:20:26.894Z"
+  },
+  {
+    "id": "off_1762353999647",
+    "scjId": "KC-KIB-MEN-C1-G",
+    "scjDate": "2025-11-05",
+    "channel": "cash",
+    "amount": 300,
+    "createdAt": "2025-11-05T14:46:39.647Z"
   }
 ]
