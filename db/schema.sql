@@ -164,3 +164,15 @@ CREATE TABLE IF NOT EXISTS app.leader_workflow (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   step_key TEXT, config JSONB, payload JSONB
 );
+
+-- for filtering by type & time
+CREATE INDEX IF NOT EXISTS idx_reports_type_period ON app.reports (type, period_start DESC);
+
+-- for leader scoping
+CREATE INDEX IF NOT EXISTS idx_reports_scope ON app.reports (scope_jyk, scope_cell);
+
+-- if you often filter just by jyk:
+CREATE INDEX IF NOT EXISTS idx_reports_jyk ON app.reports (scope_jyk);
+
+-- if you search by created_at
+CREATE INDEX IF NOT EXISTS idx_reports_created_at ON app.reports (created_at DESC);

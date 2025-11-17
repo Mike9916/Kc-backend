@@ -10,7 +10,7 @@
  *  - Admin console basics: whitelist upsert, set role, support inbox/override, feature flags, audit
  *  - Static serving of uploaded files under /uploads
  */
-require('dotenv').config();
+require('dotenv').config({ path: require('path').join(__dirname,'.env') });
 const fs = require("fs");
 const path = require("path");
 const express = require("express");
@@ -20,8 +20,24 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const rateLimit = require("express-rate-limit");
 const multer = require("multer");
+const mongoose = require("mongoose");
+// ---------- MongoDB (Atlas) connection ----------
+const MONGO_URL = process.env.MONGO_URL;
 
-const { Pool } = require('pg');
+if (MONGO_URL) {
+  (async () => {
+    try {
+      await mongoose.connect(MONGO_URL);
+      console.log("✅ MongoDB connected (Atlas)");
+    } catch (err) {
+      console.error("❌ MongoDB connection error:", err.message);
+    }
+  })();
+} else {
+  console.warn("MONGO_URL not set — MongoDB features are disabled.");
+}
+
+const { Pool } = require('pg', './backend/db/pool');
 
 let pool = null;
 if (process.env.DATABASE_URL) {
@@ -427,7 +443,7 @@ async function saveUser(updatedUser) {
 }
 /* --- tiny utils --- */
 const JWT_SECRET = process.env.JWT_SECRET;
-if (!JWT_SECRET) { throw new Error("JWT_SECRET is required"); }
+if (!JWT_SECRET) {throw new Error("JWT_SECRET is required"); }
 const ROLES = new Set(["SAINT","GYJN","JYJN","WEJANM","NEMOBU", "CHMN","DNGSN","CULTURE","COMMS","ADMIN"]);
 // >>> LEADERS: Roles (NEMOBU added)
 const LEADER_ROLES = new Set(["GYJN", "JYJN", "WEJANM", "NEMOBU", "CHMN", "DNGSN", "ADMIN"]);
@@ -519,7 +535,7 @@ const corsOpts = {
   credentials: true,
 };
 
-app.use(cors(corsOpts));
+app.use(cors(corsOpts, { origin: true, credentials: true }));
 
 // Fast-path preflight without using app.options('*')
 app.use((req, res, next) => {
@@ -2266,6 +2282,15 @@ async function compareAndMaybeMigratePassword(jwtUser, currentPlain) {
   return { ok, account: acc };
 }
 
+app.get('/healthz', async (req,res)=>{
+  try {
+    const { rows } = await pool.query('select now() as ts');
+    res.json({ ok:true, ts: rows[0].ts });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ ok:false, error: e.message });
+  }
+});
 // Health check route
 app.get('/api/health', (req, res) => {
   res.json({ ok: true, status: "Backend is running" });

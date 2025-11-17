@@ -16,3 +16,7 @@ build/
 Thumbs.db
 .vscode/
 .idea/
+# Ignore environment variables
+.env
+.env.local
+.env.migrate
