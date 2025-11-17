@@ -37,7 +37,6 @@ if (MONGO_URL) {
   console.warn("MONGO_URL not set — MongoDB features are disabled.");
 }
 
-const { Pool } = require('pg', './backend/db/pool');
 
 let pool = null;
 if (process.env.DATABASE_URL) {
