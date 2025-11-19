@@ -1,0 +1,11 @@
+{
+  "fileCaps": {
+    "imgMB": 15,
+    "videoMB": 1024,
+    "attachMB": 1024
+  },
+  "pwaUpdate": "prompt",
+  "featureFlags": {
+    "jykActivities": false
+  }
+}

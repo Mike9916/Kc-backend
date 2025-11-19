@@ -48,6 +48,44 @@ const reportSchema = new mongoose.Schema(
 );
 
 const Report = mongoose.model("Report", reportSchema);
+// ---------- Accounts & Whitelist collections (Mongo) ----------
+const accountSchema = new mongoose.Schema(
+  {
+    id: { type: String, required: true, unique: true }, // e.g. "acc_1001"
+    scjId: { type: String, required: true, index: true },
+    passwordHash: { type: String },
+    mustChangePassword: { type: Boolean, default: false },
+    passwordResetAt: { type: Date },
+    recovery: {
+      qid: String,       // or questionId, depending on what you use
+      question: String,
+      ansHash: String,
+    },
+  },
+  {
+    collection: "accounts",
+    strict: false, // allow any extra fields you already store
+  }
+);
+
+const whitelistSchema = new mongoose.Schema(
+  {
+    scjId: { type: String, required: true, unique: true },
+    name: String,
+    phone: String,
+    role: { type: String, default: "SAINT" },
+    jyk: String,
+    dept: String,
+    cell: String,
+  },
+  {
+    collection: "whitelist",
+    strict: false,
+  }
+);
+
+const Account = mongoose.model("Account", accountSchema);
+const Whitelist = mongoose.model("Whitelist", whitelistSchema);
 const app = express();
 
 /* -------------------------- DATA & HELPERS -------------------------- */
@@ -413,17 +451,24 @@ ensure("audit.json", []);
 ensure("flags.json", { jykActivities: false });
 
 async function loadUsers() {
-  return read("accounts.json", []);
+  // If you just need all, rarely used:
+  return Account.find().lean();
 }
+
 async function findUserByScjId(scjId) {
-  const users = await loadUsers();
-  return users.find(u => String(u.scjId).toLowerCase() === String(scjId).toLowerCase());
+  // Case-insensitive match for safety
+  return Account.findOne({
+    scjId: new RegExp(`^${String(scjId)}$`, "i"),
+  }).lean();
 }
+
 async function saveUser(updatedUser) {
-  const users = await loadUsers();
-  const i = users.findIndex(u => u.id === updatedUser.id);
-  if (i >= 0) users[i] = updatedUser;
-  write("accounts.json", users);
+  // upsert by your string id field
+  await Account.updateOne(
+    { id: updatedUser.id },
+    { $set: updatedUser },
+    { upsert: true }
+  );
 }
 /* --- tiny utils --- */
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -449,11 +494,11 @@ function audit(actorScjId, action, entity, entityId, meta = {}) {
   write("audit.json", log.slice(0, 5000));
 }
 
-function profileFor(scjId) {
-  const wl = read("whitelist.json", []);
-  return wl.find(w => String(w.scjId) === String(scjId)) || null;
+async function profileFor(scjId) {
+  return Whitelist.findOne({
+    scjId: new RegExp(`^${String(scjId)}$`, "i"),
+  }).lean();
 }
-
 function tokenFor(account, profile) {
   const payload = {
     id: account.id, scjId: account.scjId,
@@ -2052,7 +2097,7 @@ app.post("/api/admin/support/delete", auth, (req, res) => {
   res.json({ ok:true });
 });
 
-app.post("/api/admin/support/override", auth, (req, res) => {
+app.post("/api/admin/support/override", auth, async(req, res) => {
   if (String(req.user.role || "").toUpperCase() !== "ADMIN")
     return res.status(403).json({ error: "admin only" });
   const { scjId, name, phone, jyk, dept, cell, role = "SAINT" } = req.body || {};
@@ -2060,30 +2105,47 @@ app.post("/api/admin/support/override", auth, (req, res) => {
   if (!scjId || !name) return res.status(400).json({ error: "scjId & name required" });
 
   
-  // whitelist upsert
-  const wl = read("whitelist.json", []);
-  const idx = wl.findIndex(w => String(w.scjId) === String(scjId));
-  const entry = { scjId, name, phone, jyk, dept, cell, role: String(role).toUpperCase() };
-  if (idx >= 0) wl[idx] = { ...wl[idx], ...entry }; else wl.push(entry);
-  write("whitelist.json", wl);
+  // whitelist upsert (Mongo)
+const entry = {
+  scjId,
+  name,
+  phone,
+  jyk,
+  dept,
+  cell,
+  role: String(role || "SAINT").toUpperCase(),
+};
 
-  // Optional: force-reset an existing account to 0000
+const wlDoc = await Whitelist.findOneAndUpdate(
+  { scjId },
+  { $set: entry },
+  { new: true, upsert: true, lean: true }
+);
+
+// Optional: force-reset an existing account to 0000
 if (action === "reset_password") {
-  const accounts = read("accounts.json", []);
-  const idx = accounts.findIndex(a => a.scjId === scjId);
-  if (idx >= 0) {
-    accounts[idx].passwordHash = bcrypt.hashSync("0000", 10);
-    accounts[idx].passwordResetAt = new Date().toISOString();
-    write("accounts.json", accounts);
-  }
+  const newHash = await bcrypt.hash("0000", 10);
+  await Account.updateOne(
+    { scjId },
+    {
+      $set: {
+        passwordHash: newHash,
+        passwordResetAt: new Date(),
+      },
+    }
+  );
 }
 
-  // ensure account exists (password default 0000 if missing)
-  const accounts = read("accounts.json", []);
-  if (!accounts.some(a => a.scjId === scjId)) {
-    accounts.push({ id: `acc_${Date.now()}`, scjId, passwordHash: bcrypt.hashSync("0000", 10) });
-    write("accounts.json", accounts);
-  }
+// ensure account exists (password default 0000 if missing)
+let acc = await Account.findOne({ scjId }).lean();
+if (!acc) {
+  const newAcc = {
+    id: `acc_${Date.now()}`,
+    scjId,
+    passwordHash: await bcrypt.hash("0000", 10),
+  };
+  await Account.create(newAcc);
+}
 
   audit(req.user.scjId, "SUPPORT_OVERRIDE", "whitelist", scjId);
   res.json({ ok: true, entry });

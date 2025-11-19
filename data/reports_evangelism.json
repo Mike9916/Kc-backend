@@ -1,0 +1,146 @@
+[
+  {
+    "id": "ev_1760897976704",
+    "scjId": "KC2024-2001",
+    "scjDate": "2025-10-19",
+    "participated": false,
+    "findings": 0,
+    "nfp": 0,
+    "rp": 0,
+    "bb": 0,
+    "createdAt": "2025-10-19T18:19:36.704Z"
+  },
+  {
+    "id": "ev_1760899202266",
+    "scjId": "KC2024-1001",
+    "scjDate": "2025-10-19",
+    "participated": false,
+    "findings": 0,
+    "nfp": 0,
+    "rp": 0,
+    "bb": 0,
+    "createdAt": "2025-10-19T18:40:02.266Z"
+  },
+  {
+    "id": "ev_1760945203680",
+    "scjId": "KC2024-2001",
+    "scjDate": "2025-10-20",
+    "participated": false,
+    "findings": 0,
+    "nfp": 0,
+    "rp": 0,
+    "bb": 0,
+    "createdAt": "2025-10-20T07:26:43.680Z"
+  },
+  {
+    "id": "ev_1760945243455",
+    "scjId": "KC2024-1001",
+    "scjDate": "2025-10-20",
+    "participated": false,
+    "findings": 0,
+    "nfp": 0,
+    "rp": 0,
+    "bb": 0,
+    "createdAt": "2025-10-20T07:27:23.455Z"
+  },
+  {
+    "id": "ev_1761297559857",
+    "scjId": "KC-KIB-MEN-C1-S1",
+    "scjDate": "2025-10-24",
+    "participated": false,
+    "findings": 0,
+    "nfp": 0,
+    "rp": 0,
+    "bb": 0,
+    "createdAt": "2025-10-24T09:19:19.857Z"
+  },
+  {
+    "id": "ev_1761304322466",
+    "scjId": "KC-KIB-MEN-C1-S2",
+    "scjDate": "2025-10-24",
+    "participated": false,
+    "findings": 0,
+    "nfp": 0,
+    "rp": 0,
+    "bb": 0,
+    "createdAt": "2025-10-24T11:12:02.466Z"
+  },
+  {
+    "id": "ev_1761337716423",
+    "scjId": "KC-KIB-MEN-C1-S8",
+    "scjDate": "2025-10-24",
+    "participated": true,
+    "findings": 0,
+    "nfp": 5,
+    "rp": 0,
+    "bb": 0,
+    "createdAt": "2025-10-24T20:28:36.423Z",
+    "updatedAt": "2025-10-24T20:28:36.423Z"
+  },
+  {
+    "id": "ev_1761337904234",
+    "scjId": "KC-KIB-MEN-C1-G",
+    "scjDate": "2025-10-24",
+    "participated": false,
+    "findings": 0,
+    "nfp": 0,
+    "rp": 0,
+    "bb": 0,
+    "createdAt": "2025-10-24T20:31:44.234Z"
+  },
+  {
+    "id": "ev_1761482153448",
+    "scjId": "KC-KIB-MEN-C1-S1",
+    "scjDate": "2025-10-26",
+    "participated": true,
+    "findings": 99,
+    "nfp": 0,
+    "rp": 0,
+    "bb": 0,
+    "createdAt": "2025-10-26T12:35:53.448Z"
+  },
+  {
+    "id": "ev_1761483288986",
+    "scjId": "KC-000101",
+    "scjDate": "2025-10-26",
+    "participated": true,
+    "findings": 1,
+    "nfp": 2,
+    "rp": 31,
+    "bb": 1,
+    "createdAt": "2025-10-26T12:54:48.986Z"
+  },
+  {
+    "id": "ev_1761571044410",
+    "scjId": "KC-KIB-MEN-C1-S1",
+    "scjDate": "2025-10-27",
+    "participated": true,
+    "findings": 9,
+    "nfp": 0,
+    "rp": 0,
+    "bb": 0,
+    "createdAt": "2025-10-27T13:17:24.410Z"
+  },
+  {
+    "id": "ev_1761924025272",
+    "scjId": "KC-KIB-JYJN-MEN",
+    "scjDate": "2025-10-31",
+    "participated": false,
+    "findings": 0,
+    "nfp": 0,
+    "rp": 0,
+    "bb": 0,
+    "createdAt": "2025-10-31T15:20:25.272Z"
+  },
+  {
+    "id": "ev_1762353974666",
+    "scjId": "KC-KIB-MEN-C1-G",
+    "scjDate": "2025-11-05",
+    "participated": true,
+    "findings": 6,
+    "nfp": 8,
+    "rp": 0,
+    "bb": 0,
+    "createdAt": "2025-11-05T14:46:14.666Z"
+  }
+]
