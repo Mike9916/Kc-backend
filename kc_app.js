@@ -36,34 +36,18 @@ if (MONGO_URL) {
 } else {
   console.warn("MONGO_URL not set — MongoDB features are disabled.");
 }
+// ---------- Reports collection (Mongo) ----------
+const reportSchema = new mongoose.Schema(
+  {
+    scjId: { type: String, required: true },
+    type: { type: String, required: true },
+    payload: { type: mongoose.Schema.Types.Mixed, default: {} },
+    createdAt: { type: Date, default: Date.now },
+  },
+  { collection: "reports" }
+);
 
-const {pool} = require('pg')
-
-let pool = null;
-if (process.env.DATABASE_URL) {
-  pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: { rejectUnauthorized: false },
-  });
-  (async () => {
-    try {
-      await pool.query(`
-        CREATE TABLE IF NOT EXISTS reports (
-          id SERIAL PRIMARY KEY,
-          scj_id TEXT NOT NULL,
-          type TEXT NOT NULL,
-          payload JSONB NOT NULL,
-          created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
-        )
-      `);
-      console.log('Reports table ready');
-    } catch (e) {
-      console.error('DB init failed:', e);
-    }
-  })();
-} else {
-  console.warn('DATABASE_URL not set — DB features are disabled locally.');
-}
+const Report = mongoose.model("Report", reportSchema);
 const app = express();
 
 /* -------------------------- DATA & HELPERS -------------------------- */
@@ -2173,19 +2157,7 @@ app.get("/api/meta/departments", (req, res) => {
   res.json({ items: ["MEN", "YOUNG ADULTS", "WOMEN"] });
 });
 // Save a report
-app.post('/api/reports', async (req, res) => {
-  try {
-    const { scjId, type, payload } = req.body || {};
-    await pool.query(
-      'INSERT INTO reports (scj_id, type, payload) VALUES ($1, $2, $3)',
-      [scjId, type, payload || {}]
-    );
-    res.json({ ok: true });
-  } catch (e) {
-    console.error("Insert error:", e);
-    res.status(500).json({ ok: false, error: "Failed to save report" });
-  }
-});
+
 
 // --- RBAC filter (uses your canSee). If you already have filterVisible(), this
 // block safely falls back to it; otherwise we define a minimal one here.
@@ -2219,15 +2191,23 @@ function __filterVisible(me, list) {
 }
 
 // ⬇ If your project uses auth to set req.user, keep it here to enable RBAC.
-app.get('/api/reports', auth, async (req, res) => {
+// Reports (MongoDB) – uses the Report model defined above
+
+// List latest reports (RBAC filtered)
+app.get("/api/reports", auth, async (req, res) => {
   try {
-    if (!pool) return res.status(503).json({ error: 'DB not configured' });
+    // fetch latest 200 from Mongo
+    const docs = await Report.find({})
+      .sort({ createdAt: -1 })
+      .limit(200)
+      .lean();
 
-    const { rows } = await pool.query(
-      'SELECT * FROM reports ORDER BY created_at DESC LIMIT 200'
-    );
+    // keep same shape expectation for __filterVisible (scjId / scj_id)
+    const rows = docs.map(d => ({
+      ...d,
+      scj_id: d.scjId, // for legacy code that expects snake_case
+    }));
 
-    // Enforce visibility: Nemobu must NOT see CHMN/DNGSN; CHMN must NOT see DNGSN; etc.
     const safeRows = __filterVisible(req.user || {}, rows);
     return res.json(safeRows);
   } catch (e) {
@@ -2236,15 +2216,19 @@ app.get('/api/reports', auth, async (req, res) => {
   }
 });
 
-app.post('/api/reports', async (req, res) => {
+// Save a report (Mongo)
+app.post("/api/reports", async (req, res) => {
   try {
-    if (!pool) return res.status(503).json({ error: 'DB not configured' });
-
     const { scjId, type, payload } = req.body || {};
-    await pool.query(
-      'INSERT INTO reports (scj_id, type, payload) VALUES ($1,$2,$3)',
-      [scjId, type, payload || {}]
-    );
+    if (!scjId || !type) {
+      return res.status(400).json({ ok: false, error: "scjId & type required" });
+    }
+
+    await Report.create({
+      scjId,
+      type,
+      payload: payload || {},
+    });
 
     return res.json({ ok: true });
   } catch (e) {
@@ -2282,13 +2266,17 @@ async function compareAndMaybeMigratePassword(jwtUser, currentPlain) {
   return { ok, account: acc };
 }
 
-app.get('/healthz', async (req,res)=>{
+app.get("/healthz", async (req, res) => {
   try {
-    const { rows } = await pool.query('select now() as ts');
-    res.json({ ok:true, ts: rows[0].ts });
+    // 1 = connected, 2 = connecting
+    const mongoState = mongoose.connection.readyState;
+    res.json({
+      ok: mongoState === 1 || mongoState === 2,
+      mongoState,
+    });
   } catch (e) {
     console.error(e);
-    res.status(500).json({ ok:false, error: e.message });
+    res.status(500).json({ ok: false, error: e.message });
   }
 });
 // Health check route
