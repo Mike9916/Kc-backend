@@ -1,0 +1,29 @@
+[
+  {
+    "id": "iss_1730054123123",
+    "kind": "issue",
+    "text": "Microphone cuts off during livestreams at Kabiria Center. Please check connections or replace faulty cable.",
+    "media": null,
+    "status": "Pending",
+    "createdAt": "2025-10-26T08:15:00.000Z",
+    "resolvedAt": null
+  },
+  {
+    "id": "iss_1730054182765",
+    "kind": "suggestion",
+    "text": "Consider adding Bible quiz challenges to the youth service sessions for more engagement.",
+    "media": "https://drive.google.com/file/d/1xExampleID/view?usp=sharing",
+    "status": "Resolved",
+    "createdAt": "2025-10-25T14:42:00.000Z",
+    "resolvedAt": "2025-10-26T09:10:00.000Z"
+  },
+  {
+    "id": "iss_1730054268900",
+    "kind": "issue",
+    "text": "Sunday announcements font is too small on screen. Could the culture team enlarge the text next time?",
+    "media": null,
+    "status": "Pending",
+    "createdAt": "2025-10-26T10:22:00.000Z",
+    "resolvedAt": null
+  }
+]

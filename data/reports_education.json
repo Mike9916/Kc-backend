@@ -1,0 +1,153 @@
+[
+  {
+    "id": "edu_1760897974623",
+    "scjId": "KC2024-2001",
+    "scjDate": "2025-10-19",
+    "session": "ALL_SUN",
+    "method": "physical",
+    "notAttended": false,
+    "realization": "",
+    "createdAt": "2025-10-19T18:19:34.623Z"
+  },
+  {
+    "id": "edu_1760899200242",
+    "scjId": "KC2024-1001",
+    "scjDate": "2025-10-19",
+    "session": "ALL_SUN",
+    "method": "physical",
+    "notAttended": false,
+    "realization": "",
+    "createdAt": "2025-10-19T18:40:00.242Z"
+  },
+  {
+    "id": "edu_1760945201837",
+    "scjId": "KC2024-2001",
+    "scjDate": "2025-10-20",
+    "session": "ALL_SUN",
+    "method": "physical",
+    "notAttended": false,
+    "realization": "",
+    "createdAt": "2025-10-20T07:26:41.837Z"
+  },
+  {
+    "id": "edu_1760945242143",
+    "scjId": "KC2024-1001",
+    "scjDate": "2025-10-20",
+    "session": "ALL_SUN",
+    "method": "physical",
+    "notAttended": false,
+    "realization": "",
+    "createdAt": "2025-10-20T07:27:22.143Z"
+  },
+  {
+    "id": "edu_1761297557771",
+    "scjId": "KC-KIB-MEN-C1-S1",
+    "scjDate": "2025-10-24",
+    "session": "ALL_SUN",
+    "method": "physical",
+    "notAttended": false,
+    "realization": "",
+    "createdAt": "2025-10-24T09:19:17.771Z"
+  },
+  {
+    "id": "edu_1761304317107",
+    "scjId": "KC-KIB-MEN-C1-S2",
+    "scjDate": "2025-10-24",
+    "session": "ALL_SUN",
+    "method": "physical",
+    "notAttended": false,
+    "realization": "",
+    "createdAt": "2025-10-24T11:11:57.107Z"
+  },
+  {
+    "id": "edu_1761309985965",
+    "scjId": "KC-KIB-MEN-C1-G",
+    "scjDate": "2025-10-24",
+    "session": "ALL_SUN",
+    "method": "physical",
+    "notAttended": false,
+    "realization": "",
+    "createdAt": "2025-10-24T12:46:25.965Z"
+  },
+  {
+    "id": "edu_1761336292696",
+    "scjId": "KC-KIB-MEN-C1-S3",
+    "scjDate": "2025-10-24",
+    "session": "ALL_SUN",
+    "method": "physical",
+    "notAttended": false,
+    "realization": "",
+    "createdAt": "2025-10-24T20:04:52.696Z",
+    "updatedAt": "2025-10-24T20:04:52.696Z"
+  },
+  {
+    "id": "edu_1761381080740",
+    "scjId": "KC-KIB-MEN-C1-S1",
+    "scjDate": "2025-10-25",
+    "session": "ALL_SUN",
+    "method": "physical",
+    "notAttended": false,
+    "realization": "",
+    "createdAt": "2025-10-25T08:31:20.740Z"
+  },
+  {
+    "id": "edu_1761476741960",
+    "scjId": "KC-KIB-MEN-C1-S1",
+    "scjDate": "2025-10-26",
+    "session": "ALL_SUN",
+    "method": "physical",
+    "notAttended": false,
+    "realization": "",
+    "createdAt": "2025-10-26T11:05:41.960Z"
+  },
+  {
+    "id": "edu_1761481534283",
+    "scjId": "KC-000101",
+    "scjDate": "2025-10-26",
+    "session": "ALL_SUN",
+    "method": "physical",
+    "notAttended": true,
+    "realization": "",
+    "createdAt": "2025-10-26T12:25:34.283Z"
+  },
+  {
+    "id": "edu_1761571036704",
+    "scjId": "KC-KIB-MEN-C1-S1",
+    "scjDate": "2025-10-27",
+    "session": "ALL_SUN",
+    "method": "physical",
+    "notAttended": false,
+    "realization": "",
+    "createdAt": "2025-10-27T13:17:16.704Z"
+  },
+  {
+    "id": "edu_1761924023053",
+    "scjId": "KC-KIB-JYJN-MEN",
+    "scjDate": "2025-10-31",
+    "session": "ALL_SUN",
+    "method": "physical",
+    "notAttended": false,
+    "realization": "",
+    "createdAt": "2025-10-31T15:20:23.054Z"
+  },
+  {
+    "id": "edu_1761924075637",
+    "scjId": "KC-KIB-MEN-C1-G",
+    "scjDate": "2025-10-31",
+    "session": "ALL_SUN",
+    "method": "physical",
+    "notAttended": false,
+    "realization": "",
+    "createdAt": "2025-10-31T15:21:15.637Z"
+  },
+  {
+    "id": "edu_1762353951860",
+    "scjId": "KC-KIB-MEN-C1-G",
+    "scjDate": "2025-11-05",
+    "session": "ALL_SUN",
+    "method": "physical",
+    "notAttended": true,
+    "realization": "",
+    "createdAt": "2025-11-05T14:45:51.860Z"
+  }
+]

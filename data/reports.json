@@ -1,0 +1,233 @@
+[
+  {
+    "id": "svc_1760897966249",
+    "type": "service",
+    "scjDate": "2025-10-19",
+    "ownerId": "KC2024-2001",
+    "method": "physical",
+    "notAttended": false,
+    "realization": ""
+  },
+  {
+    "id": "svc_1760899197153",
+    "type": "service",
+    "scjDate": "2025-10-19",
+    "ownerId": "KC2024-1001",
+    "method": "physical",
+    "notAttended": false,
+    "realization": ""
+  },
+  {
+    "id": "svc_1760945199219",
+    "type": "service",
+    "scjDate": "2025-10-20",
+    "ownerId": "KC2024-2001",
+    "method": "physical",
+    "notAttended": false,
+    "realization": ""
+  },
+  {
+    "id": "svc_1760945239850",
+    "type": "service",
+    "scjDate": "2025-10-20",
+    "ownerId": "KC2024-1001",
+    "method": "physical",
+    "notAttended": false,
+    "realization": ""
+  },
+  {
+    "id": "svc_1761045787817",
+    "type": "service",
+    "scjDate": "2025-10-21",
+    "ownerId": "KC2024-1001",
+    "method": "physical",
+    "notAttended": false,
+    "realization": ""
+  },
+  {
+    "id": "svc_1761236840506",
+    "type": "service",
+    "scjDate": "2025-10-23",
+    "ownerId": "KC2024-1001",
+    "method": "physical",
+    "notAttended": false,
+    "realization": ""
+  },
+  {
+    "id": "svc_1761243406072",
+    "type": "service",
+    "scjDate": "2025-10-23",
+    "ownerId": "KC2024-2001",
+    "method": "physical",
+    "notAttended": false,
+    "realization": ""
+  },
+  {
+    "id": "svc_1761244195156",
+    "type": "service",
+    "scjDate": "2025-10-24",
+    "ownerId": "KC2024-2001",
+    "method": "physical",
+    "notAttended": false,
+    "realization": ""
+  },
+  {
+    "id": "svc_1761297555569",
+    "type": "service",
+    "scjDate": "2025-10-24",
+    "ownerId": "KC-KIB-MEN-C1-S1",
+    "method": "physical",
+    "notAttended": false,
+    "realization": ""
+  },
+  {
+    "id": "edu_1760897974623",
+    "type": "education",
+    "scjDate": "2025-10-19",
+    "ownerId": "KC2024-2001",
+    "session": "ALL_SUN",
+    "method": "physical",
+    "notAttended": false,
+    "realization": ""
+  },
+  {
+    "id": "edu_1760899200242",
+    "type": "education",
+    "scjDate": "2025-10-19",
+    "ownerId": "KC2024-1001",
+    "session": "ALL_SUN",
+    "method": "physical",
+    "notAttended": false,
+    "realization": ""
+  },
+  {
+    "id": "edu_1760945201837",
+    "type": "education",
+    "scjDate": "2025-10-20",
+    "ownerId": "KC2024-2001",
+    "session": "ALL_SUN",
+    "method": "physical",
+    "notAttended": false,
+    "realization": ""
+  },
+  {
+    "id": "edu_1760945242143",
+    "type": "education",
+    "scjDate": "2025-10-20",
+    "ownerId": "KC2024-1001",
+    "session": "ALL_SUN",
+    "method": "physical",
+    "notAttended": false,
+    "realization": ""
+  },
+  {
+    "id": "edu_1761297557771",
+    "type": "education",
+    "scjDate": "2025-10-24",
+    "ownerId": "KC-KIB-MEN-C1-S1",
+    "session": "ALL_SUN",
+    "method": "physical",
+    "notAttended": false,
+    "realization": ""
+  },
+  {
+    "id": "ev_1760897976704",
+    "type": "evangelism",
+    "scjDate": "2025-10-19",
+    "ownerId": "KC2024-2001",
+    "participated": false,
+    "findings": 0,
+    "nfp": 0,
+    "rp": 0,
+    "bb": 0
+  },
+  {
+    "id": "ev_1760899202266",
+    "type": "evangelism",
+    "scjDate": "2025-10-19",
+    "ownerId": "KC2024-1001",
+    "participated": false,
+    "findings": 0,
+    "nfp": 0,
+    "rp": 0,
+    "bb": 0
+  },
+  {
+    "id": "ev_1760945203680",
+    "type": "evangelism",
+    "scjDate": "2025-10-20",
+    "ownerId": "KC2024-2001",
+    "participated": false,
+    "findings": 0,
+    "nfp": 0,
+    "rp": 0,
+    "bb": 0
+  },
+  {
+    "id": "ev_1760945243455",
+    "type": "evangelism",
+    "scjDate": "2025-10-20",
+    "ownerId": "KC2024-1001",
+    "participated": false,
+    "findings": 0,
+    "nfp": 0,
+    "rp": 0,
+    "bb": 0
+  },
+  {
+    "id": "ev_1761297559857",
+    "type": "evangelism",
+    "scjDate": "2025-10-24",
+    "ownerId": "KC-KIB-MEN-C1-S1",
+    "participated": false,
+    "findings": 0,
+    "nfp": 0,
+    "rp": 0,
+    "bb": 0
+  },
+  {
+    "id": "off_1760897979982",
+    "type": "offering",
+    "scjDate": "2025-10-19",
+    "ownerId": "KC2024-2001",
+    "notOffered": false,
+    "channel": "cash",
+    "amount": 0
+  },
+  {
+    "id": "off_1760899204160",
+    "type": "offering",
+    "scjDate": "2025-10-19",
+    "ownerId": "KC2024-1001",
+    "notOffered": false,
+    "channel": "cash",
+    "amount": 0
+  },
+  {
+    "id": "off_1760945205556",
+    "type": "offering",
+    "scjDate": "2025-10-20",
+    "ownerId": "KC2024-2001",
+    "notOffered": false,
+    "channel": "cash",
+    "amount": 0
+  },
+  {
+    "id": "off_1760945245770",
+    "type": "offering",
+    "scjDate": "2025-10-20",
+    "ownerId": "KC2024-1001",
+    "notOffered": false,
+    "channel": "cash",
+    "amount": 0
+  },
+  {
+    "id": "off_1761297561984",
+    "type": "offering",
+    "scjDate": "2025-10-24",
+    "ownerId": "KC-KIB-MEN-C1-S1",
+    "notOffered": false,
+    "channel": "cash",
+    "amount": 0
+  }
+]

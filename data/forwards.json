@@ -1,0 +1,92 @@
+[
+  {
+    "key": "KC-000001::2025-10-24::service",
+    "leaderScjId": "KC-000001",
+    "date": "2025-10-24",
+    "type": "service",
+    "status": "Open",
+    "forwardAttempts": 0,
+    "returns": 0
+  },
+  {
+    "key": "KC-KIB-MEN-C1-G::2025-10-24::service",
+    "leaderScjId": "KC-KIB-MEN-C1-G",
+    "date": "2025-10-24",
+    "type": "service",
+    "status": "Open",
+    "forwardAttempts": 0,
+    "returns": 0
+  },
+  {
+    "key": "KC-KIB-JYJN-MEN::2025-10-24::service",
+    "leaderScjId": "KC-KIB-JYJN-MEN",
+    "date": "2025-10-24",
+    "type": "service",
+    "status": "Open",
+    "forwardAttempts": 0,
+    "returns": 0
+  },
+  {
+    "key": "2025-10-24:offering:KC-KIB-MEN-C1-G",
+    "date": "2025-10-24",
+    "type": "offering",
+    "by": "KC-KIB-MEN-C1-G",
+    "forwardAttempts": 1,
+    "needsVerify": false,
+    "status": "Pending",
+    "returns": 0
+  },
+  {
+    "key": "2025-10-24:education:KC-KIB-MEN-C1-G",
+    "date": "2025-10-24",
+    "type": "education",
+    "by": "KC-KIB-MEN-C1-G",
+    "forwardAttempts": 1,
+    "needsVerify": false,
+    "status": "Pending",
+    "returns": 0
+  },
+  {
+    "key": "2025-10-24:service:KC-KIB-MEN-C1-G",
+    "date": "2025-10-24",
+    "type": "service",
+    "by": "KC-KIB-MEN-C1-G",
+    "forwardAttempts": 1,
+    "needsVerify": false,
+    "status": "Pending",
+    "returns": 0
+  },
+  {
+    "key": "2025-10-31:service:KC-000003",
+    "date": "2025-10-31",
+    "type": "service",
+    "byScjId": "KC-000003",
+    "forwardAttempts": 1,
+    "needsVerify": false,
+    "status": "Pending",
+    "returns": 0,
+    "note": null
+  },
+  {
+    "key": "2025-11-05:evangelism:KC-KIB-JYJN-MEN",
+    "date": "2025-11-05",
+    "type": "evangelism",
+    "byScjId": "KC-KIB-JYJN-MEN",
+    "forwardAttempts": 1,
+    "needsVerify": false,
+    "status": "Pending",
+    "returns": 0,
+    "note": null
+  },
+  {
+    "key": "2025-11-05:service:KC-KIB-JYJN-MEN",
+    "date": "2025-11-05",
+    "type": "service",
+    "byScjId": "KC-KIB-JYJN-MEN",
+    "forwardAttempts": 1,
+    "needsVerify": false,
+    "status": "Pending",
+    "returns": 0,
+    "note": null
+  }
+]

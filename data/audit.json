@@ -1,0 +1,3017 @@
+[
+  {
+    "ts": "2025-11-05T14:50:47.154Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "MEDIA_UPLOAD",
+    "entity": "media",
+    "entityId": "m_1762354247153",
+    "meta": {
+      "file": "uploads/1762354247151_media_vest_1.webp"
+    }
+  },
+  {
+    "ts": "2025-11-05T14:48:45.632Z",
+    "actorScjId": "KC-KIB-JYJN-MEN",
+    "action": "LEADER_FORWARD",
+    "entity": "workflow",
+    "entityId": "2025-11-05:service:KC-KIB-JYJN-MEN",
+    "meta": {}
+  },
+  {
+    "ts": "2025-11-05T14:47:33.990Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "LEADER_FILL",
+    "entity": "report_service",
+    "entityId": "svc_1762354053986",
+    "meta": {
+      "scjId": "KC-KIB-MEN-C1-S1",
+      "scjDate": "2025-11-05"
+    }
+  },
+  {
+    "ts": "2025-11-05T14:47:08.925Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "LEADER_FILL",
+    "entity": "report_service",
+    "entityId": "svc_1762353945729",
+    "meta": {
+      "scjId": "KC-KIB-MEN-C1-G",
+      "scjDate": "2025-11-05"
+    }
+  },
+  {
+    "ts": "2025-11-05T14:46:39.649Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "SUBMIT",
+    "entity": "report_offering",
+    "entityId": "off_1762353999647",
+    "meta": {
+      "scjDate": "2025-11-05"
+    }
+  },
+  {
+    "ts": "2025-11-05T14:46:14.667Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "SUBMIT",
+    "entity": "report_evangelism",
+    "entityId": "ev_1762353974666",
+    "meta": {
+      "scjDate": "2025-11-05"
+    }
+  },
+  {
+    "ts": "2025-11-05T14:45:51.863Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "SUBMIT",
+    "entity": "report_education",
+    "entityId": "edu_1762353951860",
+    "meta": {
+      "scjDate": "2025-11-05",
+      "session": "ALL_SUN"
+    }
+  },
+  {
+    "ts": "2025-11-05T14:45:45.731Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "SUBMIT",
+    "entity": "report_service",
+    "entityId": "svc_1762353945729",
+    "meta": {
+      "scjDate": "2025-11-05"
+    }
+  },
+  {
+    "ts": "2025-11-05T14:43:11.700Z",
+    "actorScjId": "34g344",
+    "action": "SUPPORT_CREATE",
+    "entity": "support",
+    "entityId": "sup_1762353791695",
+    "meta": {
+      "type": "forgot_password"
+    }
+  },
+  {
+    "ts": "2025-11-05T14:42:25.064Z",
+    "actorScjId": "0009-006",
+    "action": "PASSWORD_RESET_RECOVERY",
+    "entity": "account",
+    "entityId": "acc_1761408826128",
+    "meta": {}
+  },
+  {
+    "ts": "2025-11-05T08:43:24.152Z",
+    "actorScjId": "KC-KIB-JYJN-MEN",
+    "action": "LEADER_FORWARD",
+    "entity": "workflow",
+    "entityId": "2025-11-05:evangelism:KC-KIB-JYJN-MEN",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-31T15:58:28.347Z",
+    "actorScjId": "KC-000003",
+    "action": "LEADER_FORWARD",
+    "entity": "workflow",
+    "entityId": "2025-10-31:service:KC-000003",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-31T15:58:25.519Z",
+    "actorScjId": "KC-000003",
+    "action": "LEADER_VERIFY",
+    "entity": "workflow",
+    "entityId": "2025-10-31:service:KC-000003",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-31T15:57:45.864Z",
+    "actorScjId": "KC-000003",
+    "action": "SUBMIT",
+    "entity": "report_service",
+    "entityId": "svc_1761926265860",
+    "meta": {
+      "scjDate": "2025-10-31"
+    }
+  },
+  {
+    "ts": "2025-10-31T15:21:15.651Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "SUBMIT",
+    "entity": "report_education",
+    "entityId": "edu_1761924075637",
+    "meta": {
+      "scjDate": "2025-10-31",
+      "session": "ALL_SUN"
+    }
+  },
+  {
+    "ts": "2025-10-31T15:21:13.589Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "SUBMIT",
+    "entity": "report_service",
+    "entityId": "svc_1761924073584",
+    "meta": {
+      "scjDate": "2025-10-31"
+    }
+  },
+  {
+    "ts": "2025-10-31T15:20:26.904Z",
+    "actorScjId": "KC-KIB-JYJN-MEN",
+    "action": "SUBMIT",
+    "entity": "report_offering",
+    "entityId": "off_1761924026894",
+    "meta": {
+      "scjDate": "2025-10-31"
+    }
+  },
+  {
+    "ts": "2025-10-31T15:20:25.282Z",
+    "actorScjId": "KC-KIB-JYJN-MEN",
+    "action": "SUBMIT",
+    "entity": "report_evangelism",
+    "entityId": "ev_1761924025272",
+    "meta": {
+      "scjDate": "2025-10-31"
+    }
+  },
+  {
+    "ts": "2025-10-31T15:20:23.068Z",
+    "actorScjId": "KC-KIB-JYJN-MEN",
+    "action": "SUBMIT",
+    "entity": "report_education",
+    "entityId": "edu_1761924023053",
+    "meta": {
+      "scjDate": "2025-10-31",
+      "session": "ALL_SUN"
+    }
+  },
+  {
+    "ts": "2025-10-31T15:20:21.222Z",
+    "actorScjId": "KC-KIB-JYJN-MEN",
+    "action": "SUBMIT",
+    "entity": "report_service",
+    "entityId": "svc_1761924021211",
+    "meta": {
+      "scjDate": "2025-10-31"
+    }
+  },
+  {
+    "ts": "2025-10-30T14:08:24.960Z",
+    "actorScjId": "0009-006",
+    "action": "SUBMIT",
+    "entity": "report_service",
+    "entityId": "svc_1761833304957",
+    "meta": {
+      "scjDate": "2025-10-30"
+    }
+  },
+  {
+    "ts": "2025-10-29T15:21:27.937Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "SUPPORT_OVERRIDE",
+    "entity": "whitelist",
+    "entityId": "KC-KIB-MEN-C1-S2",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-29T15:21:10.289Z",
+    "actorScjId": "KC-KIB-MEN-C1-S2",
+    "action": "SUPPORT_CREATE",
+    "entity": "support",
+    "entityId": "sup_1761751270283",
+    "meta": {
+      "type": "forgot_password"
+    }
+  },
+  {
+    "ts": "2025-10-27T15:06:26.234Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "MEDIA_UPLOAD",
+    "entity": "media",
+    "entityId": "m_1761577586232",
+    "meta": {
+      "file": "uploads/1761577586228_Screenshot_2025-06-19_134921.png"
+    }
+  },
+  {
+    "ts": "2025-10-27T15:06:12.926Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "MEDIA_DELETE",
+    "entity": "media",
+    "entityId": "m_1761476737572",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-27T15:02:36.146Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "PASSWORD_RESET_RECOVERY",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-27T15:00:21.717Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "SUPPORT_STATUS",
+    "entity": "support",
+    "entityId": "sup_1761410827676",
+    "meta": {
+      "status": "Pending"
+    }
+  },
+  {
+    "ts": "2025-10-27T15:00:20.087Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "SUPPORT_STATUS",
+    "entity": "support",
+    "entityId": "sup_1761410827676",
+    "meta": {
+      "status": "Resolved"
+    }
+  },
+  {
+    "ts": "2025-10-27T14:59:29.348Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "LEADER_FILL",
+    "entity": "report_service",
+    "entityId": "svc_1761577160548",
+    "meta": {
+      "scjId": "KC-KIB-MEN-C1-G",
+      "scjDate": "2025-10-27"
+    }
+  },
+  {
+    "ts": "2025-10-27T14:59:20.550Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "LEADER_FILL",
+    "entity": "report_service",
+    "entityId": "svc_1761577160548",
+    "meta": {
+      "scjId": "KC-KIB-MEN-C1-G",
+      "scjDate": "2025-10-27"
+    }
+  },
+  {
+    "ts": "2025-10-27T14:39:44.855Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "PASSWORD_RESET_RECOVERY",
+    "entity": "account",
+    "entityId": "acc_1761297616887",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-27T13:17:32.774Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "SUBMIT",
+    "entity": "report_offering",
+    "entityId": "off_1761571052771",
+    "meta": {
+      "scjDate": "2025-10-27"
+    }
+  },
+  {
+    "ts": "2025-10-27T13:17:24.411Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "SUBMIT",
+    "entity": "report_evangelism",
+    "entityId": "ev_1761571044410",
+    "meta": {
+      "scjDate": "2025-10-27"
+    }
+  },
+  {
+    "ts": "2025-10-27T13:17:16.705Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "SUBMIT",
+    "entity": "report_education",
+    "entityId": "edu_1761571036704",
+    "meta": {
+      "scjDate": "2025-10-27",
+      "session": "ALL_SUN"
+    }
+  },
+  {
+    "ts": "2025-10-27T13:17:14.398Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "SUBMIT",
+    "entity": "report_service",
+    "entityId": "svc_1761571034397",
+    "meta": {
+      "scjDate": "2025-10-27"
+    }
+  },
+  {
+    "ts": "2025-10-27T13:15:40.538Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "SUPPORT_DELETE",
+    "entity": "support",
+    "entityId": "sup_1761507955619",
+    "meta": {
+      "type": "forgot_password"
+    }
+  },
+  {
+    "ts": "2025-10-27T13:15:23.681Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "PASSWORD_RESET_RECOVERY",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-27T13:14:30.413Z",
+    "actorScjId": "0009-006",
+    "action": "PASSWORD_RESET_RECOVERY",
+    "entity": "account",
+    "entityId": "acc_1761408826128",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-27T13:13:36.563Z",
+    "actorScjId": "KC-000101",
+    "action": "PASSWORD_RESET_RECOVERY",
+    "entity": "account",
+    "entityId": "acc_1761302134893",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-26T19:45:55.622Z",
+    "actorScjId": "geg34",
+    "action": "SUPPORT_CREATE",
+    "entity": "support",
+    "entityId": "sup_1761507955619",
+    "meta": {
+      "type": "forgot_password"
+    }
+  },
+  {
+    "ts": "2025-10-26T19:45:29.237Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "PASSWORD_RESET_RECOVERY",
+    "entity": "account",
+    "entityId": "acc_1761297616887",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-26T19:44:46.963Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297616887",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-26T19:33:34.302Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297616887",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-26T19:33:08.546Z",
+    "actorScjId": "0009-006",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761408826128",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-26T19:32:44.288Z",
+    "actorScjId": "0009-006",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761408826128",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-26T19:31:40.751Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-26T19:31:27.930Z",
+    "actorScjId": "0009-006",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761408826128",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-26T19:31:19.586Z",
+    "actorScjId": "KC-000001",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297339692",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-26T19:31:08.528Z",
+    "actorScjId": "KC-000001",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297339692",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-26T17:00:29.629Z",
+    "actorScjId": "KC-000101",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761302134893",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-26T17:00:17.234Z",
+    "actorScjId": "KC-000101",
+    "action": "PASSWORD_RESET_RECOVERY",
+    "entity": "account",
+    "entityId": "acc_1761302134893",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-26T16:50:10.124Z",
+    "actorScjId": "KC-000101",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761302134893",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-26T16:49:06.575Z",
+    "actorScjId": "KC-000101",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761302134893",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-26T16:48:54.042Z",
+    "actorScjId": "KC-000101",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761302134893",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-26T16:48:40.068Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297616887",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-26T16:47:42.684Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297616887",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-26T16:20:17.604Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "LEADER_FILL",
+    "entity": "report_service",
+    "entityId": "svc_1761495386500",
+    "meta": {
+      "scjId": "KC-KIB-MEN-C1-G",
+      "scjDate": "2025-10-26"
+    }
+  },
+  {
+    "ts": "2025-10-26T16:20:04.094Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "LEADER_FILL",
+    "entity": "report_service",
+    "entityId": "svc_1761495386500",
+    "meta": {
+      "scjId": "KC-KIB-MEN-C1-G",
+      "scjDate": "2025-10-26"
+    }
+  },
+  {
+    "ts": "2025-10-26T16:19:54.005Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "LEADER_FILL",
+    "entity": "report_service",
+    "entityId": "svc_1761495386500",
+    "meta": {
+      "scjId": "KC-KIB-MEN-C1-G",
+      "scjDate": "2025-10-26"
+    }
+  },
+  {
+    "ts": "2025-10-26T16:16:26.502Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "LEADER_FILL",
+    "entity": "report_service",
+    "entityId": "svc_1761495386500",
+    "meta": {
+      "scjId": "KC-KIB-MEN-C1-G",
+      "scjDate": "2025-10-26"
+    }
+  },
+  {
+    "ts": "2025-10-26T16:16:20.035Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297616887",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-26T16:11:25.601Z",
+    "actorScjId": "KC-000101",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761302134893",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-26T16:10:48.346Z",
+    "actorScjId": "KC-000101",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761302134893",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-26T16:10:32.870Z",
+    "actorScjId": "KC-000101",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761302134893",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-26T16:10:16.683Z",
+    "actorScjId": "KC-KIB-JYJN-MEN",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297711788",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-26T16:09:44.949Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297616887",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-26T16:09:32.320Z",
+    "actorScjId": "KC-000001",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297339692",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-26T12:56:45.715Z",
+    "actorScjId": "KC-000101",
+    "action": "SUBMIT",
+    "entity": "report_offering",
+    "entityId": "off_1761483405714",
+    "meta": {
+      "scjDate": "2025-10-26"
+    }
+  },
+  {
+    "ts": "2025-10-26T12:54:48.993Z",
+    "actorScjId": "KC-000101",
+    "action": "SUBMIT",
+    "entity": "report_evangelism",
+    "entityId": "ev_1761483288986",
+    "meta": {
+      "scjDate": "2025-10-26"
+    }
+  },
+  {
+    "ts": "2025-10-26T12:54:26.383Z",
+    "actorScjId": "KC-000101",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761302134893",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-26T12:35:53.449Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "SUBMIT",
+    "entity": "report_evangelism",
+    "entityId": "ev_1761482153448",
+    "meta": {
+      "scjDate": "2025-10-26"
+    }
+  },
+  {
+    "ts": "2025-10-26T12:34:12.278Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-26T12:25:34.285Z",
+    "actorScjId": "KC-000101",
+    "action": "SUBMIT",
+    "entity": "report_education",
+    "entityId": "edu_1761481534283",
+    "meta": {
+      "scjDate": "2025-10-26",
+      "session": "ALL_SUN"
+    }
+  },
+  {
+    "ts": "2025-10-26T12:25:17.990Z",
+    "actorScjId": "KC-000101",
+    "action": "SUBMIT",
+    "entity": "report_service",
+    "entityId": "svc_1761481517988",
+    "meta": {
+      "scjDate": "2025-10-26"
+    }
+  },
+  {
+    "ts": "2025-10-26T11:53:28.080Z",
+    "actorScjId": "KC-000101",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761302134893",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-26T11:52:51.910Z",
+    "actorScjId": "KC-000003",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761302344740",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-26T11:52:42.584Z",
+    "actorScjId": "KC-000002",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761302264672",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-26T11:52:11.088Z",
+    "actorScjId": "KC-000002",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761302264672",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-26T11:51:54.718Z",
+    "actorScjId": "KC-000003",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761302344740",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-26T11:42:31.634Z",
+    "actorScjId": "KC-000001",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297339692",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-26T11:09:58.369Z",
+    "actorScjId": "KC-000001",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297339692",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-26T11:09:30.798Z",
+    "actorScjId": "KC-000002",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761302264672",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-26T11:08:33.328Z",
+    "actorScjId": "KC-000101",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761302134893",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-26T11:07:37.968Z",
+    "actorScjId": "KC-KIB-JYJN-MEN",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297711788",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-26T11:07:17.108Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297616887",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-26T11:05:41.961Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "SUBMIT",
+    "entity": "report_education",
+    "entityId": "edu_1761476741960",
+    "meta": {
+      "scjDate": "2025-10-26",
+      "session": "ALL_SUN"
+    }
+  },
+  {
+    "ts": "2025-10-26T11:05:37.574Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "MEDIA_UPLOAD",
+    "entity": "media",
+    "entityId": "m_1761476737572",
+    "meta": {
+      "file": "uploads/1761476737567_Screenshot_2025-06-19_134840.png"
+    }
+  },
+  {
+    "ts": "2025-10-26T09:46:10.663Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-26T09:29:50.559Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-26T08:49:42.769Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "SUPPORT_STATUS",
+    "entity": "support",
+    "entityId": "sup_1761410827676",
+    "meta": {
+      "status": "Pending"
+    }
+  },
+  {
+    "ts": "2025-10-26T08:49:38.303Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "SUPPORT_STATUS",
+    "entity": "support",
+    "entityId": "sup_1761410827676",
+    "meta": {
+      "status": "Resolved"
+    }
+  },
+  {
+    "ts": "2025-10-26T08:43:01.433Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-26T08:35:50.617Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-26T08:23:03.776Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-26T07:55:24.921Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-25T19:23:54.181Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-25T19:03:16.227Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-25T18:12:49.765Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-25T16:59:38.231Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "SUPPORT_STATUS",
+    "entity": "support",
+    "entityId": "sup_1761410827676",
+    "meta": {
+      "status": "Pending"
+    }
+  },
+  {
+    "ts": "2025-10-25T16:59:34.901Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "SUPPORT_STATUS",
+    "entity": "support",
+    "entityId": "sup_1761410827676",
+    "meta": {
+      "status": "Resolved"
+    }
+  },
+  {
+    "ts": "2025-10-25T16:59:08.975Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "SUPPORT_STATUS",
+    "entity": "support",
+    "entityId": "sup_1761410827676",
+    "meta": {
+      "status": "Pending"
+    }
+  },
+  {
+    "ts": "2025-10-25T16:58:49.734Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "SUPPORT_STATUS",
+    "entity": "support",
+    "entityId": "sup_1761410827676",
+    "meta": {
+      "status": "Resolved"
+    }
+  },
+  {
+    "ts": "2025-10-25T16:47:14.812Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-25T16:47:07.678Z",
+    "actorScjId": "0009-369",
+    "action": "SUPPORT_CREATE",
+    "entity": "support",
+    "entityId": "sup_1761410827676",
+    "meta": {
+      "type": "forgot_password"
+    }
+  },
+  {
+    "ts": "2025-10-25T16:46:11.095Z",
+    "actorScjId": "KC-000001",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297339692",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-25T16:45:46.212Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-25T16:14:42.143Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-25T16:14:16.804Z",
+    "actorScjId": "0009-006",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761408826128",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-25T16:13:46.193Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "SUPPORT_OVERRIDE",
+    "entity": "whitelist",
+    "entityId": "0009-006",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-25T16:13:40.166Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "SUPPORT_DELETE",
+    "entity": "support",
+    "entityId": "sup_1761406118673",
+    "meta": {
+      "type": "forgot_password"
+    }
+  },
+  {
+    "ts": "2025-10-25T16:13:20.098Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-25T16:13:07.909Z",
+    "actorScjId": "0009-006",
+    "action": "SUPPORT_CREATE",
+    "entity": "support",
+    "entityId": "sup_1761408787908",
+    "meta": {
+      "type": "create_account"
+    }
+  },
+  {
+    "ts": "2025-10-25T16:11:40.822Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-25T15:36:11.268Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-25T15:34:44.820Z",
+    "actorScjId": "0009-0005",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761406361754",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-25T15:34:10.594Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-25T15:33:31.158Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "SUPPORT_OVERRIDE",
+    "entity": "whitelist",
+    "entityId": "0009-0005",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-25T15:33:31.152Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "WL_UPSERT",
+    "entity": "whitelist",
+    "entityId": "0009-0005",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-25T15:33:27.027Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "SUPPORT_OVERRIDE",
+    "entity": "whitelist",
+    "entityId": "0009-0005",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-25T15:33:27.018Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "WL_UPSERT",
+    "entity": "whitelist",
+    "entityId": "0009-0005",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-25T15:33:13.057Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-25T15:32:41.822Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "SUPPORT_OVERRIDE",
+    "entity": "whitelist",
+    "entityId": "0009-0005",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-25T15:32:31.157Z",
+    "actorScjId": "0009-0005",
+    "action": "SUPPORT_CREATE",
+    "entity": "support",
+    "entityId": "sup_1761406351156",
+    "meta": {
+      "type": "forgot_password"
+    }
+  },
+  {
+    "ts": "2025-10-25T15:30:27.016Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "SUPPORT_OVERRIDE",
+    "entity": "whitelist",
+    "entityId": "kc2024-1002",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-25T15:29:05.262Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-25T15:28:38.674Z",
+    "actorScjId": "0009-0006",
+    "action": "SUPPORT_CREATE",
+    "entity": "support",
+    "entityId": "sup_1761406118673",
+    "meta": {
+      "type": "forgot_password"
+    }
+  },
+  {
+    "ts": "2025-10-25T13:22:17.701Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-25T13:22:03.389Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "PASSWORD_RESET_RECOVERY",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-25T13:20:55.570Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "PASSWORD_RESET_RECOVERY",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-25T13:02:24.900Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "RECOVERY_SET",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-25T13:02:12.942Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-25T12:40:14.093Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-25T12:39:27.339Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "RECOVERY_SET",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-25T12:39:01.588Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-25T10:29:00.518Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "RECOVERY_SET",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-25T10:28:40.668Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-25T09:42:08.195Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-25T09:40:18.597Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-25T09:40:07.773Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "RECOVERY_SET",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-25T09:39:47.235Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-25T09:39:29.122Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "RECOVERY_SET",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-25T09:38:57.045Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-25T08:39:01.094Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-25T08:38:40.592Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "PASSWORD_CHANGE",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-25T08:37:58.672Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-25T08:31:20.742Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "SUBMIT",
+    "entity": "report_education",
+    "entityId": "edu_1761381080740",
+    "meta": {
+      "scjDate": "2025-10-25",
+      "session": "ALL_SUN"
+    }
+  },
+  {
+    "ts": "2025-10-25T00:08:41.442Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T23:58:25.393Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T23:45:57.360Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "FLAGS_SET",
+    "entity": "flags",
+    "entityId": "-",
+    "meta": {
+      "jykActivities": true
+    }
+  },
+  {
+    "ts": "2025-10-24T23:37:21.059Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "SUPPORT_OVERRIDE",
+    "entity": "whitelist",
+    "entityId": "kc2024-1002",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T23:37:21.051Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "WL_UPSERT",
+    "entity": "whitelist",
+    "entityId": "kc2024-1002",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T23:37:16.560Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "SUPPORT_OVERRIDE",
+    "entity": "whitelist",
+    "entityId": "kc2024-1002",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T22:24:55.971Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T22:07:39.546Z",
+    "actorScjId": "KC-000001",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297339692",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T21:22:45.354Z",
+    "actorScjId": "KC-KIB-JYJN-MEN",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297711788",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T21:22:34.185Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "LEADER_FORWARD",
+    "entity": "workflow",
+    "entityId": "2025-10-24:service:KC-KIB-MEN-C1-G",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T21:22:13.563Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297616887",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T20:51:00.434Z",
+    "actorScjId": "KC-000001",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297339692",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T20:43:51.532Z",
+    "actorScjId": "KC-000001",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297339692",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T20:31:46.616Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "SUBMIT",
+    "entity": "report_offering",
+    "entityId": "off_1761337906613",
+    "meta": {
+      "scjDate": "2025-10-24"
+    }
+  },
+  {
+    "ts": "2025-10-24T20:31:44.235Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "SUBMIT",
+    "entity": "report_evangelism",
+    "entityId": "ev_1761337904234",
+    "meta": {
+      "scjDate": "2025-10-24"
+    }
+  },
+  {
+    "ts": "2025-10-24T20:30:24.436Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "MEDIA_UPLOAD",
+    "entity": "media",
+    "entityId": "m_1761337824435",
+    "meta": {
+      "file": "uploads/1761337824426_Screenshot_2025-06-19_233139.png"
+    }
+  },
+  {
+    "ts": "2025-10-24T20:28:36.425Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "LEADER_FILL",
+    "entity": "report_evangelism",
+    "entityId": "ev_1761337716423",
+    "meta": {
+      "scjId": "KC-KIB-MEN-C1-S8",
+      "scjDate": "2025-10-24"
+    }
+  },
+  {
+    "ts": "2025-10-24T20:28:11.219Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "LEADER_FILL",
+    "entity": "report_service",
+    "entityId": "svc_1761337691218",
+    "meta": {
+      "scjId": "KC-KIB-MEN-C1-S8",
+      "scjDate": "2025-10-24"
+    }
+  },
+  {
+    "ts": "2025-10-24T20:22:12.186Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297616887",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T20:04:52.698Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "LEADER_FILL",
+    "entity": "report_education",
+    "entityId": "edu_1761336292696",
+    "meta": {
+      "scjId": "KC-KIB-MEN-C1-S3",
+      "scjDate": "2025-10-24"
+    }
+  },
+  {
+    "ts": "2025-10-24T18:55:26.268Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "LEADER_FORWARD",
+    "entity": "workflow",
+    "entityId": "2025-10-24:education:KC-KIB-MEN-C1-G",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T18:54:34.367Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "LEADER_FORWARD",
+    "entity": "workflow",
+    "entityId": "2025-10-24:offering:KC-KIB-MEN-C1-G",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T18:44:16.861Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "LEADER_FILL",
+    "entity": "report_service",
+    "entityId": "svc_1761331456860",
+    "meta": {
+      "scjId": "KC-KIB-MEN-C1-S7",
+      "scjDate": "2025-10-24"
+    }
+  },
+  {
+    "ts": "2025-10-24T18:40:48.228Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "SUBMIT",
+    "entity": "report_service",
+    "entityId": "svc_1761331248226",
+    "meta": {
+      "scjDate": "2025-10-24"
+    }
+  },
+  {
+    "ts": "2025-10-24T18:31:42.853Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297616887",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T18:02:09.762Z",
+    "actorScjId": "KC-KIB-JYJN-MEN",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297711788",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T18:01:40.454Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297616887",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T18:01:22.901Z",
+    "actorScjId": "KC-KIB-JYJN-MEN",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297711788",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T17:56:16.491Z",
+    "actorScjId": "KC-KIB-JYJN-MEN",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297711788",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T17:48:38.115Z",
+    "actorScjId": "KC-KIB-JYJN-MEN",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297711788",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T17:47:45.993Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297616887",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T13:46:05.404Z",
+    "actorScjId": "KC-000001",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297339692",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T13:29:27.387Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297616887",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T13:27:10.829Z",
+    "actorScjId": "KC-000001",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297339692",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T13:25:40.964Z",
+    "actorScjId": "KC-000001",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297339692",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T13:02:58.130Z",
+    "actorScjId": "KC-KIB-JYJN-MEN",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297711788",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T13:02:19.484Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "LEADER_FILL_MISSING",
+    "entity": "report_service",
+    "entityId": "service_1761310939479",
+    "meta": {
+      "scjId": "KC-KIB-MEN-C1-S6",
+      "scjDate": "2025-10-24"
+    }
+  },
+  {
+    "ts": "2025-10-24T13:00:09.303Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "LEADER_FILL_MISSING",
+    "entity": "report_service",
+    "entityId": "service_1761310809296",
+    "meta": {
+      "scjId": "KC-KIB-MEN-C1-S5",
+      "scjDate": "2025-10-24"
+    }
+  },
+  {
+    "ts": "2025-10-24T12:59:50.115Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297616887",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T12:56:34.494Z",
+    "actorScjId": "KC-KIB-JYJN-MEN",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297711788",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T12:56:12.660Z",
+    "actorScjId": "KC-000101",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761302134893",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T12:55:30.355Z",
+    "actorScjId": "KC-000002",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761302264672",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T12:54:56.061Z",
+    "actorScjId": "KC-000003",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761302344740",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T12:52:32.455Z",
+    "actorScjId": "KC-000001",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297339692",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T12:51:15.615Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "LEADER_RETURN",
+    "entity": "leader_workflow",
+    "entityId": "ADMIN::acc_1761297545786::2025-10-24::service",
+    "meta": {
+      "type": "service",
+      "scjDate": "2025-10-24",
+      "note": ""
+    }
+  },
+  {
+    "ts": "2025-10-24T12:50:56.471Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "LEADER_RETURN",
+    "entity": "leader_workflow",
+    "entityId": "ADMIN::acc_1761297545786::2025-10-24::service",
+    "meta": {
+      "type": "service",
+      "scjDate": "2025-10-24",
+      "note": ""
+    }
+  },
+  {
+    "ts": "2025-10-24T12:50:07.438Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T12:46:25.968Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "SUBMIT",
+    "entity": "report_education",
+    "entityId": "edu_1761309985965",
+    "meta": {
+      "scjDate": "2025-10-24",
+      "session": "ALL_SUN"
+    }
+  },
+  {
+    "ts": "2025-10-24T12:45:45.577Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297616887",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T12:03:30.449Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "LEADER_FORWARD",
+    "entity": "leader_forward",
+    "entityId": "2025-10-24",
+    "meta": {
+      "type": "offering",
+      "incomplete": true,
+      "missingCount": 4
+    }
+  },
+  {
+    "ts": "2025-10-24T12:02:55.553Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "LEADER_FILL_MISSING",
+    "entity": "report_service",
+    "entityId": "service_1761307375551",
+    "meta": {
+      "scjId": "KC-KIB-MEN-C1-S4",
+      "scjDate": "2025-10-24"
+    }
+  },
+  {
+    "ts": "2025-10-24T11:55:58.938Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "LEADER_FORWARD",
+    "entity": "leader_forward",
+    "entityId": "2025-10-24",
+    "meta": {
+      "type": "evangelism",
+      "incomplete": true,
+      "missingCount": 6
+    }
+  },
+  {
+    "ts": "2025-10-24T11:39:11.725Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "LEADER_FILL_MISSING",
+    "entity": "report_offering",
+    "entityId": "offering_1761305951724",
+    "meta": {
+      "scjDate": "2025-10-24",
+      "scjId": "KC-KIB-MEN-C1-S6"
+    }
+  },
+  {
+    "ts": "2025-10-24T11:19:15.731Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "LEADER_FORWARD",
+    "entity": "leader_forward",
+    "entityId": "2025-10-24",
+    "meta": {
+      "type": "evangelism",
+      "incomplete": true,
+      "missingCount": 6
+    }
+  },
+  {
+    "ts": "2025-10-24T11:16:09.741Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297616887",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T11:15:34.193Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "LEADER_FILL_MISSING",
+    "entity": "report_offering",
+    "entityId": "offering_1761304534191",
+    "meta": {
+      "scjDate": "2025-10-24",
+      "scjId": "KC-KIB-MEN-C1-S4"
+    }
+  },
+  {
+    "ts": "2025-10-24T11:14:58.235Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "LEADER_FILL_MISSING",
+    "entity": "report_service",
+    "entityId": "service_1761304498233",
+    "meta": {
+      "scjDate": "2025-10-24",
+      "scjId": "KC-KIB-MEN-C1-S3"
+    }
+  },
+  {
+    "ts": "2025-10-24T11:14:48.112Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297616887",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T11:13:54.390Z",
+    "actorScjId": "KC-000101",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761302134893",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T11:12:29.829Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297616887",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T11:12:04.646Z",
+    "actorScjId": "KC-KIB-MEN-C1-S2",
+    "action": "SUBMIT",
+    "entity": "report_offering",
+    "entityId": "off_1761304324644",
+    "meta": {
+      "scjDate": "2025-10-24"
+    }
+  },
+  {
+    "ts": "2025-10-24T11:12:02.469Z",
+    "actorScjId": "KC-KIB-MEN-C1-S2",
+    "action": "SUBMIT",
+    "entity": "report_evangelism",
+    "entityId": "ev_1761304322466",
+    "meta": {
+      "scjDate": "2025-10-24"
+    }
+  },
+  {
+    "ts": "2025-10-24T11:11:57.110Z",
+    "actorScjId": "KC-KIB-MEN-C1-S2",
+    "action": "SUBMIT",
+    "entity": "report_education",
+    "entityId": "edu_1761304317107",
+    "meta": {
+      "scjDate": "2025-10-24",
+      "session": "ALL_SUN"
+    }
+  },
+  {
+    "ts": "2025-10-24T11:11:55.485Z",
+    "actorScjId": "KC-KIB-MEN-C1-S2",
+    "action": "SUBMIT",
+    "entity": "report_service",
+    "entityId": "svc_1761304315483",
+    "meta": {
+      "scjDate": "2025-10-24"
+    }
+  },
+  {
+    "ts": "2025-10-24T11:11:26.972Z",
+    "actorScjId": "KC-KIB-MEN-C1-S2",
+    "action": "SIGNUP",
+    "entity": "account",
+    "entityId": "acc_1761304286902",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T11:10:27.663Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T11:08:55.851Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297616887",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T11:07:40.854Z",
+    "actorScjId": "KC-000101",
+    "action": "SUBMIT",
+    "entity": "report_service",
+    "entityId": "svc_1761304060850",
+    "meta": {
+      "scjDate": "2025-10-24"
+    }
+  },
+  {
+    "ts": "2025-10-24T11:05:24.175Z",
+    "actorScjId": "KC-000101",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761302134893",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T11:04:53.545Z",
+    "actorScjId": "KC-000002",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761302264672",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T11:04:01.407Z",
+    "actorScjId": "KC-000101",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761302134893",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T10:39:04.809Z",
+    "actorScjId": "KC-000003",
+    "action": "SIGNUP",
+    "entity": "account",
+    "entityId": "acc_1761302344740",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T10:37:44.744Z",
+    "actorScjId": "KC-000002",
+    "action": "SIGNUP",
+    "entity": "account",
+    "entityId": "acc_1761302264672",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T10:36:16.624Z",
+    "actorScjId": "KC-000101",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761302134893",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T10:36:04.674Z",
+    "actorScjId": "KC-000001",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297339692",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T10:35:34.963Z",
+    "actorScjId": "KC-000101",
+    "action": "SIGNUP",
+    "entity": "account",
+    "entityId": "acc_1761302134893",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T10:30:35.726Z",
+    "actorScjId": "KC-000001",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297339692",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T10:24:43.447Z",
+    "actorScjId": "KC-KIB-JYJN-MEN",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297711788",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T10:04:50.971Z",
+    "actorScjId": "KC-KIB-JYJN-MEN",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297711788",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T09:54:16.173Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T09:53:28.896Z",
+    "actorScjId": "KC-KIB-JYJN-MEN",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297711788",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T09:52:31.657Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T09:21:51.857Z",
+    "actorScjId": "KC-KIB-JYJN-MEN",
+    "action": "SIGNUP",
+    "entity": "account",
+    "entityId": "acc_1761297711788",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T09:20:16.953Z",
+    "actorScjId": "KC-KIB-MEN-C1-G",
+    "action": "SIGNUP",
+    "entity": "account",
+    "entityId": "acc_1761297616887",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T09:19:21.986Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "SUBMIT",
+    "entity": "report_offering",
+    "entityId": "off_1761297561984",
+    "meta": {
+      "scjDate": "2025-10-24"
+    }
+  },
+  {
+    "ts": "2025-10-24T09:19:19.858Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "SUBMIT",
+    "entity": "report_evangelism",
+    "entityId": "ev_1761297559857",
+    "meta": {
+      "scjDate": "2025-10-24"
+    }
+  },
+  {
+    "ts": "2025-10-24T09:19:17.772Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "SUBMIT",
+    "entity": "report_education",
+    "entityId": "edu_1761297557771",
+    "meta": {
+      "scjDate": "2025-10-24",
+      "session": "ALL_SUN"
+    }
+  },
+  {
+    "ts": "2025-10-24T09:19:15.570Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "SUBMIT",
+    "entity": "report_service",
+    "entityId": "svc_1761297555569",
+    "meta": {
+      "scjDate": "2025-10-24"
+    }
+  },
+  {
+    "ts": "2025-10-24T09:19:05.852Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "SIGNUP",
+    "entity": "account",
+    "entityId": "acc_1761297545786",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T09:15:39.762Z",
+    "actorScjId": "KC-000001",
+    "action": "SIGNUP",
+    "entity": "account",
+    "entityId": "acc_1761297339692",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-24T08:03:16.591Z",
+    "actorScjId": "KC2024-2001",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "64j8GxozSAgEERkaQ5Mf3",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-23T19:05:50.956Z",
+    "actorScjId": "KC2024-2001",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "64j8GxozSAgEERkaQ5Mf3",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-23T18:34:41.155Z",
+    "actorScjId": "KC2024-2001",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "64j8GxozSAgEERkaQ5Mf3",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-23T18:29:55.158Z",
+    "actorScjId": "KC2024-2001",
+    "action": "SUBMIT",
+    "entity": "report_service",
+    "entityId": "svc_1761244195156",
+    "meta": {
+      "scjDate": "2025-10-24"
+    }
+  },
+  {
+    "ts": "2025-10-23T18:29:30.354Z",
+    "actorScjId": "KC2024-2001",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "64j8GxozSAgEERkaQ5Mf3",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-23T18:16:46.073Z",
+    "actorScjId": "KC2024-2001",
+    "action": "SUBMIT",
+    "entity": "report_service",
+    "entityId": "svc_1761243406072",
+    "meta": {
+      "scjDate": "2025-10-23"
+    }
+  },
+  {
+    "ts": "2025-10-23T18:16:41.783Z",
+    "actorScjId": "KC2024-2001",
+    "action": "MEDIA_DELETE",
+    "entity": "media",
+    "entityId": "m_1761237069319",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-23T16:43:41.082Z",
+    "actorScjId": "KC2024-2001",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "64j8GxozSAgEERkaQ5Mf3",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-23T16:33:07.337Z",
+    "actorScjId": "KC2024-2001",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "64j8GxozSAgEERkaQ5Mf3",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-23T16:31:23.856Z",
+    "actorScjId": "KC2024-2001",
+    "action": "MEDIA_UPLOAD",
+    "entity": "media",
+    "entityId": "m_1761237083848",
+    "meta": {
+      "file": "uploads/1761237083830_Screenshot_2025-06-19_134840.png"
+    }
+  },
+  {
+    "ts": "2025-10-23T16:31:09.326Z",
+    "actorScjId": "KC2024-2001",
+    "action": "MEDIA_UPLOAD",
+    "entity": "media",
+    "entityId": "m_1761237069319",
+    "meta": {
+      "file": "uploads/1761237069293_Screenshot_2025-06-19_233139.png"
+    }
+  },
+  {
+    "ts": "2025-10-23T16:29:43.039Z",
+    "actorScjId": "KC2024-2001",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "64j8GxozSAgEERkaQ5Mf3",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-23T16:28:36.219Z",
+    "actorScjId": "KC2024-1001",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "TNioBY3ZH2b_j9oxE0a42",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-23T16:28:10.680Z",
+    "actorScjId": "KC2024-1001",
+    "action": "MEDIA_UPLOAD",
+    "entity": "media",
+    "entityId": "m_1761236890674",
+    "meta": {
+      "file": "uploads/1761236890493_133912875333170742.jpg"
+    }
+  },
+  {
+    "ts": "2025-10-23T16:27:20.514Z",
+    "actorScjId": "KC2024-1001",
+    "action": "SUBMIT",
+    "entity": "report_service",
+    "entityId": "svc_1761236840506",
+    "meta": {
+      "scjDate": "2025-10-23"
+    }
+  },
+  {
+    "ts": "2025-10-23T16:26:33.638Z",
+    "actorScjId": "KC2024-1001",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "TNioBY3ZH2b_j9oxE0a42",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-23T16:14:41.746Z",
+    "actorScjId": "KC2024-1001",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "TNioBY3ZH2b_j9oxE0a42",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-22T14:50:10.780Z",
+    "actorScjId": "KC2024-1001",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "TNioBY3ZH2b_j9oxE0a42",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-21T11:24:32.482Z",
+    "actorScjId": "KC2024-1001",
+    "action": "MEDIA_DELETE",
+    "entity": "media",
+    "entityId": "m_1760977674713",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-21T11:24:16.120Z",
+    "actorScjId": "KC2024-1001",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "TNioBY3ZH2b_j9oxE0a42",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-21T11:23:53.243Z",
+    "actorScjId": "KC2024-3001",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "2L2fnaDqerkPCW47R3El6",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-21T11:23:34.876Z",
+    "actorScjId": "KC2024-9002",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "iV8PYlDW3qixC7E3UGTfA",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-21T11:23:22.211Z",
+    "actorScjId": "KC2024-1001",
+    "action": "MEDIA_UPLOAD",
+    "entity": "media",
+    "entityId": "m_1761045802210",
+    "meta": {
+      "file": "uploads/1761045802192_133912875333170742.jpg"
+    }
+  },
+  {
+    "ts": "2025-10-21T11:23:07.818Z",
+    "actorScjId": "KC2024-1001",
+    "action": "SUBMIT",
+    "entity": "report_service",
+    "entityId": "svc_1761045787817",
+    "meta": {
+      "scjDate": "2025-10-21"
+    }
+  },
+  {
+    "ts": "2025-10-21T11:22:59.940Z",
+    "actorScjId": "KC2024-1001",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "TNioBY3ZH2b_j9oxE0a42",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-20T20:24:04.927Z",
+    "actorScjId": "KC2024-1001",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "TNioBY3ZH2b_j9oxE0a42",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-20T16:32:49.820Z",
+    "actorScjId": "KC2024-9002",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "iV8PYlDW3qixC7E3UGTfA",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-20T16:29:48.093Z",
+    "actorScjId": "KC2024-1001",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "TNioBY3ZH2b_j9oxE0a42",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-20T16:27:54.714Z",
+    "actorScjId": "KC2024-1001",
+    "action": "MEDIA_UPLOAD",
+    "entity": "media",
+    "entityId": "m_1760977674713",
+    "meta": {
+      "file": "uploads/1760977674686_133912875333170742.jpg"
+    }
+  },
+  {
+    "ts": "2025-10-20T16:27:43.099Z",
+    "actorScjId": "KC2024-1001",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "TNioBY3ZH2b_j9oxE0a42",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-20T16:27:28.123Z",
+    "actorScjId": "KC2024-1001",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "TNioBY3ZH2b_j9oxE0a42",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-20T08:51:42.757Z",
+    "actorScjId": "KC2024-1001",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "TNioBY3ZH2b_j9oxE0a42",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-20T08:48:00.924Z",
+    "actorScjId": "KC2024-1001",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "TNioBY3ZH2b_j9oxE0a42",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-20T08:45:00.857Z",
+    "actorScjId": "KC2024-2001",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "64j8GxozSAgEERkaQ5Mf3",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-19T14:25:34.696Z",
+    "actorScjId": "KC2024-2001",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "64j8GxozSAgEERkaQ5Mf3",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-19T14:24:39.001Z",
+    "actorScjId": "KC2024-2001",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "64j8GxozSAgEERkaQ5Mf3",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-19T14:22:29.916Z",
+    "actorScjId": "KC2024-1001",
+    "action": "SUBMIT",
+    "entity": "report_offering",
+    "entityId": "off_1760883749914",
+    "meta": {
+      "scjDate": "2025-10-25"
+    }
+  },
+  {
+    "ts": "2025-10-19T14:22:24.494Z",
+    "actorScjId": "KC2024-1001",
+    "action": "SUBMIT",
+    "entity": "report_evangelism",
+    "entityId": "ev_1760883744493",
+    "meta": {
+      "scjDate": "2025-10-25"
+    }
+  },
+  {
+    "ts": "2025-10-19T14:22:16.521Z",
+    "actorScjId": "KC2024-1001",
+    "action": "SUBMIT",
+    "entity": "report_education",
+    "entityId": "edu_1760883736520",
+    "meta": {
+      "scjDate": "2025-10-25",
+      "session": "ALL_SUN"
+    }
+  },
+  {
+    "ts": "2025-10-19T14:22:08.501Z",
+    "actorScjId": "KC2024-1001",
+    "action": "SUBMIT",
+    "entity": "report_service",
+    "entityId": "svc_1760883728500",
+    "meta": {
+      "scjDate": "2025-10-25"
+    }
+  },
+  {
+    "ts": "2025-10-19T14:21:27.991Z",
+    "actorScjId": "KC2024-1001",
+    "action": "MEDIA_DELETE",
+    "entity": "media",
+    "entityId": "m_1760883427772",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-19T14:21:23.392Z",
+    "actorScjId": "KC2024-1001",
+    "action": "MEDIA_UPLOAD",
+    "entity": "media",
+    "entityId": "m_1760883683391",
+    "meta": {
+      "file": "uploads/1760883683345_133912875333170742.jpg"
+    }
+  },
+  {
+    "ts": "2025-10-19T14:17:35.489Z",
+    "actorScjId": "KC2024-1001",
+    "action": "ANN_CREATE",
+    "entity": "announcement",
+    "entityId": "ann_1760883455488",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-19T14:17:07.773Z",
+    "actorScjId": "KC2024-1001",
+    "action": "MEDIA_UPLOAD",
+    "entity": "media",
+    "entityId": "m_1760883427772",
+    "meta": {
+      "file": "uploads/1760883427731_133912875333170742.jpg"
+    }
+  },
+  {
+    "ts": "2025-10-19T14:15:59.824Z",
+    "actorScjId": "KC2024-1001",
+    "action": "LOGIN",
+    "entity": "account",
+    "entityId": "TNioBY3ZH2b_j9oxE0a42",
+    "meta": {}
+  },
+  {
+    "id": "pIGEh7w78g2pe8MHjAXyy",
+    "actor": "KC2024-1001",
+    "action": "LOGIN",
+    "entity": "account",
+    "refId": "TNioBY3ZH2b_j9oxE0a42",
+    "ts": "2025-10-17T19:57:55.674Z",
+    "meta": {}
+  },
+  {
+    "id": "xrWZwl6AQGRG0LQ2JLyc5",
+    "actor": "KC2024-1001",
+    "action": "LOGIN",
+    "entity": "account",
+    "refId": "TNioBY3ZH2b_j9oxE0a42",
+    "ts": "2025-10-17T19:59:34.474Z",
+    "meta": {}
+  },
+  {
+    "id": "wysRXPUevXZwwOQjNT3BG",
+    "actor": "KC2024-1001",
+    "action": "LOGIN",
+    "entity": "account",
+    "refId": "TNioBY3ZH2b_j9oxE0a42",
+    "ts": "2025-10-17T20:00:15.354Z",
+    "meta": {}
+  },
+  {
+    "id": "pCXzdyLG9qn2fx0-KYCrz",
+    "actor": "KC2024-1001",
+    "action": "LOGIN",
+    "entity": "account",
+    "refId": "TNioBY3ZH2b_j9oxE0a42",
+    "ts": "2025-10-17T20:00:40.347Z",
+    "meta": {}
+  },
+  {
+    "id": "iCuwlK-0WNff4bf_mFZR8",
+    "actor": "KC2024-1001",
+    "action": "LOGIN",
+    "entity": "account",
+    "refId": "TNioBY3ZH2b_j9oxE0a42",
+    "ts": "2025-10-17T20:16:56.413Z",
+    "meta": {}
+  },
+  {
+    "id": "hALq6BaefTIZMG1IVFR7a",
+    "actor": "KC2024-1001",
+    "action": "LOGIN",
+    "entity": "account",
+    "refId": "TNioBY3ZH2b_j9oxE0a42",
+    "ts": "2025-10-17T20:19:05.051Z",
+    "meta": {}
+  },
+  {
+    "id": "EH3U__wfnNdQFnfswwLwS",
+    "actor": "KC2024-1001",
+    "action": "LOGIN",
+    "entity": "account",
+    "refId": "TNioBY3ZH2b_j9oxE0a42",
+    "ts": "2025-10-17T20:25:32.130Z",
+    "meta": {}
+  },
+  {
+    "id": "071c3QCDcBNVxMS10YZI2",
+    "actor": "KC2024-1001",
+    "action": "LOGIN",
+    "entity": "account",
+    "refId": "TNioBY3ZH2b_j9oxE0a42",
+    "ts": "2025-10-18T04:14:09.466Z",
+    "meta": {}
+  },
+  {
+    "id": "7629K3zO0icxvTokWd-X6",
+    "actor": "KC2024-1001",
+    "action": "LOGIN",
+    "entity": "account",
+    "refId": "TNioBY3ZH2b_j9oxE0a42",
+    "ts": "2025-10-18T04:26:01.651Z",
+    "meta": {}
+  },
+  {
+    "id": "hb1S0w9hjTa1FEeXZBvJP",
+    "actor": "KC2024-1001",
+    "action": "LOGIN",
+    "entity": "account",
+    "refId": "TNioBY3ZH2b_j9oxE0a42",
+    "ts": "2025-10-18T04:30:19.544Z",
+    "meta": {}
+  },
+  {
+    "id": "AGrPzKr808kuc7THGBTGs",
+    "actor": "KC2024-1001",
+    "action": "LOGIN",
+    "entity": "account",
+    "refId": "TNioBY3ZH2b_j9oxE0a42",
+    "ts": "2025-10-18T04:43:50.601Z",
+    "meta": {}
+  },
+  {
+    "id": "6P0zGXB0pmkknpmhuGIAr",
+    "actor": "KC2024-1001",
+    "action": "SUBMIT_REPORT",
+    "entity": "reports",
+    "refId": "4QVYKszexms4aAhywUKEI",
+    "ts": "2025-10-18T04:44:19.917Z",
+    "meta": {
+      "type": "SERVICE"
+    }
+  },
+  {
+    "id": "dybU_fMOEfj-hFjmy3HU7",
+    "actor": "KC2024-1001",
+    "action": "SUBMIT_REPORT",
+    "entity": "reports",
+    "refId": "KB8za58nfEDt-6F_sQ_z0",
+    "ts": "2025-10-18T04:44:24.809Z",
+    "meta": {
+      "type": "EDUCATION"
+    }
+  },
+  {
+    "id": "Dnbj6tJevDWEf9332J0sI",
+    "actor": "KC2024-1001",
+    "action": "SUBMIT_REPORT",
+    "entity": "reports",
+    "refId": "yStUE10AT7hNhtXghmhGb",
+    "ts": "2025-10-18T04:44:27.801Z",
+    "meta": {
+      "type": "EVANGELISM"
+    }
+  },
+  {
+    "id": "p9UiwUewLRv90MibniL5q",
+    "actor": "KC2024-1001",
+    "action": "SUBMIT_REPORT",
+    "entity": "reports",
+    "refId": "DMYSuhjuRiOtONEfLlABM",
+    "ts": "2025-10-18T04:44:33.355Z",
+    "meta": {
+      "type": "OFFERING"
+    }
+  },
+  {
+    "id": "tLgbgZzKKziXLZ4aXtnUh",
+    "actor": "KC2024-1001",
+    "action": "LOGIN",
+    "entity": "account",
+    "refId": "TNioBY3ZH2b_j9oxE0a42",
+    "ts": "2025-10-18T07:31:02.748Z",
+    "meta": {}
+  },
+  {
+    "id": "K0HKEauyntytUmLLACLRV",
+    "actor": "KC2024-1001",
+    "action": "LOGIN",
+    "entity": "account",
+    "refId": "TNioBY3ZH2b_j9oxE0a42",
+    "ts": "2025-10-18T07:31:36.355Z",
+    "meta": {}
+  },
+  {
+    "id": "86P34cvaisN1OdJQJsKa3",
+    "actor": "KC2024-1001",
+    "action": "SUBMIT_REPORT",
+    "entity": "reports",
+    "refId": "yY8sZ91RkK0JunUfSKKDH",
+    "ts": "2025-10-18T07:33:31.301Z",
+    "meta": {}
+  },
+  {
+    "id": "CM3p8abawvEVIPowFVivU",
+    "actor": "KC2024-1001",
+    "action": "LOGIN",
+    "entity": "account",
+    "refId": "TNioBY3ZH2b_j9oxE0a42",
+    "ts": "2025-10-18T08:20:38.196Z",
+    "meta": {}
+  },
+  {
+    "id": "2UY4doA8GYywg4K3mPwGo",
+    "actor": "KC2024-1001",
+    "action": "LOGIN",
+    "entity": "account",
+    "refId": "TNioBY3ZH2b_j9oxE0a42",
+    "ts": "2025-10-18T08:25:43.155Z",
+    "meta": {}
+  },
+  {
+    "id": "m1henN6s4mNerKrG4a4J_",
+    "actor": "KC2024-1001",
+    "action": "LOGIN",
+    "entity": "account",
+    "refId": "TNioBY3ZH2b_j9oxE0a42",
+    "ts": "2025-10-18T08:33:08.246Z",
+    "meta": {}
+  },
+  {
+    "id": "3KRPeIR4qI7R4_U9lEHQE",
+    "actor": "KC2024-1001",
+    "action": "SUBMIT_REPORT",
+    "entity": "reports",
+    "refId": "CFlI1w2_WxG0hPwiUE8tG",
+    "ts": "2025-10-18T08:34:48.073Z",
+    "meta": {}
+  },
+  {
+    "id": "Wj-5JkqUD69Oe5quA3z9D",
+    "actor": "KC2024-1001",
+    "action": "LOGIN",
+    "entity": "account",
+    "refId": "TNioBY3ZH2b_j9oxE0a42",
+    "ts": "2025-10-18T08:47:51.910Z",
+    "meta": {}
+  },
+  {
+    "id": "BmvjEfs5h8139gnN2Xy_A",
+    "actor": "KC2024-1001",
+    "action": "LOGIN",
+    "entity": "account",
+    "refId": "TNioBY3ZH2b_j9oxE0a42",
+    "ts": "2025-10-18T08:51:40.192Z",
+    "meta": {}
+  },
+  {
+    "id": "w6yoxPmJ2Maj_mm3W9zO6",
+    "actor": "KC2024-1001",
+    "action": "SUBMIT_REPORT",
+    "entity": "reports",
+    "refId": "xWNHxGqBGbYmls1yuwWYA",
+    "ts": "2025-10-18T08:57:15.684Z",
+    "meta": {}
+  },
+  {
+    "id": "fzkNTAOVfWm7JoTwfpXvl",
+    "actor": "KC2024-1001",
+    "action": "SUBMIT_REPORT",
+    "entity": "reports",
+    "refId": "qVmb-W4nZrOFrEMHnbmwI",
+    "ts": "2025-10-18T09:21:53.199Z",
+    "meta": {}
+  },
+  {
+    "id": "c_Bb8vTUtgNVOlMFtc0Hf",
+    "actor": "KC2024-1001",
+    "action": "SUBMIT_REPORT",
+    "entity": "reports",
+    "refId": "-KlFIAhqHhoAfoK1QDZUd",
+    "ts": "2025-10-18T09:22:11.100Z",
+    "meta": {}
+  },
+  {
+    "id": "dONR2QOFyi8xi83PuEgPA",
+    "actor": "KC2024-1001",
+    "action": "SUBMIT_REPORT",
+    "entity": "reports",
+    "refId": "5t7n0ldq4AAkFFyNar_q-",
+    "ts": "2025-10-18T10:39:55.691Z",
+    "meta": {}
+  },
+  {
+    "id": "FnjwwYXwh2L60bpgVXkq_",
+    "actor": "KC2024-1001",
+    "action": "SUBMIT_REPORT",
+    "entity": "reports",
+    "refId": "-0HyLnN9yDxRxeSX1BBq9",
+    "ts": "2025-10-18T10:40:03.502Z",
+    "meta": {}
+  },
+  {
+    "id": "uTKlT8VK_R8pvUT-x1AzJ",
+    "actor": "KC2024-1001",
+    "action": "SUBMIT_REPORT",
+    "entity": "reports",
+    "refId": "1VEZA1Pn7VATangudnc38",
+    "ts": "2025-10-18T10:41:12.967Z",
+    "meta": {}
+  },
+  {
+    "id": "txXU5jilDsq2UDRfs5Gn4",
+    "actor": "KC2024-1001",
+    "action": "SUBMIT_REPORT",
+    "entity": "reports",
+    "refId": "5paMmF9VVFQzKwKVEbmHS",
+    "ts": "2025-10-18T10:41:24.478Z",
+    "meta": {}
+  },
+  {
+    "id": "yqFt1iljH6ttT3n-gmbEj",
+    "actor": "KC2024-1001",
+    "action": "SUBMIT_REPORT",
+    "entity": "reports",
+    "refId": "wSDBkk0CuORQ0LdUBi7zk",
+    "ts": "2025-10-18T10:41:29.814Z",
+    "meta": {}
+  },
+  {
+    "id": "WLbtgMzd0c-GaKSixLChN",
+    "actor": "KC2024-1001",
+    "action": "LOGIN",
+    "entity": "account",
+    "refId": "TNioBY3ZH2b_j9oxE0a42",
+    "ts": "2025-10-18T11:05:11.751Z",
+    "meta": {}
+  },
+  {
+    "id": "u3GqZ9JrAiuvPGmW0jw-z",
+    "actor": "KC2024-1001",
+    "action": "SUBMIT_REPORT",
+    "entity": "reports",
+    "refId": "2d6_ohD_NRvK6x7NSlaMK",
+    "ts": "2025-10-18T11:05:35.641Z",
+    "meta": {}
+  },
+  {
+    "id": "KAUmO5Q815aDtUPVGGNSf",
+    "actor": "KC2024-1001",
+    "action": "SUBMIT_REPORT",
+    "entity": "reports",
+    "refId": "2hILLNfZ6IORIfsrWBe9g",
+    "ts": "2025-10-18T11:06:48.704Z",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-18T13:36:07.928Z",
+    "actor": "KC2024-1001",
+    "action": "LOGIN",
+    "entity": "account",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-18T13:36:08.383Z",
+    "actor": "KC2024-1001",
+    "action": "SUBMIT",
+    "entity": "service",
+    "meta": {
+      "scjDate": "2025-10-18"
+    }
+  },
+  {
+    "ts": "2025-10-18T13:36:08.463Z",
+    "actor": "KC2024-1001",
+    "action": "SUBMIT",
+    "entity": "education",
+    "meta": {
+      "scjDate": "2025-10-18",
+      "session": "ALL_SUN"
+    }
+  },
+  {
+    "ts": "2025-10-18T13:36:08.530Z",
+    "actor": "KC2024-1001",
+    "action": "SUBMIT",
+    "entity": "evangelism",
+    "meta": {
+      "scjDate": "2025-10-18"
+    }
+  },
+  {
+    "ts": "2025-10-18T13:36:12.666Z",
+    "actor": "KC2024-1001",
+    "action": "SUBMIT",
+    "entity": "offering",
+    "meta": {
+      "scjDate": "2025-10-18"
+    }
+  },
+  {
+    "ts": "2025-10-18T13:40:45.623Z",
+    "actor": "KC2024-1001",
+    "action": "LOGIN",
+    "entity": "account",
+    "meta": {}
+  },
+  {
+    "ts": "2025-10-18T13:41:02.115Z",
+    "actor": "KC2024-1001",
+    "action": "SUBMIT",
+    "entity": "service",
+    "meta": {
+      "scjDate": "2025-10-01"
+    }
+  },
+  {
+    "ts": "2025-10-18T13:41:26.998Z",
+    "actor": "KC2024-1001",
+    "action": "SUBMIT",
+    "entity": "education",
+    "meta": {
+      "scjDate": "2025-10-01",
+      "session": "ALL_SUN"
+    }
+  },
+  {
+    "ts": "2025-10-18T13:41:46.457Z",
+    "actor": "KC2024-1001",
+    "action": "SUBMIT",
+    "entity": "evangelism",
+    "meta": {
+      "scjDate": "2025-10-01"
+    }
+  },
+  {
+    "ts": "2025-10-18T13:42:00.803Z",
+    "actor": "KC2024-1001",
+    "action": "SUBMIT",
+    "entity": "offering",
+    "meta": {
+      "scjDate": "2025-10-01"
+    }
+  },
+  {
+    "ts": "2025-10-18T13:46:13.860Z",
+    "actor": "KC2024-1001",
+    "action": "LOGIN",
+    "entity": "account",
+    "meta": {}
+  },
+  {
+    "id": "KTOjiFOcQsWqLjlVQfgEO",
+    "actorScjId": "KC2024-1001",
+    "action": "SUBMIT",
+    "entity": "report:SERVICE",
+    "refId": "Pq_vyDMD2zNsWWBm6Swag",
+    "meta": {
+      "scjDate": "2025-10-18"
+    },
+    "ts": "2025-10-18T19:11:31.047Z"
+  },
+  {
+    "id": "uivyDr1rkLmXvXx6IyGx3",
+    "actorScjId": "KC2024-1001",
+    "action": "SUBMIT",
+    "entity": "report:EDUCATION",
+    "refId": "rwntpMZQv2tbmB24DIEa6",
+    "meta": {
+      "scjDate": "2025-10-18"
+    },
+    "ts": "2025-10-18T19:11:36.387Z"
+  },
+  {
+    "id": "k3RzOfh6UwizGJirFyUSn",
+    "actorScjId": "KC2024-1001",
+    "action": "SUBMIT",
+    "entity": "report:EVANGELISM",
+    "refId": "sykynvmvChPUpmmFCtYX3",
+    "meta": {
+      "scjDate": "2025-10-18"
+    },
+    "ts": "2025-10-18T19:11:40.524Z"
+  },
+  {
+    "id": "B4y9BU-u2QHKsw9ZbvFPG",
+    "actorScjId": "KC2024-1001",
+    "action": "SUBMIT",
+    "entity": "report:OFFERING",
+    "refId": "CWBo4ciiqr5bZKRPB3VKq",
+    "meta": {
+      "scjDate": "2025-10-18"
+    },
+    "ts": "2025-10-18T19:11:44.475Z"
+  },
+  {
+    "id": "Y9lCcWlOUpGLuMt_y8o0c",
+    "actorScjId": "KC2024-1001",
+    "action": "LOGIN",
+    "entity": "account",
+    "refId": "TNioBY3ZH2b_j9oxE0a42",
+    "meta": {},
+    "ts": "2025-10-18T19:16:23.164Z"
+  },
+  {
+    "id": "E_ycgifs4xa_Kn8rTT0rS",
+    "actorScjId": "KC2024-1001",
+    "action": "CREATE",
+    "entity": "issue",
+    "refId": "YU3Af4F5MQ83SIKnc8uAC",
+    "meta": {},
+    "ts": "2025-10-18T19:20:08.646Z"
+  },
+  {
+    "id": "VBBtlGrRI8UEkoBKWdR6o",
+    "actorScjId": "KC2024-1001",
+    "action": "SUBMIT",
+    "entity": "report:SERVICE",
+    "refId": "qldHI8xOR7Qp54UFcbto1",
+    "meta": {
+      "scjDate": "2025-10-19"
+    },
+    "ts": "2025-10-18T19:20:35.510Z"
+  },
+  {
+    "id": "Ud2FNAjYhUkDohdweGQyd",
+    "actorScjId": "KC2024-1001",
+    "action": "SUBMIT",
+    "entity": "report:EDUCATION",
+    "refId": "6XiZNA8BsWcsja0YXVk1Y",
+    "meta": {
+      "scjDate": "2025-10-19"
+    },
+    "ts": "2025-10-18T19:20:45.437Z"
+  },
+  {
+    "id": "j1dEBbvjesAB-MjcXbReb",
+    "actorScjId": "KC2024-1001",
+    "action": "SUBMIT",
+    "entity": "report:EVANGELISM",
+    "refId": "KIlNLtjikyigy6MSuNHFy",
+    "meta": {
+      "scjDate": "2025-10-19"
+    },
+    "ts": "2025-10-18T19:21:08.987Z"
+  },
+  {
+    "id": "B1ybsU3oJteKHmYRfRkBj",
+    "actorScjId": "KC2024-1001",
+    "action": "SUBMIT",
+    "entity": "report:OFFERING",
+    "refId": "Ix3wJrS_XsIDmk5-KjRgk",
+    "meta": {
+      "scjDate": "2025-10-19"
+    },
+    "ts": "2025-10-18T19:21:18.875Z"
+  },
+  {
+    "actor": "acc_1761297616887",
+    "role": "GYJN",
+    "action": "LEADER_FORWARD",
+    "payloadSummary": {
+      "type": "service",
+      "scjDate": "2025-10-24",
+      "incomplete": true,
+      "missingCount": 23
+    },
+    "timestamp": "2025-10-24T09:20:48.850Z"
+  }
+]

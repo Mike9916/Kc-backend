@@ -1,0 +1,113 @@
+[
+  {
+    "id": "acc_1761297339692",
+    "scjId": "KC-000001",
+    "passwordHash": "$2b$10$hXhatLNlnbNgptuqqQta2urjRB0CNqHkdZBzRMNI.r9FPSH0g8NBi"
+  },
+  {
+    "id": "acc_1761297545786",
+    "scjId": "KC-KIB-MEN-C1-S1",
+    "role": "ADMIN",
+    "name": "Kibera MEN C1 Saint 1",
+    "jyk": "Kibera",
+    "dept": "MEN",
+    "cell": "MEN-C1",
+    "iat": 1761577189,
+    "exp": 1761584389,
+    "recovery": {
+      "qid": "Q7",
+      "ansHash": "$2b$10$g/Fk/uPkIEKXtny9fXLryOgZZv4nR4tq0lBXfHWX/Dr8esAqxfRZu",
+      "questionId": "Q7",
+      "answerHash": "$2b$10$g/Fk/uPkIEKXtny9fXLryOgZZv4nR4tq0lBXfHWX/Dr8esAqxfRZu"
+    },
+    "passwordHash": "$2b$10$IHz06kld4DPpQEJ.rq6j3OOe74m.wDmeeApj094P2btlXEzrFPQNa",
+    "passwordResetAt": "2025-10-27T15:02:36.144Z"
+  },
+  {
+    "id": "acc_1761297616887",
+    "scjId": "KC-KIB-MEN-C1-G",
+    "role": "GYJN",
+    "name": "GYJN Kibera MEN Cell1",
+    "jyk": "Kibera",
+    "dept": "MEN",
+    "cell": "MEN-C1",
+    "iat": 1761507886,
+    "exp": 1761543886,
+    "recovery": {
+      "qid": "Q1",
+      "ansHash": "$2b$10$ZeLPOFSt.6U68dpJdPfFPOGyZpcJZ5jiPp1aO075/3f4AxkKN2dVe",
+      "questionId": "Q1",
+      "answerHash": "$2b$10$ZeLPOFSt.6U68dpJdPfFPOGyZpcJZ5jiPp1aO075/3f4AxkKN2dVe"
+    },
+    "passwordHash": "$2b$10$3urbt3aB.LWysI/JuZdArepUceu2wv7l.nwA.0kAjsNLMCYo8TV8m",
+    "passwordResetAt": "2025-10-27T14:39:44.852Z"
+  },
+  {
+    "id": "acc_1761297711788",
+    "scjId": "KC-KIB-JYJN-MEN",
+    "passwordHash": "$2b$10$jsAfbabmGO7v6aG8LORmmuJGkKRg6s5sZnNxAOdIi1gmJmR//Iz4i"
+  },
+  {
+    "id": "acc_1761302134893",
+    "scjId": "KC-000101",
+    "role": "WEJANM",
+    "name": "Wilson Dept Head (Men)",
+    "jyk": "General",
+    "dept": "MEN",
+    "cell": "General",
+    "iat": 1761497410,
+    "exp": 1761533410,
+    "recovery": {
+      "qid": "Q1",
+      "ansHash": "$2b$10$zWQClvpncA3kJEORpn9dfuAOa7bKp7yggWM961AnEcojuJq2YOQYK",
+      "questionId": "Q1",
+      "answerHash": "$2b$10$zWQClvpncA3kJEORpn9dfuAOa7bKp7yggWM961AnEcojuJq2YOQYK"
+    },
+    "passwordHash": "$2b$10$CvQh4O0GxJ0JSpn1gLIvfOXfmWI9X5fREz/MS8Jci5SzJusykFE5i",
+    "passwordResetAt": "2025-10-27T13:13:36.559Z"
+  },
+  {
+    "id": "acc_1761302264672",
+    "scjId": "KC-000002",
+    "passwordHash": "$2b$10$b2lVICsr3uR631LbbFE.feJXqGvL9mmX/FhzsRE0pem1DjTUqvd.q"
+  },
+  {
+    "id": "acc_1761302344740",
+    "scjId": "KC-000003",
+    "passwordHash": "$2b$10$k23MVP9xfSecEhzDbdQE3uRrEPg7DkFGwj97XVanCF00UU6SebyXK"
+  },
+  {
+    "id": "acc_1761304286902",
+    "scjId": "KC-KIB-MEN-C1-S2",
+    "passwordHash": "$2b$10$CtEUNHmJluNzevBnjzpoUeNAcpcjBPzkrZlgePulh1gcCdVmGn1vu"
+  },
+  {
+    "id": "acc_1761349036495",
+    "scjId": "kc2024-1002",
+    "passwordHash": "$2b$10$VIRmiKNtAG9eHDzRHUZGZ.//1QHIPlgTtICU4XqJMR4.BOLP6Udr."
+  },
+  {
+    "id": "acc_1761406361754",
+    "scjId": "0009-0005",
+    "passwordHash": "$2b$10$XnCe47AKxg2UtgTNV82XB.Thvlp5C.JuKVLIjuRuYg6U8uOhIiYFG"
+  },
+  {
+    "id": "acc_1761408826128",
+    "scjId": "0009-006",
+    "role": "SAINT",
+    "name": "Daniel Billy",
+    "jyk": "Kibera",
+    "dept": "Men",
+    "cell": "Cell 1",
+    "iat": 1761507188,
+    "exp": 1761543188,
+    "recovery": {
+      "qid": "Q1",
+      "ansHash": "$2b$10$ONaaaVCJ7pQDzOm2k2qfG.JX3V1gvNaMHzjxiCzA91d8kdBYrvkbO",
+      "questionId": "Q1",
+      "answerHash": "$2b$10$ONaaaVCJ7pQDzOm2k2qfG.JX3V1gvNaMHzjxiCzA91d8kdBYrvkbO"
+    },
+    "passwordHash": "$2b$10$YBE.pajP5kbFomikdCWlnei8ZIne9ZsUVrEt.Own52e85T3AexQs2",
+    "passwordResetAt": "2025-11-05T14:42:25.060Z"
+  }
+]
