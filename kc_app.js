@@ -456,19 +456,44 @@ async function loadUsers() {
 }
 
 async function findUserByScjId(scjId) {
-  // Case-insensitive match for safety
-  return Account.findOne({
-    scjId: new RegExp(`^${String(scjId)}$`, "i"),
-  }).lean();
+  const scj = String(scjId).toLowerCase();
+
+  if (mongoHealthy) {
+    try {
+      const doc = await Account.findOne({
+        scjId: new RegExp(`^${scj}$`, "i"),
+      }).lean();
+      if (doc) return doc;
+    } catch (err) {
+      console.error("Mongo findUserByScjId failed, falling back to JSON:", err.message);
+    }
+  }
+
+  // Fallback to JSON snapshot
+  const users = read("accounts.json", []);
+  return users.find(u => String(u.scjId).toLowerCase() === scj) || null;
 }
 
 async function saveUser(updatedUser) {
-  // upsert by your string id field
-  await Account.updateOne(
-    { id: updatedUser.id },
-    { $set: updatedUser },
-    { upsert: true }
-  );
+  if (mongoHealthy) {
+    try {
+      await Account.updateOne(
+        { id: updatedUser.id },
+        { $set: updatedUser },
+        { upsert: true }
+      );
+      return;
+    } catch (err) {
+      console.error("Mongo saveUser failed, falling back to JSON:", err.message);
+    }
+  }
+
+  // JSON fallback (NOT persistent on Render after restart)
+  const users = read("accounts.json", []);
+  const i = users.findIndex(u => u.id === updatedUser.id);
+  if (i >= 0) users[i] = updatedUser;
+  else users.push(updatedUser);
+  write("accounts.json", users);
 }
 /* --- tiny utils --- */
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -495,9 +520,21 @@ function audit(actorScjId, action, entity, entityId, meta = {}) {
 }
 
 async function profileFor(scjId) {
-  return Whitelist.findOne({
-    scjId: new RegExp(`^${String(scjId)}$`, "i"),
-  }).lean();
+  const scj = String(scjId).toLowerCase();
+
+  if (mongoHealthy) {
+    try {
+      const doc = await Whitelist.findOne({
+        scjId: new RegExp(`^${scj}$`, "i"),
+      }).lean();
+      if (doc) return doc;
+    } catch (err) {
+      console.error("Mongo profileFor failed, falling back to JSON:", err.message);
+    }
+  }
+
+  const wl = read("whitelist.json", []);
+  return wl.find(w => String(w.scjId).toLowerCase() === scj) || null;
 }
 function tokenFor(account, profile) {
   const payload = {
@@ -2219,7 +2256,20 @@ app.get("/api/meta/departments", (req, res) => {
   res.json({ items: ["MEN", "YOUNG ADULTS", "WOMEN"] });
 });
 // Save a report
+// ---------- Legacy JSON-based reports as Mongo collections (loose schema) ----------
+const looseOptions = { strict: false }; // allow any fields from JSON
 
+const genericReportsSchema = new mongoose.Schema({}, { ...looseOptions, collection: "reports" });
+const genericReportsEducationSchema = new mongoose.Schema({}, { ...looseOptions, collection: "reports_education" });
+const genericReportsEvangelismSchema = new mongoose.Schema({}, { ...looseOptions, collection: "reports_evangelism" });
+const genericReportsOfferingSchema = new mongoose.Schema({}, { ...looseOptions, collection: "reports_offering" });
+const genericReportsServiceSchema = new mongoose.Schema({}, { ...looseOptions, collection: "reports_service" });
+
+const LegacyReports = mongoose.model("LegacyReports", genericReportsSchema);
+const LegacyReportsEducation = mongoose.model("LegacyReportsEducation", genericReportsEducationSchema);
+const LegacyReportsEvangelism = mongoose.model("LegacyReportsEvangelism", genericReportsEvangelismSchema);
+const LegacyReportsOffering = mongoose.model("LegacyReportsOffering", genericReportsOfferingSchema);
+const LegacyReportsService = mongoose.model("LegacyReportsService", genericReportsServiceSchema);
 
 // --- RBAC filter (uses your canSee). If you already have filterVisible(), this
 // block safely falls back to it; otherwise we define a minimal one here.
@@ -2278,6 +2328,35 @@ app.get("/api/reports", auth, async (req, res) => {
   }
 });
 
+async function loadReportsWithFallback() {
+  if (mongoHealthy) {
+    try {
+      const docs = await LegacyReports.find({}).sort({ createdAt: -1 }).lean();
+      return docs;
+    } catch (err) {
+      console.error("Mongo loadReports failed, falling back to JSON:", err.message);
+    }
+  }
+
+  // JSON fallback
+  return read("reports.json", []);
+}
+app.get("/api/reports/legacy", auth, async (req, res) => {
+  try {
+    const reports = await loadReportsWithFallback();
+    res.json(reports);
+  } catch (err) {
+    console.error("Reports route error:", err);
+    res.status(500).json({ ok: false, error: "Failed to load reports" });
+  }
+});
+
+async function saveReport(newReport) {
+  if (!mongoHealthy) {
+    throw new Error("System under maintenance. Try again later.");
+  }
+  await LegacyReports.create({ ...newReport, createdAt: new Date() });
+}
 // Save a report (Mongo)
 app.post("/api/reports", async (req, res) => {
   try {
@@ -2296,6 +2375,32 @@ app.post("/api/reports", async (req, res) => {
   } catch (e) {
     console.error("Insert error:", e);
     return res.status(500).json({ ok: false, error: "Failed to save report" });
+  }
+});
+let mongoHealthy = false;
+
+mongoose.connection.on("connected", () => {
+  mongoHealthy = true;
+  console.log("✅ Mongoose connection is healthy");
+});
+
+mongoose.connection.on("disconnected", () => {
+  mongoHealthy = false;
+  console.warn("⚠ Mongoose disconnected");
+});
+
+mongoose.connection.on("error", (err) => {
+  mongoHealthy = false;
+  console.error("❌ Mongoose error:", err.message);
+});
+
+app.post("/api/reports/legacy", auth, async (req, res) => {
+  try {
+    await saveReportWithFallback(req.body || {});
+    res.json({ ok: true });
+  } catch (err) {
+    console.error("save report error:", err);
+    res.status(500).json({ ok: false, error: "Failed to save report" });
   }
 });
 /* -------------------------------- SERVER ------------------------------ */
