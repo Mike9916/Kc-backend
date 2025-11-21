@@ -23,16 +23,17 @@ const multer = require("multer");
 const mongoose = require("mongoose");
 // ---------- MongoDB (Atlas) connection ----------
 const MONGO_URL = process.env.MONGO_URL;
+const MONGO_DB  = process.env.MONGO_DB || "kc";
 
 if (MONGO_URL) {
   (async () => {
     try {
-      await mongoose.connect(MONGO_URL);
-      console.log("✅ MongoDB connected (Atlas)");
+      await mongoose.connect(MONGO_URL, { dbName: MONGO_DB });
+      console.log("✅ MongoDB connected (Atlas, db =", MONGO_DB, ")");
     } catch (err) {
       console.error("❌ MongoDB connection error:", err.message);
     }
-  })();
+  })(); // <-- THIS CALL IS REQUIRED
 } else {
   console.warn("MONGO_URL not set — MongoDB features are disabled.");
 }
@@ -426,6 +427,38 @@ function cleanupSupportInbox(){
   if (pruned.length !== list.length) write("support_inbox.json", pruned);
   return pruned;
 }
+// ---------- Attendance Reports collections (Mongo, loose schema) ----------
+const looseOptions = { strict: false }; // allow all existing JSON fields
+
+const serviceReportSchema = new mongoose.Schema(
+  {},
+  { ...looseOptions, collection: "reports_service" }
+);
+const educationReportSchema = new mongoose.Schema(
+  {},
+  { ...looseOptions, collection: "reports_education" }
+);
+const evangelismReportSchema = new mongoose.Schema(
+  {},
+  { ...looseOptions, collection: "reports_evangelism" }
+);
+const offeringReportSchema = new mongoose.Schema(
+  {},
+  { ...looseOptions, collection: "reports_offering" }
+);
+
+const ServiceReport    = mongoose.model("ServiceReport", serviceReportSchema);
+const EducationReport  = mongoose.model("EducationReport", educationReportSchema);
+const EvangelismReport = mongoose.model("EvangelismReport", evangelismReportSchema);
+const OfferingReport   = mongoose.model("OfferingReport", offeringReportSchema);
+
+// Map type string -> Mongo model + JSON filename (for fallback)
+const TYPE_MODELS = {
+  service:    { Model: ServiceReport,    file: "reports_service.json" },
+  education:  { Model: EducationReport,  file: "reports_education.json" },
+  evangelism: { Model: EvangelismReport, file: "reports_evangelism.json" },
+  offering:   { Model: OfferingReport,   file: "reports_offering.json" },
+};
 /* --- seed data (safe defaults) --- */
 ensure("whitelist.json", [
   { scjId: "KC2024-1001", name: "Test Saint", phone: "0712345678", role: "SAINT", jyk: "Kawangware", dept: "Education", cell: "Cell1" },
@@ -903,31 +936,129 @@ function already(store, scjId, scjDate) {
 }
 function validDate(s) { return /^\d{4}-\d{2}-\d{2}$/.test(String(s||"")); }
 
-app.post("/api/reports/service", auth, (req, res) => {
+app.post("/api/reports/service", auth, async (req, res) => {
   const me = req.user;
   const { scjDate, method = "physical", notAttended = false, realization = "" } = req.body || {};
-  if (!validDate(scjDate)) return res.status(400).json({ error: "invalid date" });
-  const store = read("reports_service.json", []);
-  if (already(store, me.scjId, scjDate)) return res.status(409).json({ error: "duplicate", details: "service already submitted for this date" });
-  const rec = { id: `svc_${Date.now()}`, scjId: me.scjId, scjDate, method: String(method).toLowerCase(), notAttended: toBool(notAttended), realization: String(realization||""), createdAt: new Date().toISOString() };
-  store.push(rec); write("reports_service.json", store);
-  audit(me.scjId, "SUBMIT", "report_service", rec.id, { scjDate });
-  res.json({ ok: true, record: rec });
-});
 
-app.post("/api/reports/education", auth, (req, res) => {
+  if (!validDate(scjDate)) {
+    return res.status(400).json({ error: "invalid date" });
+  }
+
+  const baseRec = {
+    scjId: me.scjId,
+    scjDate: String(scjDate),
+    method: String(method || "physical").toLowerCase(),
+    notAttended: !!notAttended,
+    realization: String(realization || ""),
+    createdAt: new Date().toISOString(),
+  };
+
+  try {
+    // 1) Try Mongo first
+    if (mongoHealthy) {
+      const existing = await ServiceReport.findOne({
+        scjId: me.scjId,
+        scjDate: String(scjDate),
+      }).lean();
+
+      if (existing) {
+        return res.status(409).json({
+          error: "duplicate",
+          details: "service already submitted for this date",
+        });
+      }
+
+      const doc = await ServiceReport.create({
+        id: `svc_${Date.now()}`,
+        ...baseRec,
+      });
+
+      audit(me.scjId, "SUBMIT", "report_service", doc.id, { scjDate });
+      return res.json({ ok: true, record: doc });
+    }
+
+    // 2) Fallback to JSON if Mongo unavailable
+    const store = read("reports_service.json", []);
+    if (already(store, me.scjId, scjDate)) {
+      return res.status(409).json({
+        error: "duplicate",
+        details: "service already submitted for this date",
+      });
+    }
+
+    const rec = { id: `svc_${Date.now()}`, ...baseRec };
+    store.push(rec);
+    write("reports_service.json", store);
+    audit(me.scjId, "SUBMIT", "report_service", rec.id, { scjDate });
+
+    return res.json({ ok: true, record: rec });
+  } catch (err) {
+    console.error("service report error:", err);
+    return res.status(500).json({ error: "server error" });
+  }
+});
+app.post("/api/reports/education", auth, async (req, res) => {
   const me = req.user;
   const { scjDate, session = "ALL_SUN", method = "physical", notAttended = false, realization = "" } = req.body || {};
-  if (!validDate(scjDate)) return res.status(400).json({ error: "invalid date" });
-  const store = read("reports_education.json", []);
-  if (already(store, me.scjId, scjDate)) return res.status(409).json({ error: "duplicate", details: "education already submitted for this date" });
-  const rec = { id: `edu_${Date.now()}`, scjId: me.scjId, scjDate, session: String(session).toUpperCase(), method: String(method).toLowerCase(), notAttended: toBool(notAttended), realization: String(realization||""), createdAt: new Date().toISOString() };
-  store.push(rec); write("reports_education.json", store);
-  audit(me.scjId, "SUBMIT", "report_education", rec.id, { scjDate, session });
-  res.json({ ok: true, record: rec });
+
+  if (!validDate(scjDate)) {
+    return res.status(400).json({ error: "invalid date" });
+  }
+
+  const baseRec = {
+    scjId: me.scjId,
+    scjDate: String(scjDate),
+    session: String(session || "ALL_SUN").toUpperCase(),
+    method: String(method || "physical").toLowerCase(),
+    notAttended: !!notAttended,
+    realization: String(realization || ""),
+    createdAt: new Date().toISOString(),
+  };
+
+  try {
+    if (mongoHealthy) {
+      const existing = await EducationReport.findOne({
+        scjId: me.scjId,
+        scjDate: String(scjDate),
+      }).lean();
+
+      if (existing) {
+        return res.status(409).json({
+          error: "duplicate",
+          details: "education already submitted for this date",
+        });
+      }
+
+      const doc = await EducationReport.create({
+        id: `edu_${Date.now()}`,
+        ...baseRec,
+      });
+
+      audit(me.scjId, "SUBMIT", "report_education", doc.id, { scjDate, session });
+      return res.json({ ok: true, record: doc });
+    }
+
+    const store = read("reports_education.json", []);
+    if (already(store, me.scjId, scjDate)) {
+      return res.status(409).json({
+        error: "duplicate",
+        details: "education already submitted for this date",
+      });
+    }
+
+    const rec = { id: `edu_${Date.now()}`, ...baseRec };
+    store.push(rec);
+    write("reports_education.json", store);
+    audit(me.scjId, "SUBMIT", "report_education", rec.id, { scjDate, session });
+
+    return res.json({ ok: true, record: rec });
+  } catch (err) {
+    console.error("education report error:", err);
+    return res.status(500).json({ error: "server error" });
+  }
 });
 
-app.post("/api/reports/evangelism", auth, (req, res) => {
+app.post("/api/reports/evangelism", auth, async (req, res) => {
   const me = req.user;
   const { scjDate, participated = false, findings = 0, nfp = 0, rp = 0, bb = 0 } = req.body || {};
 
@@ -935,57 +1066,127 @@ app.post("/api/reports/evangelism", auth, (req, res) => {
     return res.status(400).json({ error: "invalid date" });
   }
 
-  const store = read("reports_evangelism.json", []);
-  if (already(store, me.scjId, scjDate)) {
-    return res.status(409).json({ error: "duplicate", details: "evangelism already submitted for this date" });
-  }
-
-  // helper: clean non-negative integers
   const n = (v) => {
     const x = Number(v);
-    return Number.isFinite(x) && x >= 0 ? Math.floor(x) : 0;
+    return !Number.isFinite(x) || x < 0 ? 0 : Math.floor(x);
   };
 
-  const F = n(findings);
-  const N = n(nfp);
-  const R = n(rp);
-  const B = n(bb);
-
-  // ✅ infer participation if any metric > 0
-  const inferred = (F > 0) || (N > 0) || (R > 0) || (B > 0);
-  const part = Boolean(participated) || inferred;
-
-  const rec = {
-    id: `ev_${Date.now()}`,
+  const part = !!participated;
+  const baseRec = {
     scjId: me.scjId,
     scjDate: String(scjDate),
     participated: part,
-    // if not participated, force metrics to 0 to keep data clean
-    findings: part ? F : 0,
-    nfp: part ? N : 0,
-    rp: part ? R : 0,
-    bb: part ? B : 0,
+    findings: part ? n(findings) : 0,
+    nfp: part ? n(nfp) : 0,
+    rp: part ? n(rp) : 0,
+    bb: part ? n(bb) : 0,
     createdAt: new Date().toISOString(),
   };
 
-  store.push(rec);
-  write("reports_evangelism.json", store);
-  audit(me.scjId, "SUBMIT", "report_evangelism", rec.id, { scjDate });
+  try {
+    if (mongoHealthy) {
+      const existing = await EvangelismReport.findOne({
+        scjId: me.scjId,
+        scjDate: String(scjDate),
+      }).lean();
 
-  return res.json({ ok: true, record: rec });
+      if (existing) {
+        return res.status(409).json({
+          error: "duplicate",
+          details: "evangelism already submitted for this date",
+        });
+      }
+
+      const doc = await EvangelismReport.create({
+        id: `ev_${Date.now()}`,
+        ...baseRec,
+      });
+
+      audit(me.scjId, "SUBMIT", "report_evangelism", doc.id, { scjDate });
+      return res.json({ ok: true, record: doc });
+    }
+
+    const store = read("reports_evangelism.json", []);
+    if (already(store, me.scjId, scjDate)) {
+      return res.status(409).json({
+        error: "duplicate",
+        details: "evangelism already submitted for this date",
+      });
+    }
+
+    const rec = { id: `ev_${Date.now()}`, ...baseRec };
+    store.push(rec);
+    write("reports_evangelism.json", store);
+    audit(me.scjId, "SUBMIT", "report_evangelism", rec.id, { scjDate });
+
+    return res.json({ ok: true, record: rec });
+  } catch (err) {
+    console.error("evangelism report error:", err);
+    return res.status(500).json({ error: "server error" });
+  }
 });
-
-app.post("/api/reports/offering", auth, (req, res) => {
+app.post("/api/reports/offering", auth, async (req, res) => {
   const me = req.user;
   const { scjDate, channel = "cash", amount = 0 } = req.body || {};
-  if (!validDate(scjDate)) return res.status(400).json({ error: "invalid date" });
-  const amt = Number(amount); if (!isFinite(amt) || amt < 0) return res.status(400).json({ error: "invalid amount" });
-  const store = read("reports_offering.json", []);
-  if (already(store, me.scjId, scjDate)) return res.status(409).json({ error: "duplicate", details: "offering already submitted for this date" });
-  const rec = { id: `off_${Date.now()}`, scjId: me.scjId, scjDate, channel: String(channel).toLowerCase(), amount: amt, createdAt: new Date().toISOString() };
-  store.push(rec); write("reports_offering.json", store);
-  audit(me.scjId, "SUBMIT", "report_offering", rec.id, { scjDate });
-  res.json({ ok: true, record: rec });
+
+  if (!validDate(scjDate)) {
+    return res.status(400).json({ error: "invalid date" });
+  }
+
+  const amt = Number(amount);
+  if (!Number.isFinite(amt) || amt < 0) {
+    return res.status(400).json({ error: "invalid amount" });
+  }
+
+  const baseRec = {
+    scjId: me.scjId,
+    scjDate: String(scjDate),
+    channel: String(channel || "cash").toLowerCase(),
+    amount: amt,
+    createdAt: new Date().toISOString(),
+  };
+
+  try {
+    if (mongoHealthy) {
+      const existing = await OfferingReport.findOne({
+        scjId: me.scjId,
+        scjDate: String(scjDate),
+      }).lean();
+
+      if (existing) {
+        return res.status(409).json({
+          error: "duplicate",
+          details: "offering already submitted for this date",
+        });
+      }
+
+      const doc = await OfferingReport.create({
+        id: `off_${Date.now()}`,
+        ...baseRec,
+      });
+
+      audit(me.scjId, "SUBMIT", "report_offering", doc.id, { scjDate });
+      return res.json({ ok: true, record: doc });
+    }
+
+    const store = read("reports_offering.json", []);
+    if (already(store, me.scjId, scjDate)) {
+      return res.status(409).json({
+        error: "duplicate",
+        details: "offering already submitted for this date",
+      });
+    }
+
+    const rec = { id: `off_${Date.now()}`, ...baseRec };
+    store.push(rec);
+    write("reports_offering.json", store);
+    audit(me.scjId, "SUBMIT", "report_offering", rec.id, { scjDate });
+
+    return res.json({ ok: true, record: rec });
+  } catch (err) {
+    console.error("offering report error:", err);
+    return res.status(500).json({ error: "server error" });
+  }
 });
 
 /* ------------------------------- LEADERS ------------------------------ */
@@ -1001,6 +1202,7 @@ const TYPE_FILES = {
   evangelism: "reports_evangelism.json",
   offering: "reports_offering.json",
 };
+
 
 function isLeader(u) {
   return LEADER_ROLES.has(String(u.role || "").toUpperCase());
@@ -1255,76 +1457,107 @@ function computeTotals(type, rows){
 }
 
 // SUMMARY (shape that Leaders.jsx expects)
-app.get("/api/leader/summary", auth, (req, res) => {
+app.get("/api/leader/summary", auth, async (req, res) => {
   try {
     const me = req.user;
-    if (!isLeader(me)) return res.status(403).json({ error: "leaders only" });
+    if (!isLeader(me)) {
+      return res.status(403).json({ error: "leaders only" });
+    }
 
     const scjDate = String(req.query.date || "").trim();
     const type = String(req.query.type || "service").toLowerCase();
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(scjDate)) return res.status(400).json({ error: "invalid date" });
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(scjDate)) {
+      return res.status(400).json({ error: "invalid date" });
+    }
 
-    const file = TYPE_FILES[type];
-    if (!file) return res.status(400).json({ error: "invalid type" });
+    const cfg = TYPE_MODELS[type];
+    if (!cfg) {
+      return res.status(400).json({ error: "invalid type" });
+    }
+    const { Model, file } = cfg;
 
+    // --- whitelist / leader scope (same as before) ---
     const wl = read("whitelist.json", []);
     const all = Array.isArray(wl) ? wl : (wl.items || []);
     const meProf =
-      all.find(x => String(x.scjId) === String(me.scjId)) ||
-      { scjId: me.scjId, role: me.role, jyk: me.jyk, dept: me.dept, cell: me.cell, name: me.name || "" };
+      all.find((x) => String(x.scjId) === String(me.scjId)) || {
+        scjId: me.scjId,
+        role: me.role,
+        jyk: me.jyk,
+        dept: me.dept,
+        cell: me.cell,
+        name: me.name || "",
+      };
 
-    // --- normalize helper (local, no refactor)
     const normSubject = (s) => ({
       scjId: String(s.scjId || ""),
-      // include role (CRITICAL for Nemobu/CHMN exclusions)
       role: String(s.role || "").toUpperCase(),
-      // accept aliases to be safe
       jykId: s.jykId ?? s.centerId ?? s.jyk ?? "",
       jyk: String(s.jyk || ""),
       dept: String(s.dept || s.department || ""),
-      cell: String(s.cell || s.cellId || s.gyjnId || "")
+      cell: String(s.cell || s.cellId || s.gyjnId || ""),
     });
 
-    // First-pass scope via your scopeFilter (now with role included)
-    let scope = all.filter(s => scopeFilter(meProf, normSubject(s)));
+    // First-pass scope via existing scopeFilter
+    let scope = all.filter((s) => scopeFilter(meProf, normSubject(s)));
 
-    // Defensive: enforce canonical canSee as a second pass (belt & suspenders)
+    // Optional extra guard via canSee, if defined
     if (typeof canSee === "function") {
       const v = {
         role: String(meProf.role || "").toUpperCase(),
         scjId: String(meProf.scjId || ""),
         jykId: meProf.jykId ?? meProf.centerId ?? meProf.jyk ?? "",
         dept: String(meProf.dept || meProf.department || "").toUpperCase(),
-        cell: String(meProf.cell || meProf.cellId || meProf.gyjnId || "")
+        cell: String(meProf.cell || meProf.cellId || meProf.gyjnId || ""),
       };
-      scope = scope.filter(s => canSee(v, normSubject(s)));
+      scope = scope.filter((s) => canSee(v, normSubject(s)));
     }
 
-    const store = read(file, []);
-    const reportsOnDate = store.filter(r => String(r.scjDate) === scjDate);
+    // --- load reports for that date: Mongo first, JSON fallback ---
+    let reportsOnDate = [];
+    if (mongoHealthy && Model) {
+      reportsOnDate = await Model.find({ scjDate: scjDate }).lean();
+    } else {
+      const store = read(file, []);
+      reportsOnDate = store.filter((r) => String(r.scjDate) === scjDate);
+    }
 
     const byId = new Map();
-    for (const r of reportsOnDate) byId.set(String(r.scjId), r);
+    for (const r of reportsOnDate) {
+      byId.set(String(r.scjId), r);
+    }
 
-    const rows = scope.map(s => buildRow(type, s, byId.get(String(s.scjId))));
+    const rows = scope.map((s) => buildRow(type, s, byId.get(String(s.scjId))));
     const totals = computeTotals(type, rows);
 
-    // workflow + forwardTo
+    // workflow + forwardTo (still using forwards.json)
     const forwards = read("forwards.json", []);
     const key = `${scjDate}:${type}:${me.scjId}`;
     const wf =
-      forwards.find(f => f.key === key) ||
-      { key, date: scjDate, type, by: me.scjId, forwardAttempts: 0, needsVerify: false, status: "Pending", returns: 0 };
+      forwards.find((f) => f.key === key) || {
+        key,
+        date: scjDate,
+        type,
+        by: me.scjId,
+        forwardAttempts: 0,
+        needsVerify: false,
+        status: "Pending",
+        returns: 0,
+      };
 
     const nextRole = nextRoleOf(me.role);
-    const nextLeader = nextRole ? (all.find(p => String(p.role || "").toUpperCase() === nextRole) || null) : null;
+    const nextLeader = nextRole
+      ? all.find((p) => String(p.role || "").toUpperCase() === nextRole) || null
+      : null;
 
     return res.json({
       role: String(me.role || ""),
       workflow: wf,
-      forwardTo: nextRole ? { role: nextRole, name: nextLeader ? nextLeader.name : "" } : {},
+      forwardTo: nextRole
+        ? { role: nextRole, name: nextLeader ? nextLeader.name : "" }
+        : {},
       totals,
-      rows
+      rows,
     });
   } catch (e) {
     console.error("summary error:", e);
@@ -1333,60 +1566,138 @@ app.get("/api/leader/summary", auth, (req, res) => {
 });
 
 // FILL MISSING (GYJN upsert on behalf of saint)
-app.post("/api/leader/reports/:type", auth, (req, res) => {
-  try{
+// FILL MISSING (GYJN upsert on behalf of saint)
+app.post("/api/leader/reports/:type", auth, async (req, res) => {
+  try {
     const me = req.user;
-    const role = String(me.role||"").toUpperCase();
-    if (role!=="GYJN" && role!=="ADMIN") return res.status(403).json({ error: "GYJN only" });
+    const role = String(me.role || "").toUpperCase();
+    if (role !== "GYJN" && role !== "ADMIN") {
+      return res.status(403).json({ error: "GYJN only" });
+    }
 
-    const type = String(req.params.type||"").toLowerCase();
-    const file = TYPE_FILES[type];
-    if (!file) return res.status(400).json({ error: "invalid type" });
+    const type = String(req.params.type || "").toLowerCase();
+    const cfg = TYPE_MODELS[type];
+    if (!cfg) {
+      return res.status(400).json({ error: "invalid type" });
+    }
+    const { Model, file } = cfg;
 
     const { scjId, scjDate } = req.body || {};
     if (!scjId) return res.status(400).json({ error: "scjId required" });
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(String(scjDate||""))) return res.status(400).json({ error: "invalid date" });
-
-    const store = read(file, []);
-
-    // upsert by (scjId, scjDate)
-    const idx = store.findIndex(r => String(r.scjId)===String(scjId) && String(r.scjDate)===String(scjDate));
-    let rec;
-    if (type==="service"){
-      rec = { id: idx>=0? store[idx].id : `svc_${Date.now()}`, scjId, scjDate,
-        method: String(req.body.method||"physical").toLowerCase(), notAttended: toBool(req.body.notAttended), realization: String(req.body.realization||""),
-        createdAt: idx>=0? store[idx].createdAt : new Date().toISOString(), updatedAt: new Date().toISOString()
-      };
-    } else if (type==="education"){
-      rec = { id: idx>=0? store[idx].id : `edu_${Date.now()}`, scjId, scjDate,
-        session: String(req.body.session||"ALL_SUN").toUpperCase(), method: String(req.body.method||"physical").toLowerCase(),
-        notAttended: toBool(req.body.notAttended), realization: String(req.body.realization||""),
-        createdAt: idx>=0? store[idx].createdAt : new Date().toISOString(), updatedAt: new Date().toISOString()
-      };
-    } else if (type==="evangelism"){
-      const part = toBool(req.body.participated);
-      rec = { id: idx>=0? store[idx].id : `ev_${Date.now()}`, scjId, scjDate,
-        participated: part, findings: part? Number(req.body.findings||0):0, nfp: part? Number(req.body.nfp||0):0,
-        rp: part? Number(req.body.rp||0):0, bb: part? Number(req.body.bb||0):0,
-        createdAt: idx>=0? store[idx].createdAt : new Date().toISOString(), updatedAt: new Date().toISOString()
-      };
-    } else if (type==="offering"){
-      const not = toBool(req.body.notOffered);
-      rec = { id: idx>=0? store[idx].id : `off_${Date.now()}`, scjId, scjDate,
-        channel: not? null : String(req.body.channel||"cash").toLowerCase(),
-        amount: not? 0 : Number(req.body.amount||0),
-        createdAt: idx>=0? store[idx].createdAt : new Date().toISOString(), updatedAt: new Date().toISOString()
-      };
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(String(scjDate || ""))) {
+      return res.status(400).json({ error: "invalid date" });
     }
 
-    if (idx>=0) store[idx] = rec; else store.push(rec);
-    write(file, store);
-    audit(me.scjId, "LEADER_FILL", `report_${type}`, rec.id, { scjId, scjDate });
+    const toBool = (v) => {
+      if (typeof v === "boolean") return v;
+      if (typeof v === "number") return v !== 0;
+      const s = String(v ?? "").trim().toLowerCase();
+      if (["true", "1", "yes", "y"].includes(s)) return true;
+      if (["false", "0", "no", "n"].includes(s)) return false;
+      return false;
+    };
 
-    res.json({ ok:true, record: rec });
-  } catch(e){
+    // Build record based on type (same logic as before)
+    let base;
+    if (type === "service") {
+      base = {
+        scjId,
+        scjDate,
+        method: String(req.body.method || "physical").toLowerCase(),
+        notAttended: toBool(req.body.notAttended),
+        realization: String(req.body.realization || ""),
+      };
+    } else if (type === "education") {
+      base = {
+        scjId,
+        scjDate,
+        session: String(req.body.session || "ALL_SUN").toUpperCase(),
+        method: String(req.body.method || "physical").toLowerCase(),
+        notAttended: toBool(req.body.notAttended),
+        realization: String(req.body.realization || ""),
+      };
+    } else if (type === "evangelism") {
+      const part = toBool(req.body.participated);
+      const n = (v) => {
+        const x = Number(v);
+        return !Number.isFinite(x) || x < 0 ? 0 : Math.floor(x);
+      };
+      base = {
+        scjId,
+        scjDate,
+        participated: part,
+        findings: part ? n(req.body.findings || 0) : 0,
+        nfp: part ? n(req.body.nfp || 0) : 0,
+        rp: part ? n(req.body.rp || 0) : 0,
+        bb: part ? n(req.body.bb || 0) : 0,
+      };
+    } else if (type === "offering") {
+      const not = toBool(req.body.notOffered);
+      const amt = Number(req.body.amount || 0);
+      base = {
+        scjId,
+        scjDate,
+        channel: not ? null : String(req.body.channel || "cash").toLowerCase(),
+        amount: not ? 0 : (Number.isFinite(amt) && amt >= 0 ? amt : 0),
+      };
+    } else {
+      return res.status(400).json({ error: "invalid type" });
+    }
+
+    let rec;
+
+    // Prefer Mongo upsert
+    if (mongoHealthy && Model) {
+      const existing = await Model.findOne({ scjId, scjDate }).lean();
+      const id =
+        existing && existing.id
+          ? existing.id
+          : `${type.slice(0, 3)}_${Date.now()}`;
+
+      const now = new Date().toISOString();
+      const createdAt = existing && existing.createdAt ? existing.createdAt : now;
+
+      const updated = await Model.findOneAndUpdate(
+        { scjId, scjDate },
+        { id, ...base, createdAt, updatedAt: now },
+        { new: true, upsert: true }
+      ).lean();
+
+      rec = updated;
+    } else {
+      // JSON fallback (dev / Mongo down)
+      const store = read(file, []);
+      const idx = store.findIndex(
+        (r) =>
+          String(r.scjId) === String(scjId) &&
+          String(r.scjDate) === String(scjDate)
+      );
+
+      const now = new Date().toISOString();
+      const existing = idx >= 0 ? store[idx] : null;
+      const id =
+        existing && existing.id
+          ? existing.id
+          : `${type.slice(0, 3)}_${Date.now()}`;
+      const createdAt =
+        existing && existing.createdAt ? existing.createdAt : now;
+
+      rec = { id, ...base, createdAt, updatedAt: now };
+
+      if (idx >= 0) store[idx] = rec;
+      else store.push(rec);
+      write(file, store);
+    }
+
+    audit(me.scjId, "LEADER_FILL", `report_${type}`, rec.id, {
+      scjId,
+      scjDate,
+    });
+
+    return res.json({ ok: true, record: rec });
+  } catch (e) {
     console.error("leader fill error:", e);
-    res.status(500).json({ error: "server error" });
+    return res.status(500).json({ error: "server error" });
   }
 });
 
@@ -1893,30 +2204,74 @@ app.get("/api/leader/export.csv", auth, (req, res) => {
   }
 });
 
-app.get("/api/leader/export.xlsx", auth, (req, res) => {
-  try{
+app.get("/api/leader/export.xlsx", auth, async (req, res) => {
+  try {
     const me = req.user;
-    if (!isLeader(me)) return res.status(403).json({ error: "leaders only" });
+    if (!isLeader(me)) {
+      return res.status(403).json({ error: "leaders only" });
+    }
 
-    const scjDate = String(req.query.date||"");
-    const type = String(req.query.type||"service").toLowerCase();
-    if (!TYPE_FILES[type]) return res.status(400).json({ error: "invalid type" });
+    const scjDate = String(req.query.date || "");
+    const type = String(req.query.type || "service").toLowerCase();
+
+    const cfg = TYPE_MODELS[type];
+    if (!cfg) {
+      return res.status(400).json({ error: "invalid type" });
+    }
+    const { Model, file } = cfg;
 
     const wl = read("whitelist.json", []);
-    const all = Array.isArray(wl) ? wl : (wl.items||[]);
-    const meProf = all.find(x => String(x.scjId)===String(me.scjId)) || me;
-    const scope = all.filter(s => scopeFilter(meProf, s));
-    const store = read(TYPE_FILES[type], []);
-    const reportsOnDate = store.filter(r => String(r.scjDate)===scjDate);
-    const byId = new Map(); for (const r of reportsOnDate) byId.set(String(r.scjId), r);
-    const rows = scope.map(s => buildRow(type, s, byId.get(String(s.scjId))));
+    const all = Array.isArray(wl) ? wl : (wl.items || []);
+    const meProf = all.find((x) => String(x.scjId) === String(me.scjId)) || me;
 
+    const normSubject = (s) => ({
+      scjId: String(s.scjId || ""),
+      role: String(s.role || "").toUpperCase(),
+      jykId: s.jykId ?? s.centerId ?? s.jyk ?? "",
+      jyk: String(s.jyk || ""),
+      dept: String(s.dept || s.department || ""),
+      cell: String(s.cell || s.cellId || s.gyjnId || ""),
+    });
+
+    let scope = all.filter((s) => scopeFilter(meProf, normSubject(s)));
+
+    if (typeof canSee === "function") {
+      const v = {
+        role: String(meProf.role || "").toUpperCase(),
+        scjId: String(meProf.scjId || ""),
+        jykId: meProf.jykId ?? meProf.centerId ?? meProf.jyk ?? "",
+        dept: String(meProf.dept || meProf.department || "").toUpperCase(),
+        cell: String(meProf.cell || meProf.cellId || meProf.gyjnId || ""),
+      };
+      scope = scope.filter((s) => canSee(v, normSubject(s)));
+    }
+
+    // Load reports: Mongo first, JSON fallback
+    let reportsOnDate = [];
+    if (mongoHealthy && Model) {
+      reportsOnDate = await Model.find({ scjDate: scjDate }).lean();
+    } else {
+      const store = read(file, []);
+      reportsOnDate = store.filter((r) => String(r.scjDate) === scjDate);
+    }
+
+    const byId = new Map();
+    for (const r of reportsOnDate) byId.set(String(r.scjId), r);
+
+    const rows = scope.map((s) => buildRow(type, s, byId.get(String(s.scjId))));
     const xbuf = buildXlsxBuffer(rows, `${type}-${scjDate}`);
     const fname = `kc_${type}_${scjDate}.xlsx`;
-    res.setHeader("Content-Type","application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-    res.setHeader("Content-Disposition", `attachment; filename="${fname}"`);
+
+    res.setHeader(
+      "Content-Type",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    );
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename="${fname}"`
+    );
     res.send(xbuf);
-  } catch(e){
+  } catch (e) {
     console.error("xlsx export error:", e);
     res.status(500).json({ error: "export failed" });
   }
@@ -2256,21 +2611,7 @@ app.get("/api/meta/departments", (req, res) => {
   res.json({ items: ["MEN", "YOUNG ADULTS", "WOMEN"] });
 });
 // Save a report
-// ---------- Legacy JSON-based reports as Mongo collections (loose schema) ----------
-const looseOptions = { strict: false }; // allow any fields from JSON
-
-const genericReportsSchema = new mongoose.Schema({}, { ...looseOptions, collection: "reports" });
-const genericReportsEducationSchema = new mongoose.Schema({}, { ...looseOptions, collection: "reports_education" });
-const genericReportsEvangelismSchema = new mongoose.Schema({}, { ...looseOptions, collection: "reports_evangelism" });
-const genericReportsOfferingSchema = new mongoose.Schema({}, { ...looseOptions, collection: "reports_offering" });
-const genericReportsServiceSchema = new mongoose.Schema({}, { ...looseOptions, collection: "reports_service" });
-
-const LegacyReports = mongoose.model("LegacyReports", genericReportsSchema);
-const LegacyReportsEducation = mongoose.model("LegacyReportsEducation", genericReportsEducationSchema);
-const LegacyReportsEvangelism = mongoose.model("LegacyReportsEvangelism", genericReportsEvangelismSchema);
-const LegacyReportsOffering = mongoose.model("LegacyReportsOffering", genericReportsOfferingSchema);
-const LegacyReportsService = mongoose.model("LegacyReportsService", genericReportsServiceSchema);
-
+// ---------- Legacy JSO
 // --- RBAC filter (uses your canSee). If you already have filterVisible(), this
 // block safely falls back to it; otherwise we define a minimal one here.
 const __hasFilterVisible = typeof filterVisible === "function";
