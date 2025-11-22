@@ -108,6 +108,14 @@ function ensure(file, seed) {
   const p = path.join(DATA_DIR, file);
   if (!fs.existsSync(p)) write(file, seed);
 }
+// ---- Name normalization helper (case-insensitive compare) ----
+function normalizeName(s) {
+  return String(s || "")
+    .normalize("NFKC")       // clean unicode weirdness (optional but safe)
+    .trim()                  // remove leading/trailing spaces
+    .replace(/\s+/g, " ")    // collapse multiple spaces inside
+    .toLowerCase();          // ignore upper/lower case
+}
 // ---- Date helpers (Kenya timezone) ----
 function todayKenya() {
   const now = new Date();
