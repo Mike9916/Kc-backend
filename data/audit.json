@@ -1,5 +1,15 @@
 [
   {
+    "ts": "2025-11-21T18:51:28.547Z",
+    "actorScjId": "KC-KIB-MEN-C1-S1",
+    "action": "SUBMIT",
+    "entity": "report_service",
+    "entityId": "svc_1763751088540",
+    "meta": {
+      "scjDate": "2025-11-21"
+    }
+  },
+  {
     "ts": "2025-11-05T14:50:47.154Z",
     "actorScjId": "KC-KIB-MEN-C1-S1",
     "action": "MEDIA_UPLOAD",

@@ -256,5 +256,14 @@
     "realization": "",
     "createdAt": "2025-11-05T14:47:33.986Z",
     "updatedAt": "2025-11-05T14:47:33.986Z"
+  },
+  {
+    "id": "svc_1763751088540",
+    "scjId": "KC-KIB-MEN-C1-S1",
+    "scjDate": "2025-11-21",
+    "method": "physical",
+    "notAttended": false,
+    "realization": "",
+    "createdAt": "2025-11-21T18:51:28.538Z"
   }
 ]

@@ -108,6 +108,17 @@ function ensure(file, seed) {
   const p = path.join(DATA_DIR, file);
   if (!fs.existsSync(p)) write(file, seed);
 }
+// ---- Date helpers (Kenya timezone) ----
+function todayKenya() {
+  const now = new Date();
+  const kenya = new Date(
+    now.toLocaleString("en-US", { timeZone: "Africa/Nairobi" })
+  );
+  const y = kenya.getFullYear();
+  const m = String(kenya.getMonth() + 1).padStart(2, "0");
+  const d = String(kenya.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
+}
 
 function pruneAnnouncements() {
   const list = read("announcements.json", []);
